@@ -1,22 +1,12 @@
-﻿using System;
+﻿
+using ScheduleMaker.GA;
+using System;
+using System.Collections.Generic;
 
 namespace ScheduleMaker.CMD
 {
     class Program
     {
-        ///    Генетический алгоритм 
-        /// Создание популяции
-        /// Вычисление Fitness
-        /// ПОВТОР:
-        ///    Выбор
-        ///    Crossover
-        ///    Мутация
-        ///    Вычисление Fitness
-
-        /// Функция Розенброка
-        /// f(x, y) = (1-x)^2 + 100(y-x^2)^2
-        /// 
-
         static void Main(string[] args)
         {
             #region initial data
@@ -30,21 +20,40 @@ namespace ScheduleMaker.CMD
             int maximumLessonsPerWeek = 21; // 21-34 Урока в зависимости от Класса. +3 если 6 Дней
             #endregion
             Console.WriteLine("Hello World!");
+            GeneticAlgorithmController gac = new GeneticAlgorithmController();
 
-            Console.WriteLine(Rosenbrock(1,1));
-            Console.WriteLine(Rosenbrock(-2, 4));
-            Console.WriteLine(Rosenbrock(2, -4));
-            Console.WriteLine(Rosenbrock(4, -16));
-            Console.WriteLine(Rosenbrock(10, -100));
-            Console.WriteLine(Rosenbrock(10, 100));
-            Console.WriteLine(Rosenbrock(11, 121));
+            #region Начальные данные
+
+            // Генерация Хромосом
+            // 1- Количество хромосом, 2- Кол-во генов, 3- Мин. значение, 4- Макс. значение
+            List<Chromosome> chromosomeList = gac.GenerateData(10, 3, -1, 200);
+
+            // Количество итераций
+            int generationsNumber = 50000;
+
+            // Вывод
+            int chromosomeCount = 1;
+            foreach (var chromosome in chromosomeList)
+            {
+                Console.WriteLine($"{chromosomeCount}: {chromosome.RosenbrockFitness}");
+                chromosomeCount++;
+            }
+            #endregion
+
+            #region Кроссовер
+            List<Chromosome> newChromosomeList = gac.Crossover(chromosomeList, generationsNumber);
+            Console.WriteLine($"Спустя {generationsNumber} поколений(ие):");
+
+            // Вывод
+            foreach (var chromosome in newChromosomeList)
+            {
+                Console.WriteLine(chromosome.RosenbrockFitness);
+            }
+            #endregion
 
             Console.ReadLine();
         }
 
-        public static double Rosenbrock(int x, int y)
-        {
-            return Math.Pow( (1 - x), 2) + 100 * Math.Pow(y - Math.Pow(x, 2), 2);
-        }
+        
     }
 }
