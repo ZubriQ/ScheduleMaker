@@ -7,39 +7,11 @@ namespace ScheduleMaker.GA
     {
         public static Random rnd = new Random();
 
-        public int Roll;
+        public int Roll { get; set; }
 
         public int Min { get; set; }
 
         public int Max { get; set; }
-        /*
-        public List<Chromosome> Crossover(List<Chromosome> chromosomeList, int times)
-        {
-            if (chromosomeList.Count % 2 != 0)
-                throw new IndexOutOfRangeException("Хромосом должно быть четное кол-во");
-            List<Chromosome> result = chromosomeList;
-
-            for (int k = 0; k < times; k++)
-            {
-                List<Chromosome> newChromosomeList = new List<Chromosome>();
-                for (int i = 0; i < chromosomeList.Count; i += 2)
-                {
-                    Chromosome newChromosome1 = Chromosome.Mapping(result[i], result[i + 1]);
-                    Chromosome newChromosome2 = Chromosome.Mapping(result[i], result[i + 1]);
-                    newChromosomeList.Add(newChromosome1);
-                    newChromosomeList.Add(newChromosome2);
-                }
-                // Упорядочивание -ထ - +ထ
-                newChromosomeList.Sort((x, y) => x.RosenbrockFitness.CompareTo(y.RosenbrockFitness));
-
-                Chromosome bestChromosome = newChromosomeList[0];
-                Array.Reverse(bestChromosome.Genes);
-                newChromosomeList[chromosomeList.Count - 1] = bestChromosome;
-
-                result = newChromosomeList;
-            }
-            return result;
-        }*/
 
         public List<Chromosome> Crossover(List<Chromosome> chromosomeList, int times)
         {
@@ -61,7 +33,6 @@ namespace ScheduleMaker.GA
                 Chromosome bestChromosome = newChromosomeList[0];
                 Array.Reverse(bestChromosome.Genes);
                 newChromosomeList[chromosomeList.Count - 1] = bestChromosome;*/
-
                 
                 Chromosome bestChromosome = new Chromosome();
                 bestChromosome.Genes = new double[chromosomeList[0].Genes.Length];
@@ -73,19 +44,6 @@ namespace ScheduleMaker.GA
                 }
                 
                 newChromosomeList[chromosomeList.Count - 1] = bestChromosome;
-
-
-                /*
-                Chromosome bestChromosome2 = new Chromosome();
-                bestChromosome2.Genes = new double[chromosomeList[0].Genes.Length];
-
-                for (int j = 0; j < chromosomeList[0].Genes.Length; j++)
-                {
-                    Roll = rnd.Next(Min, Max);
-                    bestChromosome2.Genes[j] = Roll;
-                }
-
-                newChromosomeList[chromosomeList.Count - 2] = bestChromosome2;*/
 
                 result = newChromosomeList;
             }
