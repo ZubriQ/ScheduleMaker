@@ -13,6 +13,10 @@ namespace ScheduleMaker.GA
 
         public int Max { get; set; }
 
+        /// <summary>Кроссовер</summary>
+        /// <param name="chromosomeList">Список Хромосом</param>
+        /// <param name="times">Количество итераций</param>
+        /// <returns>Возвращает последнее поколение.</returns>
         public List<Chromosome> Crossover(List<Chromosome> chromosomeList, int times)
         {
             List<Chromosome> result = chromosomeList;
@@ -34,16 +38,7 @@ namespace ScheduleMaker.GA
                 Array.Reverse(bestChromosome.Genes);
                 newChromosomeList[chromosomeList.Count - 1] = bestChromosome;*/
                 
-                Chromosome bestChromosome = new Chromosome();
-                bestChromosome.Genes = new double[chromosomeList[0].Genes.Length];
-
-                for (int j = 0; j < chromosomeList[0].Genes.Length; j++)
-                {
-                    Roll = rnd.Next(Min, Max);
-                    bestChromosome.Genes[j] = Roll;
-                }
-                
-                newChromosomeList[chromosomeList.Count - 1] = bestChromosome;
+                newChromosomeList[chromosomeList.Count - 1] = CreateChromosome(chromosomeList[0].Genes.Length);
 
                 result = newChromosomeList;
             }
@@ -55,7 +50,7 @@ namespace ScheduleMaker.GA
         /// <param name="arraySize">Количество Генов.</param>
         /// <param name="min">Минимальное значение Гена.</param>
         /// <param name="max">Максимальное значение Гена.</param>
-        /// <returns>Список хромосом.</returns>
+        /// <returns>Возвращает список Хромосом.</returns>
         public List<Chromosome> GenerateData(int number, int arraySize, int min, int max)
         {
             List<Chromosome> chromosomeList = new List<Chromosome>();
@@ -63,17 +58,25 @@ namespace ScheduleMaker.GA
             Max = max;
             for (int i = 0; i < number; i++)
             {
-                Chromosome newChromosome = new Chromosome();
-                newChromosome.Genes = new double[arraySize];
-
-                for (int k = 0; k < arraySize; k++)
-                {
-                    Roll = rnd.Next(min, max);
-                    newChromosome.Genes[k] = Roll;
-                }
+                Chromosome newChromosome = CreateChromosome(arraySize);
                 chromosomeList.Add(newChromosome);
             }
             return chromosomeList;
+        }
+
+        /// <summary></summary>
+        /// <param name="arraySize">Количество Генов.</param>
+        /// <returns>Возвращает Хромосому.</returns>
+        public Chromosome CreateChromosome(int arraySize)
+        {
+            Chromosome chromosome = new Chromosome();
+            chromosome.Genes = new double[arraySize];
+            for (int i = 0; i < arraySize; i++)
+            {
+                Roll = rnd.Next(Min, Max);
+                chromosome.Genes[i] = Roll;
+            }
+            return chromosome;
         }
     }
 }
