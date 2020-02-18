@@ -7,10 +7,13 @@ namespace ScheduleMaker.GA
     {
         public static Random rnd = new Random();
 
+        /// <summary>Случайное число</summary>
         public int Roll { get; set; }
 
+        /// <summary>Минимальное значение Roll'а</summary>
         public int Min { get; set; }
 
+        /// <summary>Максимальное значение Roll'а</summary>
         public int Max { get; set; }
 
         /// <summary>Кроссовер</summary>
@@ -27,16 +30,17 @@ namespace ScheduleMaker.GA
                 for (int i = 0; i < chromosomeList.Count; i++)
                 {
                     Roll = rnd.Next(0, chromosomeList.Count - 1);
-                    Chromosome newChromosome = Chromosome.Mapping(result[i], result[Roll]);
-                    newChromosomeList.Add(newChromosome);
+                    if (Roll == i)
+                    {
+                        i--;
+                    }
+                    else
+                    {
+                        Chromosome newChromosome = Chromosome.Mapping(result[i], result[Roll]);
+                        newChromosomeList.Add(newChromosome);
+                    }
                 }
-                // Упорядочивание -ထ - +ထ
                 newChromosomeList.Sort((x, y) => x.RosenbrockFitness.CompareTo(y.RosenbrockFitness));
-
-                /* // Инверсия и замена слабой Хромосомы
-                Chromosome bestChromosome = newChromosomeList[0];
-                Array.Reverse(bestChromosome.Genes);
-                newChromosomeList[chromosomeList.Count - 1] = bestChromosome;*/
                 
                 newChromosomeList[chromosomeList.Count - 1] = CreateChromosome(chromosomeList[0].Genes.Length);
 
@@ -64,7 +68,7 @@ namespace ScheduleMaker.GA
             return chromosomeList;
         }
 
-        /// <summary></summary>
+        /// <summary>Создать Хромосому.</summary>
         /// <param name="arraySize">Количество Генов.</param>
         /// <returns>Возвращает Хромосому.</returns>
         public Chromosome CreateChromosome(int arraySize)
