@@ -19,49 +19,50 @@ namespace ScheduleMaker.CMD
             int maximumLessonsPerWeek = 21; // 21-34 Урока в зависимости от Класса. +3 если 6 Дней
             #endregion
             Console.WriteLine("Hello World!\n");
-            GeneticAlgorithmController gac = new GeneticAlgorithmController();
 
             #region Подготовка данных
+            // Создание контроллера Генетического Алгоритма
+            GeneticAlgorithmController gac = new GeneticAlgorithmController(-100, 100, true);
+
+            // Выбор нужной функции: Розенброк, Сфера, Растригин
+            string functionName = "Розенброк";
+
             // Генерация Хромосом
-            // 1- Количество хромосом, 2- Кол-во генов, 3- Мин. значение, 4- Макс. значение
-            List<Chromosome> chromosomeList = gac.GenerateData(15, 5, -100, 100);
+            // 1- Количество хромосом, 2- Кол-во генов
+            List<Chromosome> chromosomeList = gac.GenerateData(13, 5);
 
             // Количество итераций
             int generationsNumber = 100000;
 
-            // Вывод
-            int chromosomeCount1 = 1;
-            foreach (var chromosome in chromosomeList)
+            // Вывод первого поколения
+            Console.WriteLine($"[{functionName}] 1 поколение:");
+            for (int i = 0; i<chromosomeList.Count; i++)
             {
-                Console.WriteLine($"{chromosomeCount1}: {chromosome.RosenbrockFitness}");
-                chromosomeCount1++;
+                Console.WriteLine($"{i + 1}: {chromosomeList[i].Fitness(functionName)}");
             }
             #endregion
 
             #region Кроссовер
-            List<Chromosome> newChromosomeList = gac.Crossover(chromosomeList, generationsNumber);
+            List<Chromosome> newChromosomeList = gac.Crossover(chromosomeList, generationsNumber, functionName);
             #endregion
 
             #region Вывод
-            int chromosomeCount2 = 1;
-            Console.WriteLine($"\nСпустя {generationsNumber} поколений:");
-            foreach (var chromosome in newChromosomeList)
+            // Вывод последнего поколения
+            Console.WriteLine($"\n[{functionName}] Спустя {generationsNumber} поколений:");
+            for (int i = 0; i < newChromosomeList.Count; i++)
             {
-                Console.WriteLine($"{chromosomeCount2}: {chromosome.RosenbrockFitness}");
-                chromosomeCount2++;
+                Console.WriteLine($"{i + 1}: {newChromosomeList[i].Fitness(functionName)}");
             }
 
             // Успешные гены
             Console.WriteLine("\nГены самой приспособленной особи:");
-            foreach (var gene in newChromosomeList[0].Genes)
+            for (int i = 0; i < newChromosomeList[0].Genes.Length; i++)
             {
-                Console.Write($"{gene} ");
+                Console.Write($"{i}={newChromosomeList[0].Genes[i]} ");
             }
             #endregion
 
             Console.ReadLine();
         }
-
-        
     }
 }
