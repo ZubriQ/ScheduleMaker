@@ -23,17 +23,17 @@ namespace ScheduleMaker.CMD
 
             #region Подготовка данных
             // Создание контроллера Генетического Алгоритма
-            GeneticAlgorithmController gac = new GeneticAlgorithmController(-30, 30, false);
+            GeneticAlgorithmController gac = new GeneticAlgorithmController(0, 100, true);
 
             // Выбор нужной функции: Розенброк, Сфера, Растригин
             string functionName = "Розенброк";
 
             // Генерация Хромосом
             // 1- Количество хромосом, 2- Кол-во генов
-            List<Chromosome> chromosomeList = gac.GenerateData(15, 5);
+            List<Chromosome> chromosomeList = gac.GenerateData(16, 7);
 
             // Количество итераций
-            int generationsNumber = 100000;
+            int generationsNumber = 1000;
 
             // Вывод первого поколения
             Console.WriteLine($"[{functionName}] 1 поколение:");
@@ -44,7 +44,7 @@ namespace ScheduleMaker.CMD
             #endregion
 
             #region Кроссовер
-            List<Chromosome> newChromosomeList = gac.Crossover(chromosomeList, generationsNumber, functionName);
+            List<Chromosome> newChromosomeList = gac.CrossoverTest(chromosomeList, generationsNumber, functionName);
             #endregion
 
             #region Вывод
