@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ScheduleMaker.GA
 {
@@ -85,7 +86,7 @@ namespace ScheduleMaker.GA
                     }
                     else
                     {
-                        Chromosome newChromosome = Chromosome.Mapping(result[i], result[Roll]);
+                        Chromosome newChromosome = Mapping(result[i], result[Roll]);
                         newChromosomeList.Add(newChromosome);
                     }
                 }
@@ -100,6 +101,66 @@ namespace ScheduleMaker.GA
                 result = newChromosomeList;
             }
             return result;
+        }
+
+        /// <summary>Скрещевание двух хромосом.</summary>
+        /// <param name="chromosome1">Первая хромосома.</param>
+        /// <param name="chromosome2">Вторая хромосома.</param>
+        /// <returns>Возвращает скрещенную особь.</returns>
+        public Chromosome Mapping(Chromosome chromosome1, Chromosome chromosome2)
+        {
+            Random rnd = new Random();
+            int locusSpot, roll;
+
+            Chromosome newChromosome = new Chromosome();
+            newChromosome.Genes = new double[chromosome1.Genes.Length];
+
+            // Выбираем Локус/Место в Хромосоме
+            locusSpot = rnd.Next(0, chromosome1.Genes.Length);
+
+            roll = rnd.Next(0, 2);
+            if (roll == 0)
+            {
+                for (int i = 0; i < locusSpot; i++)
+                {
+                    newChromosome.Genes[i] = chromosome1.Genes[i];
+                }
+                for (int i = locusSpot; i < chromosome1.Genes.Length; i++)
+                {
+                    newChromosome.Genes[i] = chromosome2.Genes[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < locusSpot; i++)
+                {
+                    newChromosome.Genes[i] = chromosome2.Genes[i];
+                }
+                for (int i = locusSpot; i < chromosome1.Genes.Length; i++)
+                {
+                    newChromosome.Genes[i] = chromosome1.Genes[i];
+                }
+            }
+
+            // Мутация
+            roll = rnd.Next(0, 1);
+            if (roll == 0)
+            {
+                roll = rnd.Next(0, chromosome1.Genes.Length);
+
+                if (IsDouble)
+                {
+                    double gene = rnd.NextDouble() * (Min - Max);
+                    newChromosome.Genes[roll] = gene;
+                }
+                else
+                {
+                    Roll = rnd.Next(Min, Max);
+                    newChromosome.Genes[roll] = Roll;
+                }
+            }
+
+            return newChromosome;
         }
 
         /// <summary>Сгенерировать начальные данные.</summary>

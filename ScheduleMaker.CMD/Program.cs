@@ -1,6 +1,7 @@
 ﻿using ScheduleMaker.GA;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ScheduleMaker.CMD
 {
@@ -22,14 +23,14 @@ namespace ScheduleMaker.CMD
 
             #region Подготовка данных
             // Создание контроллера Генетического Алгоритма
-            GeneticAlgorithmController gac = new GeneticAlgorithmController(-100, 100, true);
+            GeneticAlgorithmController gac = new GeneticAlgorithmController(-30, 30, false);
 
             // Выбор нужной функции: Розенброк, Сфера, Растригин
             string functionName = "Розенброк";
 
             // Генерация Хромосом
             // 1- Количество хромосом, 2- Кол-во генов
-            List<Chromosome> chromosomeList = gac.GenerateData(13, 5);
+            List<Chromosome> chromosomeList = gac.GenerateData(15, 5);
 
             // Количество итераций
             int generationsNumber = 100000;
@@ -58,7 +59,8 @@ namespace ScheduleMaker.CMD
             Console.WriteLine("\nГены самой приспособленной особи:");
             for (int i = 0; i < newChromosomeList[0].Genes.Length; i++)
             {
-                Console.Write($"{i}={newChromosomeList[0].Genes[i]} ");
+                Console.Write($"{newChromosomeList[0].Genes[i]} ");
+                if ((i + 1) % 5 == 0) Console.Write("\n");
             }
             #endregion
 

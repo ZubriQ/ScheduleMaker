@@ -16,15 +16,6 @@ namespace ScheduleMaker.GA
             Genes = genes;
         }
 
-        /// <summary>Для упорядочивания по приспособленности.</summary>
-        public double RosenbrockFitness
-        {
-            get
-            {
-                return Rosenbrock(Genes);
-            }
-        }
-
         /// <summary>Приспособленность.</summary>
         /// <param name="name">Розенброк/Сфера/Растригин.</param>
         /// <returns>Возвращает Приспособленность.</returns>
@@ -36,15 +27,7 @@ namespace ScheduleMaker.GA
             else throw new Exception("Неверное название функции");
         }
 
-        /// <summary>Для порядочивания по приспособленности</summary>
-        public double SphereFitness
-        {
-            get
-            {
-                return Rosenbrock(Genes);
-            }
-        }
-
+        /*
         /// <summary>Скрещевание двух хромосом.</summary>
         /// <param name="chromosome1">Первая хромосома.</param>
         /// <param name="chromosome2">Вторая хромосома.</param>
@@ -67,7 +50,7 @@ namespace ScheduleMaker.GA
                 else newChromosome.Genes[i] = chromosome2.Genes[i];
             }
             return newChromosome;
-        }
+        }*/
 
         public static double Rosenbrock(double[] numbers)
         {
