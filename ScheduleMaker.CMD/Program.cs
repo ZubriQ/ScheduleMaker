@@ -23,7 +23,7 @@ namespace ScheduleMaker.CMD
 
             #region Подготовка данных
             // Создание контроллера Генетического Алгоритма
-            GeneticAlgorithmController gac = new GeneticAlgorithmController(0, 100, true);
+            GeneticAlgorithmController gac = new GeneticAlgorithmController(-10, 10, 3, true);
 
             // Выбор нужной функции: Розенброк, Сфера, Растригин
             string functionName = "Розенброк";
@@ -33,38 +33,53 @@ namespace ScheduleMaker.CMD
             List<Chromosome> chromosomeList = gac.GenerateData(16, 7);
 
             // Количество итераций
-            int generationsNumber = 1000;
+            int generationsNumber = 10000;
 
             // Вывод первого поколения
-            Console.WriteLine($"[{functionName}] 1 поколение:");
-            for (int i = 0; i<chromosomeList.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}: {chromosomeList[i].Fitness(functionName)}");
-            }
+            Console.WriteLine($"\n[{functionName}] 1 поколение:");
+            ChromosomesOutput(chromosomeList, functionName);
             #endregion
 
-            #region Кроссовер
-            List<Chromosome> newChromosomeList = gac.CrossoverTest(chromosomeList, generationsNumber, functionName);
+            #region Кроссоверы и мутации
+            List<Chromosome> newChromosomeList = gac.Crossover(chromosomeList, generationsNumber, functionName);
             #endregion
 
             #region Вывод
             // Вывод последнего поколения
-            Console.WriteLine($"\n[{functionName}] Спустя {generationsNumber} поколений:");
-            for (int i = 0; i < newChromosomeList.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}: {newChromosomeList[i].Fitness(functionName)}");
-            }
+            Console.WriteLine($"\n[{functionName}] {generationsNumber} поколение:");
+            ChromosomesOutput(newChromosomeList, functionName);
 
-            // Успешные гены
+            // Самая успешная особь
             Console.WriteLine("\nГены самой приспособленной особи:");
+            Console.WriteLine("  " + newChromosomeList[0].Fitness(functionName));
             for (int i = 0; i < newChromosomeList[0].Genes.Length; i++)
             {
-                Console.Write($"{newChromosomeList[0].Genes[i]} ");
+                Console.Write($"  {newChromosomeList[0].Genes[i]}");
                 if ((i + 1) % 5 == 0) Console.Write("\n");
             }
             #endregion
 
             Console.ReadLine();
+        }
+
+        public static void ChromosomesOutput(List<Chromosome> chromosomesList, string functionName)
+        {
+            // Вывод особей
+            for (int i = 0; i < chromosomesList.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}: " + string.Format("{0:0.0000}", chromosomesList[i].Fitness(functionName)));
+            }
+            // Вывод генов
+            for (int i = 0; i < chromosomesList.Count; i++)
+            {
+                Console.Write($"{i + 1}:");
+                for (int j = 0; j < chromosomesList[j].Genes.Length; j++)
+                {
+                    Console.Write("  " + string.Format("{0:0.0000}", chromosomesList[i].Genes[j]));
+                    //if ((j + 1) % 5 == 0) Console.Write("\n");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
