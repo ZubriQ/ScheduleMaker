@@ -4,6 +4,7 @@ namespace ScheduleMaker.GA
 {
     public class Chromosome
     {
+        //TODO : Переместить Fitness-функции в Контроллер? :thinking:
         /// <summary>Гены.</summary>
         public double[] Genes { get; set; }
 
@@ -26,31 +27,6 @@ namespace ScheduleMaker.GA
             else if (name == "Растригин") return Rastrigin(Genes);
             else throw new Exception("Неверное название функции");
         }
-
-        /*
-        /// <summary>Скрещевание двух хромосом.</summary>
-        /// <param name="chromosome1">Первая хромосома.</param>
-        /// <param name="chromosome2">Вторая хромосома.</param>
-        /// <returns>Возвращает скрещенную особь.</returns>
-        public static Chromosome Mapping(Chromosome chromosome1, Chromosome chromosome2)
-        {
-            Random rnd = new Random();
-            int roll;
-
-            Chromosome newChromosome = new Chromosome();
-            newChromosome.Genes = new double[chromosome1.Genes.Length];
-
-            for (int i = 0; i < chromosome1.Genes.Length; i++)
-            {
-                roll = rnd.Next(0, 2);
-                if (roll == 0)
-                {
-                    newChromosome.Genes[i] = chromosome1.Genes[i];
-                }
-                else newChromosome.Genes[i] = chromosome2.Genes[i];
-            }
-            return newChromosome;
-        }*/
 
         public static double Rosenbrock(double[] numbers)
         {
