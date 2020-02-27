@@ -1,7 +1,6 @@
 ﻿using ScheduleMaker.GA;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ScheduleMaker.CMD
 {
@@ -20,16 +19,16 @@ namespace ScheduleMaker.CMD
             int maximumLessonsPerWeek = 21; // 21-34 Урока в зависимости от Класса. +3 если 6 Дней
             #endregion
             Console.WriteLine("Hello World!\n");
-
+            
             #region Подготовка данных
-            bool isDouble = false; // Вещественные ли числа
+            bool isDouble = true; // Вещественные ли числа
             int min = -50; // Мин. значение
             int max = 50; // Макс. значение
-            int mutationChance = 3; // Шанс мутации
-            int mutationDelta = 5; // Относительная дельта
-            int chromosomeCount = 16; // Количество хромосом
-            int chromosomeGenesLength = 7; // Количество генов
-            int generationsNumber = 200000; // Количество итераций
+            int mutationChance = 4; // Шанс мутации
+            int mutationDelta = 2; // Относительная дельта
+            int chromosomeCount = 20; // Количество хромосом
+            int chromosomeGenesLength = 10; // Количество генов
+            int generationsNumber = 5000; // Количество итераций
             string functionName = "Розенброк"; // Выбор нужной функции: Розенброк, Сфера, Растригин
             // TODO: исправить functionName
 
@@ -45,7 +44,7 @@ namespace ScheduleMaker.CMD
             #endregion
 
             #region Кроссоверы и мутации
-            List<Chromosome> newChromosomeList = gac.Crossover(chromosomeList, generationsNumber, functionName, mutationDelta);
+            List<Chromosome> newChromosomeList = gac.Panmixia(chromosomeList, generationsNumber, functionName, mutationDelta);
             #endregion
 
             #region Вывод

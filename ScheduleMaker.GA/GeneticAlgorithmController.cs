@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ScheduleMaker.GA
 {
@@ -25,6 +24,9 @@ namespace ScheduleMaker.GA
 
         /// <summary>Количество генов.</summary>
         public int GenesLength { get; set; }
+
+        /// <summary>Количество поколений.</summary>
+        public int IterationsNumber { get; set; }
 
         /// <summary>Конструктор.</summary>
         /// <param name="min">Минимальное значение Гена.</param>
@@ -73,7 +75,7 @@ namespace ScheduleMaker.GA
         /// <param name="functionName">Название функции.</param>
         /// <param name="delta">Возможное смещение значения Гена (± дельта).</param>
         /// <returns>Возвращает последнее поколение.</returns>
-        public List<Chromosome> Crossover(List<Chromosome> chromosomeList, int times, string functionName, int delta)
+        public List<Chromosome> Panmixia(List<Chromosome> chromosomeList, int times, string functionName, int delta)
         {
             List<Chromosome> result = chromosomeList;
             int chromosomesCount = chromosomeList.Count;
@@ -95,7 +97,19 @@ namespace ScheduleMaker.GA
                 }
                 // Упорядочивание и замена слабой Хромосомы случайной
                 newChromosomesList.Sort((x, y) => x.Fitness(functionName).CompareTo(y.Fitness(functionName)));
-                
+
+                // Если функция == 0 => сообщить в консоль.
+                IterationsNumber++;
+                Chromosome isFound = newChromosomesList.Find(x => x.Fitness(functionName) == 0);
+                if (isFound != null)
+                {
+                    Console.WriteLine($"Fitness = 0 в {IterationsNumber} поколении.");
+                    // Вернуть поколение
+                    //result = newChromosomesList;
+                    //return result;
+                }
+
+                // Добавление нового потомка вместо наихудшего
                 if (IsDouble)
                     newChromosomesList[GenesLength - 1] = CreateChromosomeDouble();
                 else
@@ -117,8 +131,8 @@ namespace ScheduleMaker.GA
             Chromosome newChromosome1;
             Chromosome newChromosome2;
 
-            // Обмен генами
-            Panmixia(chromosome1, chromosome2, out newChromosome1, out newChromosome2);
+            // Вид Кроссовера, Обмен генами
+            TwoPointCrossover(chromosome1, chromosome2, out newChromosome1, out newChromosome2);
 
             Mutation(newChromosome1, MutationChance, delta);
             Mutation(newChromosome2, MutationChance, delta);
@@ -128,19 +142,17 @@ namespace ScheduleMaker.GA
             return chromosomesList;
         }
 
-        /// <summary>Алгоритм картирования/обмена генов.</summary>
+        /// <summary>Алгоритм обмена Генами с 1 точкой.</summary>
         /// <param name="chromosome1">Родитель 1.</param>
         /// <param name="chromosome2">Родитель 2.</param>
         /// <param name="newChromosome1">Потомок 1.</param>
         /// <param name="newChromosome2">Потомок 2.</param>
-        public void Panmixia(
+        public void SinglePointCrossover(
             Chromosome chromosome1, Chromosome chromosome2, out Chromosome newChromosome1, out Chromosome newChromosome2)
         {
+            newChromosome1 = new Chromosome() { Genes = new double[GenesLength] };
+            newChromosome2 = new Chromosome() { Genes = new double[GenesLength] };
             int locusSpot = rnd.Next(0, GenesLength);
-            newChromosome1 = new Chromosome();
-            newChromosome2 = new Chromosome();
-            newChromosome1.Genes = new double[GenesLength];
-            newChromosome2.Genes = new double[GenesLength];
 
             Roll = rnd.Next(0, 2);
             if (Roll == 0)
@@ -171,6 +183,61 @@ namespace ScheduleMaker.GA
             }
         }
 
+        /// <summary>Алгоритм обмена Генами с 2 точками.</summary>
+        /// <param name="chromosome1">Родитель 1.</param>
+        /// <param name="chromosome2">Родитель 2.</param>
+        /// <param name="newChromosome1">Потомок 1.</param>
+        /// <param name="newChromosome2">Потомок 2.</param>
+        public void TwoPointCrossover(
+            Chromosome chromosome1, Chromosome chromosome2, out Chromosome newChromosome1, out Chromosome newChromosome2)
+        {
+            newChromosome1 = new Chromosome() { Genes = new double[GenesLength] };
+            newChromosome2 = new Chromosome() { Genes = new double[GenesLength] };
+            int locusSpot1 = rnd.Next(0, GenesLength);
+            int locusSpot2 = rnd.Next(0, GenesLength);
+
+            while (locusSpot2 == locusSpot1)
+            { 
+                locusSpot2 = rnd.Next(0, GenesLength);
+            }
+            if (locusSpot1 < locusSpot2)
+            {
+                for (int i = 0; i < locusSpot1; i++)
+                {
+                    newChromosome1.Genes[i] = chromosome1.Genes[i];
+                    newChromosome2.Genes[i] = chromosome2.Genes[i];
+                }
+                for (int i = locusSpot1; i < locusSpot2; i++)
+                {
+                    newChromosome1.Genes[i] = chromosome2.Genes[i];
+                    newChromosome2.Genes[i] = chromosome1.Genes[i];
+                }
+                for (int i = locusSpot2; i < GenesLength; i++)
+                {
+                    newChromosome1.Genes[i] = chromosome1.Genes[i];
+                    newChromosome2.Genes[i] = chromosome2.Genes[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < locusSpot2; i++)
+                {
+                    newChromosome1.Genes[i] = chromosome1.Genes[i];
+                    newChromosome2.Genes[i] = chromosome2.Genes[i];
+                }
+                for (int i = locusSpot2; i < locusSpot1; i++)
+                {
+                    newChromosome1.Genes[i] = chromosome2.Genes[i];
+                    newChromosome2.Genes[i] = chromosome1.Genes[i];
+                }
+                for (int i = locusSpot1; i < GenesLength; i++)
+                {
+                    newChromosome1.Genes[i] = chromosome1.Genes[i];
+                    newChromosome2.Genes[i] = chromosome2.Genes[i];
+                }
+            }
+        }
+
         /// <summary>Мутация случайного гена.</summary>
         /// <param name="chromosome">Хромосома.</param>
         /// <param name="chance">Шанс мутации Хромосомы (0, x).</param>
@@ -196,6 +263,7 @@ namespace ScheduleMaker.GA
             return chromosome;
         }
 
+        // TODO: Довольно затратные вычисления. Возможна оптимизация?
         /// <summary>Мутация.</summary>
         /// <param name="chromosome">Хромосома.</param>
         /// <param name="chance">Шанс мутации Хромосомы (0, x).</param>
@@ -212,11 +280,11 @@ namespace ScheduleMaker.GA
                     Roll = rnd.Next(0, 2);
                     if (Roll == 0)
                     {
-                        chromosome.Genes[spot] = chromosome.Genes[spot] + rnd.NextDouble() * (delta - 1) + delta;
+                        chromosome.Genes[spot] = chromosome.Genes[spot] + (rnd.NextDouble() * (delta - 1) + delta);
                     }
                     else
                     {
-                        chromosome.Genes[spot] = chromosome.Genes[spot] - rnd.NextDouble() * (delta - 1) + delta;
+                        chromosome.Genes[spot] = chromosome.Genes[spot] - (rnd.NextDouble() * (delta - 1) + delta);
                     }
                 }
                 else
@@ -243,6 +311,7 @@ namespace ScheduleMaker.GA
         {
             List<Chromosome> chromosomeList = new List<Chromosome>();
             GenesLength = arraySize;
+            IterationsNumber = 1;
             if (IsDouble)
             {
                 for (int i = 0; i < number; i++)
@@ -262,40 +331,5 @@ namespace ScheduleMaker.GA
             return chromosomeList;
         }
 
-        // Случайные особи со случайными особями 
-        public List<Chromosome> Crossover2(List<Chromosome> chromosomeList, int times, string functionName, int delta)
-        {
-            List<Chromosome> result = chromosomeList;
-            int chromosomesCount = chromosomeList.Count;
-
-            for (int k = 0; k < times; k++)
-            {
-                List<Chromosome> newChromosomesList = new List<Chromosome>();
-                for (int i = 0; i < chromosomesCount / 2; i++)
-                {
-                    // Выбираются случайные особи
-                    int chromosome1 = rnd.Next(0, chromosomesCount);
-                    int chromosome2 = rnd.Next(0, chromosomesCount);
-                    if (chromosome1 == chromosome2)
-                    {
-                        i--;
-                    }
-                    else
-                    {
-                        newChromosomesList.AddRange(Mapping(result[chromosome1], result[chromosome2], delta));
-                    }
-                }
-                // Упорядочивание и замена слабой Хромосомы случайной
-                newChromosomesList.Sort((x, y) => x.Fitness(functionName).CompareTo(y.Fitness(functionName)));
-
-                if (IsDouble)
-                    newChromosomesList[GenesLength - 1] = CreateChromosomeDouble();
-                else
-                    newChromosomesList[GenesLength - 1] = CreateChromosomeInt();
-
-                result = newChromosomesList;
-            }
-            return result;
-        }
     }
 }
