@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleMaker.CMD", "ScheduleMaker.CMD\ScheduleMaker.CMD.csproj", "{19DBD0B5-5F65-4C80-8FD9-EB20C430BEEA}"
 EndProject
@@ -13,7 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{5A45
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleMaker.GA", "ScheduleMaker.GA\ScheduleMaker.GA.csproj", "{81504F5D-6C7D-42D8-B5FC-70FD55B78D57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMaker.PS", "ScheduleMaker.PS\ScheduleMaker.PS.csproj", "{BFFC1CAB-924B-412F-8097-FB2176BD6D38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleMaker.PS", "ScheduleMaker.PS\ScheduleMaker.PS.csproj", "{BFFC1CAB-924B-412F-8097-FB2176BD6D38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Books", "Books", "{E94311E0-1F73-434B-B33C-6AE67B0A455D}"
+	ProjectSection(SolutionItems) = preProject
+		..\MA_lect.pdf = ..\MA_lect.pdf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
