@@ -6,7 +6,9 @@ namespace ScheduleMaker.CMD
 {
     class Program
     {
-        public static ICalculator calculator = new FunctionRosenbrock();
+        public static ICalculator calculator;
+
+        public static Random rnd = new Random();
         static void Main(string[] args)
         {
             #region initial data
@@ -20,29 +22,28 @@ namespace ScheduleMaker.CMD
             int maximumLessonsPerWeek = 21; // 21-34 Урока в зависимости от Класса. +3 если 6 Дней
             #endregion
             Console.WriteLine("Hello World!\n");
-            
+           
             #region Подготовка данных
             bool isDouble = true; // Вещественные ли числа
-            int min = -5; // Мин. значение
-            int max = 5; // Макс. значение
-            int mutationChance = 4; // Шанс мутации
+            int min = -50; // Мин. значение
+            int max = 50; // Макс. значение
+            double mutationChance = 0.30; // Шанс мутации
             int mutationDelta = 2; // Относительная дельта
             int chromosomeCount = 40; // Количество хромосом
             int genesLength = 10; // Количество генов
-            int generationsNumber = 400; // Количество итераций
-            string functionName = "Розенброк"; // Выбор нужной функции: Розенброк, Сфера, Растригин
-            
+            int generationsNumber = 1000; // Количество итераций
+            calculator = new FunctionRastrigin(); // Функция отбора
             // Создание контроллера Генетического Алгоритма
 
             Parameter parameters = new Parameter(min, max, genesLength, mutationChance, mutationDelta);
             GeneticAlgorithmController gac = new GeneticAlgorithmController(parameters, calculator);
 
             // Генерация Хромосом
-            List<Chromosome> chromosomeList = gac.GenerateData(chromosomeCount, genesLength);
+            List<Chromosome> chromosomeList = gac.InitializePopulation(chromosomeCount, genesLength);
 
             // Вывод первого поколения
-            Console.WriteLine($"\n[{functionName}] 1 поколение:");
-            ChromosomesOutput(chromosomeList, functionName, isDouble);
+            Console.WriteLine($"\n[{calculator.FunctionName}] 1 поколение:");
+            ChromosomesOutput(chromosomeList, calculator.FunctionName, isDouble);
             #endregion
 
             #region Кроссоверы и мутации
@@ -51,18 +52,19 @@ namespace ScheduleMaker.CMD
 
             #region Вывод
             // Вывод последнего поколения
-            Console.WriteLine($"\n[{functionName}] {generationsNumber} поколение:");
-            ChromosomesOutput(newChromosomeList, functionName, isDouble);
+            Console.WriteLine($"\n[{calculator.FunctionName}] {generationsNumber} поколение:");
+            ChromosomesOutput(newChromosomeList, calculator.FunctionName, isDouble);
 
             // Самая успешная особь
             Console.WriteLine("\nГены самой приспособленной особи:");
-            Console.WriteLine("  " + newChromosomeList[0].Fitness(calculator));
-            for (int i = 0; i < newChromosomeList[0].Genes.Length; i++)
+            Console.WriteLine("  " + gac.BestChromosome.Fitness(calculator));
+            for (int i = 0; i < gac.BestChromosome.Genes.Length; i++)
             {
                 Console.Write($"  {newChromosomeList[0].Genes[i]}");
                 if ((i + 1) % 5 == 0) Console.Write("\n");
             }
             #endregion
+            
 
             Console.ReadLine();
         }
