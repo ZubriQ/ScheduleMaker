@@ -26,9 +26,9 @@ namespace ScheduleMaker.CMD
             int max = 50; // Макс. значение
             int mutationChance = 4; // Шанс мутации
             int mutationDelta = 2; // Относительная дельта
-            int chromosomeCount = 20; // Количество хромосом
+            int chromosomeCount = 40; // Количество хромосом
             int chromosomeGenesLength = 10; // Количество генов
-            int generationsNumber = 5000; // Количество итераций
+            int generationsNumber = 4000; // Количество итераций
             string functionName = "Розенброк"; // Выбор нужной функции: Розенброк, Сфера, Растригин
             // TODO: исправить functionName
 
