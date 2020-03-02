@@ -7,8 +7,6 @@ namespace ScheduleMaker.CMD
     class Program
     {
         public static ICalculator calculator;
-
-        public static Random rnd = new Random();
         static void Main(string[] args)
         {
             #region initial data
@@ -23,69 +21,41 @@ namespace ScheduleMaker.CMD
             #endregion
             Console.WriteLine("Hello World!\n");
            
-            #region Подготовка данных
-            bool isDouble = true; // Вещественные ли числа
-            int min = -50; // Мин. значение
-            int max = 50; // Макс. значение
+            int min = -100; // Мин. значение
+            int max = 100; // Макс. значение
             double mutationChance = 0.30; // Шанс мутации
-            int mutationDelta = 2; // Относительная дельта
+            int mutationDelta = 3; // Относительная дельта
             int chromosomeCount = 40; // Количество хромосом
             int genesLength = 10; // Количество генов
-            int generationsNumber = 1000; // Количество итераций
+            int generationsNumber = 500; // Количество итераций
             calculator = new FunctionRastrigin(); // Функция отбора
-            // Создание контроллера Генетического Алгоритма
 
-            Parameter parameters = new Parameter(min, max, genesLength, mutationChance, mutationDelta);
-            GeneticAlgorithmController gac = new GeneticAlgorithmController(parameters, calculator);
-
-            // Генерация Хромосом
-            List<Chromosome> chromosomeList = gac.InitializePopulation(chromosomeCount, genesLength);
-
-            // Вывод первого поколения
-            Console.WriteLine($"\n[{calculator.FunctionName}] 1 поколение:");
-            ChromosomesOutput(chromosomeList, calculator.FunctionName, isDouble);
-            #endregion
-
-            #region Кроссоверы и мутации
-            List<Chromosome> newChromosomeList = gac.Panmixia(chromosomeList, generationsNumber);
-            #endregion
-
-            #region Вывод
-            // Вывод последнего поколения
-            Console.WriteLine($"\n[{calculator.FunctionName}] {generationsNumber} поколение:");
-            ChromosomesOutput(newChromosomeList, calculator.FunctionName, isDouble);
-
-            // Самая успешная особь
-            Console.WriteLine("\nГены самой приспособленной особи:");
-            Console.WriteLine("  " + gac.BestChromosome.Fitness(calculator));
-            for (int i = 0; i < gac.BestChromosome.Genes.Length; i++)
+            while (true)
             {
-                Console.Write($"  {newChromosomeList[0].Genes[i]}");
-                if ((i + 1) % 5 == 0) Console.Write("\n");
-            }
-            #endregion
-            
+                // Создание параметров и контроллера Генетического Алгоритма
+                Parameter parameters = new Parameter(min, max, genesLength, mutationChance, mutationDelta);
+                GeneticAlgorithmController gac = new GeneticAlgorithmController(parameters, calculator);
 
-            Console.ReadLine();
-        }
+                // Инициализация начального поколения
+                gac.InitializePopulation(chromosomeCount);
 
-        public static void ChromosomesOutput(List<Chromosome> chromosomesList, string functionName, bool isDouble)
-        {
-            // Вывод особей
-            for (int i = 0; i < chromosomesList.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}: " + string.Format("{0:0.0000}", chromosomesList[i].Fitness(calculator)));
-            }
-            // Вывод генов
-            for (int i = 0; i < chromosomesList.Count; i++)
-            {
-                Console.Write($"{i + 1}:");
-                for (int j = 0; j < chromosomesList[j].Genes.Length; j++)
-                {
-                    Console.Write("  " + string.Format("{0:0.0000}", chromosomesList[i].Genes[j]));
-                    //if ((j + 1) % 5 == 0) Console.Write("\n");
-                }
-                Console.WriteLine();
+                // Вывод первого поколения
+                Console.WriteLine($"\n[{calculator.FunctionName}] 1 поколение:");
+                gac.OutputLastPopulation();
+
+                // Сам процесс
+                gac.Evolution(generationsNumber);
+
+                // Вывод последнего поколения
+                Console.WriteLine($"\n[{calculator.FunctionName}] {generationsNumber} поколение:");
+                gac.OutputLastPopulation();
+
+                // Самая успешная особь
+                gac.OutputBestChromosome();
+
+                // Повторить процесс?
+                Console.WriteLine("\nСгенерировать новые поколения?");
+                Console.ReadLine();
             }
         }
     }
