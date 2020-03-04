@@ -1,4 +1,5 @@
 ﻿using ScheduleMaker.GA;
+using ScheduleMaker.PSO;
 using System;
 using System.Collections.Generic;
 
@@ -10,14 +11,14 @@ namespace ScheduleMaker.CMD
         static void Main(string[] args)
         {
             #region initial data
-            // Входные данные на 1 четверть:
+            /* // Входные данные на 1 четверть:
             int weeksNumber = 8; // Кол-во Недель в Четверти (8,8,10,8)
             int subjectsNumber = 5; // Кол-во предметов
             int classroomsNumber = 16; // 16 Младшие, 30 Старшие
             int summaryLessonsNumber = 160; // Уроков в четверть
             int studyDaysPerWeek = 5; // 5/6 учебных Дней в Неделю
             int maximumLessonsPerDay = 4; // 4-8 Уроков в День
-            int maximumLessonsPerWeek = 21; // 21-34 Урока в зависимости от Класса. +3 если 6 Дней
+            int maximumLessonsPerWeek = 21; // 21-34 Урока в зависимости от Класса. +3 если 6 Дней */
             #endregion
             Console.WriteLine("Hello World!\n");
            
@@ -32,8 +33,11 @@ namespace ScheduleMaker.CMD
 
             while (true)
             {
+                PSO.Parameter parameters = new PSO.Parameter(-50, 50);
+                PSOController pso = new PSOController(parameters, calculator);
+                /*
                 // Создание параметров и контроллера Генетического Алгоритма
-                Parameter parameters = new Parameter(min, max, genesLength, mutationChance, mutationDelta);
+                GA.Parameter parameters = new GA.Parameter(min, max, genesLength, mutationChance, mutationDelta);
                 GeneticAlgorithmController gac = new GeneticAlgorithmController(parameters, calculator);
 
                 // Инициализация начального поколения
@@ -55,6 +59,8 @@ namespace ScheduleMaker.CMD
 
                 // Повторить процесс?
                 Console.WriteLine("\nСгенерировать новые поколения?");
+                Console.ReadLine();
+                */
                 Console.ReadLine();
             }
         }

@@ -38,7 +38,6 @@ namespace ScheduleMaker.GA
         }
 
         /// <summary>Кроссовер.</summary>
-        /// <param name="population">Список Хромосом.</param>
         /// <param name="generationsNumber">Количество поколений.</param>
         /// <returns>Возвращает последнее поколение.</returns>
         public void Evolution(int generationsNumber)
