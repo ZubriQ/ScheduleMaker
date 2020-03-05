@@ -15,5 +15,11 @@ namespace ScheduleMaker.GA
             }
             return sum + 10 * values.Length;
         }
+
+        public double Fitness(double value)
+        {
+            double result = Math.Pow(value, 2) - 10 * Math.Cos(2 * Math.PI * value);
+            return result;
+        }
     }
 }

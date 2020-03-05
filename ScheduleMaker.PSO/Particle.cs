@@ -22,6 +22,7 @@
         {
             Position = position;
             BestKnownPosition = position;
+            Velocity = 0;
         }
     }
 }
