@@ -51,7 +51,6 @@ namespace ScheduleMaker.PSO
                 Particles[i] = CreateParticle();
             }
             GlobalBestParicle = Particles[0];
-            FindBestPosition();
         }
 
         /// <summary>
@@ -85,15 +84,20 @@ namespace ScheduleMaker.PSO
         {
             while (Time < iterationsNumber)
             {
+                UpdateFitnessValues();
+                SetBests();
                 UpdateVelocities(inertia, constantOfSpeed1, constantOfSpeed2);
                 UpdatePositions();
-                // TODO: update Calculations
-                SetBests();
-                // Вывод
-                OutputParticles();
                 Time++;
             }
-            //OutputParticles();
+                OutputParticles();
+        }
+        void UpdateFitnessValues()
+        {
+            for (int i = 0; i < Particles.Length; i++)
+            {
+                Particles[i].Fitness = Calculator.Fitness(Particles[i].Position);
+            }
         }
 
         /// <summary>
@@ -147,11 +151,12 @@ namespace ScheduleMaker.PSO
         {
             for (int i = 0; i < Particles.Length; i++)
             {
-                double currentFitness = Calculator.Fitness(Particles[i].Position);
-                if (currentFitness < Particles[i].Fitness)
+                if (Particles[i].Fitness < Particles[i].BestKnownFitness)
                 {
-                    Particles[i].BestKnownPosition = Particles[i].Position;
-                    Particles[i].Fitness = currentFitness;
+                    double[] best = new double[Parameters.DimensionSize];
+                    Particles[i].Position.CopyTo(best, 0);
+                    Particles[i].BestKnownPosition = best;
+                    Particles[i].BestKnownFitness = Particles[i].Fitness;
                 }
             }
         }
@@ -163,11 +168,9 @@ namespace ScheduleMaker.PSO
         {
             for (int i = 0; i < Particles.Length; i++)
             {
-                double currentFitness = Calculator.Fitness(Particles[i].Position);
-                if (currentFitness < GlobalBestParicle.Fitness)
+                if (Particles[i].Fitness < GlobalBestParicle.Fitness)
                 {
-                    GlobalBestParicle.Position = Particles[i].BestKnownPosition;
-                    GlobalBestParicle.Fitness = currentFitness;
+                    GlobalBestParicle = Particles[i];
                 }
             }
         }
@@ -205,8 +208,9 @@ namespace ScheduleMaker.PSO
             Console.WriteLine($"Лучшая позиция Роя: ");
             for (int j = 0; j < Parameters.DimensionSize; j++)
             {
-                Console.Write($"{GlobalBestParicle.Position[j]} ");
+                Console.Write($"{GlobalBestParicle.BestKnownPosition[j]} ");
             }
+            Console.WriteLine($"Лучшее значение: {GlobalBestParicle.BestKnownFitness}");
             Console.WriteLine();
         }
     }

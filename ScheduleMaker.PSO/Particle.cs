@@ -16,6 +16,8 @@
         /// Лучшее из известных положений частицы.
         /// </summary>
         public double[] BestKnownPosition { get; set; }
+
+        public double BestKnownFitness { get; set; } = double.MaxValue;
         
         /// <summary>
         /// Приспособленность.

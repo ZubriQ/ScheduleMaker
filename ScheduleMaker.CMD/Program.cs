@@ -73,9 +73,9 @@ namespace ScheduleMaker.CMD
                     double inertia = 0.729; // Инерция
                     int minimum = -500; // Мин. значение
                     int maximum = 500; // Макс. значение
-                    int iterationsNumber = 100; // Количество повторений
-                    int particlesCount = 40; // Количество Частиц
-                    int dimensionsCount = 3; // Количество измерений
+                    int iterationsNumber = 5000; // Количество повторений
+                    int particlesCount = 100; // Количество Частиц
+                    int dimensionsCount = 10; // Количество измерений
                     calculator = new FunctionRosenbrock();
 
                     while (true)
