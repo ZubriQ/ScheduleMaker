@@ -68,24 +68,24 @@ namespace ScheduleMaker.CMD
 
                 #region PSO
                 case ConsoleKey.D2:
-                    // TODO: Это работает?? ?   ?  ?  ? ?? ??   ?
-
-                    int minimum = -1000; // Мин. значение
-                    int maximum = 1000; // Макс. значение
-                    int constantOfSpeed1 = 2; // Константа скорости 1
-                    int constantOfSpeed2 = 2; // Константа скорости 2
-                    int iterationsNumber = 7; // Количество повторений
-                    int particlesCount = 15; // Количество Частиц
-                    calculator = new FunctionSphere();
+                    double constantOfSpeed1 = 1.49445; // Константа скорости 1
+                    double constantOfSpeed2 = 1.49445; // Константа скорости 2
+                    double inertia = 0.729; // Инерция
+                    int minimum = -500; // Мин. значение
+                    int maximum = 500; // Макс. значение
+                    int iterationsNumber = 100; // Количество повторений
+                    int particlesCount = 40; // Количество Частиц
+                    int dimensionsCount = 3; // Количество измерений
+                    calculator = new FunctionRosenbrock();
 
                     while (true)
                     {
                         Console.WriteLine("\n\tВыбран Particle Swarm Optimization.\n");
 
-                        PSO.Parameter parameters = new PSO.Parameter(minimum, maximum);
+                        PSO.Parameter parameters = new PSO.Parameter(minimum, maximum, particlesCount, dimensionsCount);
                         PSOController pso = new PSOController(parameters, calculator);
-                        pso.InitializeSwarm(particlesCount);
-                        pso.FindCriteria(constantOfSpeed1, constantOfSpeed2, iterationsNumber);
+                        pso.InitializeSwarm();
+                        pso.FindGlobalMinimum(inertia, constantOfSpeed1, constantOfSpeed2, iterationsNumber);
 
                         // Повторить процесс?
                         Console.WriteLine("\nСгенерировать новые данные? (Нажмите любую клавишу).");

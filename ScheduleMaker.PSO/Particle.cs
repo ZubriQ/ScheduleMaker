@@ -5,24 +5,33 @@
         /// <summary>
         /// Позиция.
         /// </summary>
-        public double Position { get; set; } // TODO: Должен быть массив как и с генами?
+        public double[] Position { get; set; }
 
         /// <summary>
         /// Скорость.
         /// </summary>
-        public double Velocity { get; set; }
+        public double[] Velocity { get; set; }
 
-        /// <summary>Лучшее из известных положений частицы.</summary>
-        public double BestKnownPosition { get; set; }
+        /// <summary>
+        /// Лучшее из известных положений частицы.
+        /// </summary>
+        public double[] BestKnownPosition { get; set; }
+        
+        /// <summary>
+        /// Приспособленность.
+        /// </summary>
+        public double Fitness { get; set; }
 
-        /// <summary>Конуструктор частицы.</summary>
-        /// <param name="coordinateX">Координата Х.</param>
-        /// <param name="speed">Скорость.</param>
-        public Particle(double position)
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="dimensionCount">Количество измерений.</param>
+        public Particle(int dimensionCount)
         {
-            Position = position;
-            BestKnownPosition = position;
-            Velocity = 0;
+            Position = new double[dimensionCount];
+            Velocity = new double[dimensionCount];
+            BestKnownPosition = new double[dimensionCount];
+            Fitness = double.MaxValue;
         }
     }
 }

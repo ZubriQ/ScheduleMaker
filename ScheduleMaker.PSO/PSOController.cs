@@ -11,10 +11,9 @@ namespace ScheduleMaker.PSO
         private static readonly Random rnd = new Random();
 
         /// <summary>
-        /// Наилучшее известное состояние Роя в целом.
+        /// Наилучшее известная позиция Частицы Роя в целом.
         /// </summary>
-        public double BestSwarmCondition { get; set; }
-        
+        public Particle GlobalBestParicle { get; set; }
         /// <summary>
         /// Момент.
         /// </summary>
@@ -23,7 +22,7 @@ namespace ScheduleMaker.PSO
         /// <summary>
         /// Рой.
         /// </summary>
-        public List<Particle> Swarm { get; set; }
+        public Particle[] Particles { get; set; }
 
         /// <summary>
         /// Параметры.
@@ -37,22 +36,22 @@ namespace ScheduleMaker.PSO
             Parameters = parameters;
             Calculator = calculator;
             Time = 0;
-            Swarm = new List<Particle>();
+            Particles = new Particle[Parameters.Count];
+            GlobalBestParicle = null;
         }
         
         /// <summary>
         /// Создать Рой.
         /// </summary>
         /// <param name="numberOfParticles">Количество частиц.</param>
-        public void InitializeSwarm(int numberOfParticles)
+        public void InitializeSwarm()
         {
-            Swarm.Add(CreateParticle());
-            BestSwarmCondition = Swarm[0].BestKnownPosition;
-            for (int i = 1; i < numberOfParticles; i++)
+            for (int i = 0; i < Parameters.Count; i++)
             {
-                Swarm.Add(CreateParticle());
+                Particles[i] = CreateParticle();
             }
-            FindBestCondition();
+            GlobalBestParicle = Particles[0];
+            FindBestPosition();
         }
 
         /// <summary>
@@ -61,23 +60,34 @@ namespace ScheduleMaker.PSO
         /// <returns>Возвращает частицу.</returns>
         private Particle CreateParticle()
         {
-            double position = rnd.NextDouble() * (Parameters.Max - Parameters.Min) + Parameters.Min;
-            Particle particle = new Particle(position);
+            Particle particle = new Particle(Parameters.DimensionSize);
+            for (int i = 0; i < Parameters.DimensionSize; i++)
+            {
+                // Случайная позиция
+                particle.Position[i] = rnd.NextDouble() * (Parameters.Max - Parameters.Min) + Parameters.Min;
+                // Начальная скорость
+                double lo = Parameters.Min * 0.1;
+                double hi = Parameters.Max * 0.1;
+                particle.Velocity[i] = rnd.NextDouble() * (hi - lo) + lo;
+            }
+            particle.BestKnownPosition = particle.Position;
             return particle;
         }
 
         /// <summary>
         /// Основная функция алгоритма.
         /// </summary>
+        /// <param name="inertia">Инерция.</param>
         /// <param name="constantOfSpeed1">Константа скорости 1.</param>
         /// <param name="constantOfSpeed2">Константа скорости 2.</param>
         /// <param name="iterationsNumber">Количество повторений.</param>
-        public void FindCriteria(double constantOfSpeed1, double constantOfSpeed2, int iterationsNumber)
+        public void FindGlobalMinimum(double inertia, double constantOfSpeed1, double constantOfSpeed2, int iterationsNumber)
         {
             while (Time < iterationsNumber)
             {
-                UpdateVelocities(constantOfSpeed1, constantOfSpeed2);
+                UpdateVelocities(inertia, constantOfSpeed1, constantOfSpeed2);
                 UpdatePositions();
+                // TODO: update Calculations
                 SetBests();
                 // Вывод
                 OutputParticles();
@@ -89,16 +99,21 @@ namespace ScheduleMaker.PSO
         /// <summary>
         /// Обновить скорости Частиц в Рое.
         /// </summary>
+        /// <param name="intertia">Инерция.</param>
         /// <param name="constant1">Константа скорости 1.</param>
         /// <param name="constant2">Константа скорости 2.</param>
-        private void UpdateVelocities(double constant1, double constant2)
+        private void UpdateVelocities(double intertia, double constant1, double constant2)
         {
-            for (int i = 0; i < Swarm.Count; i++)
+            for (int i = 0; i < Particles.Length; i++)
             {
-                double r1 = rnd.NextDouble();
-                double r2 = rnd.NextDouble();
-                Swarm[i].Velocity += constant1 * r1 * (Swarm[i].BestKnownPosition - Swarm[i].Position) + 
-                    constant2 * r2 * (BestSwarmCondition - Swarm[i].Position);
+                for (int j = 0; j < Parameters.DimensionSize; j++)
+                {
+                    double r1 = rnd.NextDouble();
+                    double r2 = rnd.NextDouble();
+                    Particles[i].Velocity[j] = intertia * Particles[i].Velocity[j] +
+                        constant1 * r1 * (Particles[i].BestKnownPosition[j] - Particles[i].Position[j]) +
+                        constant2 * r2 * (GlobalBestParicle.Position[j] - Particles[i].Position[j]);
+                }
             }
         }
 
@@ -107,9 +122,12 @@ namespace ScheduleMaker.PSO
         /// </summary>
         private void UpdatePositions()
         {
-            for (int i = 0; i < Swarm.Count; i++)
+            for (int i = 0; i < Particles.Length; i++)
             {
-                Swarm[i].Position += Swarm[i].Velocity;
+                for (int j = 0; j < Parameters.DimensionSize; j++)
+                {
+                    Particles[i].Position[j] += Particles[i].Velocity[j];
+                }
             }
         }
 
@@ -118,20 +136,22 @@ namespace ScheduleMaker.PSO
         /// </summary>
         private void SetBests()
         {
-            FindBestParticle();
-            FindBestCondition();
+            FindPersonalBests();
+            FindBestPosition();
         }
 
         /// <summary>
         /// Найти наилучшие значения для Частиц.
         /// </summary>
-        private void FindBestParticle()
+        private void FindPersonalBests()
         {
-            for (int i = 0; i < Swarm.Count; i++)
+            for (int i = 0; i < Particles.Length; i++)
             {
-                if (Calculator.Fitness(Swarm[i].Position) < Calculator.Fitness(Swarm[i].BestKnownPosition))
+                double currentFitness = Calculator.Fitness(Particles[i].Position);
+                if (currentFitness < Particles[i].Fitness)
                 {
-                    Swarm[i].BestKnownPosition = Swarm[i].Position;
+                    Particles[i].BestKnownPosition = Particles[i].Position;
+                    Particles[i].Fitness = currentFitness;
                 }
             }
         }
@@ -139,24 +159,55 @@ namespace ScheduleMaker.PSO
         /// <summary>
         /// Найти наилучшее значение для Роя.
         /// </summary>
-        private void FindBestCondition()
+        private void FindBestPosition()
         {
-            for (int i = 0; i < Swarm.Count; i++)
+            for (int i = 0; i < Particles.Length; i++)
             {
-                if (Calculator.Fitness(Swarm[i].BestKnownPosition) < Calculator.Fitness(BestSwarmCondition))
+                double currentFitness = Calculator.Fitness(Particles[i].Position);
+                if (currentFitness < GlobalBestParicle.Fitness)
                 {
-                    BestSwarmCondition = Swarm[i].BestKnownPosition;
+                    GlobalBestParicle.Position = Particles[i].BestKnownPosition;
+                    GlobalBestParicle.Fitness = currentFitness;
                 }
             }
         }
 
+        /// <summary>
+        /// Вывод данных.
+        /// </summary>
         public void OutputParticles()
         {
+            /*
             for (int i = 0; i < Swarm.Count; i++)
             {
-                Console.WriteLine($"[{i + 1}]: pos:{Swarm[i].Position}\tvel:{Swarm[i].Velocity}\tbest:{Swarm[i].BestKnownPosition}");
+                
+                Console.WriteLine($"[{i + 1}]: pos:");
+                // Позиции
+                for (int j = 0; j < Parameters.DimensionsNumber; j++)
+                {
+                    Console.Write($"{Swarm[i].Position[j]} ");
+                }
+                // Скорости
+                Console.WriteLine("\tvel: ");
+                for (int j = 0; j < Parameters.DimensionsNumber; j++)
+                {
+                    Console.Write($"{Swarm[i].Velocity[j]} ");
+                }
+                //Лучшее
+                Console.WriteLine("\tbest: ");
+                for (int j = 0; j < Parameters.DimensionsNumber; j++)
+                {
+                    Console.Write($"{Swarm[i].BestKnownPosition[j]} ");
+                }
+                
             }
-            Console.WriteLine($"Лучшая позиция Роя: {BestSwarmCondition}\n");
+            */
+            Console.WriteLine($"Лучшая позиция Роя: ");
+            for (int j = 0; j < Parameters.DimensionSize; j++)
+            {
+                Console.Write($"{GlobalBestParicle.Position[j]} ");
+            }
+            Console.WriteLine();
         }
     }
 }
