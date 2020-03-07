@@ -16,12 +16,5 @@ namespace ScheduleMaker.GA
             }
             return sum;
         }
-
-        public double Fitness(double value)
-        {
-            double result = 100 * Math.Pow(0 - Math.Pow(value, 2), 2)
-                    + Math.Pow(value - 1, 2);
-            return result;
-        }
     }
 }

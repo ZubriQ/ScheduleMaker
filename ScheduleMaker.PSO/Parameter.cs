@@ -3,19 +3,19 @@
     public class Parameter
     {
         /// <summary>
-        /// Минимальное значение Вектора.
+        /// Минимальное значение Частицы.
         /// </summary>
         public int Min { get; set; }
 
         /// <summary>
-        /// Максимальное значение Вектора.
+        /// Максимальное значение Частицы.
         /// </summary>
         public int Max { get; set; }
         
         /// <summary>
-        /// Количество.
+        /// Количество Частиц.
         /// </summary>
-        public int Count { get; set; }
+        public int ParticleCount { get; set; }
 
         /// <summary>
         /// Количество измерений.
@@ -33,7 +33,7 @@
             Min = min;
             Max = max;
             DimensionSize = dimensionsNumber;
-            Count = count;
+            ParticleCount = count;
         }
     }
 }

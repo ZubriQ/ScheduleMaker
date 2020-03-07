@@ -17,7 +17,10 @@
         /// </summary>
         public double[] BestKnownPosition { get; set; }
 
-        public double BestKnownFitness { get; set; } = double.MaxValue;
+        /// <summary>
+        /// Лучшая приспособленность за все время.
+        /// </summary>
+        public double BestKnownFitness { get; set; } 
         
         /// <summary>
         /// Приспособленность.
@@ -27,13 +30,14 @@
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="dimensionCount">Количество измерений.</param>
-        public Particle(int dimensionCount)
+        /// <param name="dimensionSize">Количество измерений.</param>
+        public Particle(int dimensionSize)
         {
-            Position = new double[dimensionCount];
-            Velocity = new double[dimensionCount];
-            BestKnownPosition = new double[dimensionCount];
+            Position = new double[dimensionSize];
+            Velocity = new double[dimensionSize];
+            BestKnownPosition = new double[dimensionSize];
             Fitness = double.MaxValue;
+            BestKnownFitness = double.MaxValue;
         }
     }
 }

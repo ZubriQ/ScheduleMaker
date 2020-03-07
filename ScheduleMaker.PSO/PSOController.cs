@@ -1,6 +1,5 @@
 ﻿using ScheduleMaker.GA;
 using System;
-using System.Collections.Generic;
 
 namespace ScheduleMaker.PSO
 {
@@ -13,11 +12,7 @@ namespace ScheduleMaker.PSO
         /// <summary>
         /// Наилучшее известная позиция Частицы Роя в целом.
         /// </summary>
-        public Particle GlobalBestParicle { get; set; }
-        /// <summary>
-        /// Момент.
-        /// </summary>
-        public int Time { get; set; }
+        public Particle GlobalBestParticle { get; set; }
 
         /// <summary>
         /// Рой.
@@ -29,28 +24,24 @@ namespace ScheduleMaker.PSO
         /// </summary>
         public Parameter Parameters { get; set; }
 
-        public PSOController() { }
-
         public PSOController(Parameter parameters, ICalculator calculator)
         {
             Parameters = parameters;
             Calculator = calculator;
-            Time = 0;
-            Particles = new Particle[Parameters.Count];
-            GlobalBestParicle = null;
+            Particles = new Particle[Parameters.ParticleCount];
+            GlobalBestParticle = null;
         }
         
         /// <summary>
-        /// Создать Рой.
+        /// Создать Рой Частиц.
         /// </summary>
-        /// <param name="numberOfParticles">Количество частиц.</param>
-        public void InitializeSwarm()
+        public void InitializeParticleSwarm()
         {
-            for (int i = 0; i < Parameters.Count; i++)
+            for (int i = 0; i < Parameters.ParticleCount; i++)
             {
                 Particles[i] = CreateParticle();
             }
-            GlobalBestParicle = Particles[0];
+            GlobalBestParticle = Particles[0];
         }
 
         /// <summary>
@@ -65,9 +56,9 @@ namespace ScheduleMaker.PSO
                 // Случайная позиция
                 particle.Position[i] = rnd.NextDouble() * (Parameters.Max - Parameters.Min) + Parameters.Min;
                 // Начальная скорость
-                double lo = Parameters.Min * 0.1;
-                double hi = Parameters.Max * 0.1;
-                particle.Velocity[i] = rnd.NextDouble() * (hi - lo) + lo;
+                double min = Parameters.Min * 0.1;
+                double max = Parameters.Max * 0.1;
+                particle.Velocity[i] = rnd.NextDouble() * (max - min) + min;
             }
             particle.BestKnownPosition = particle.Position;
             return particle;
@@ -82,13 +73,14 @@ namespace ScheduleMaker.PSO
         /// <param name="iterationsNumber">Количество повторений.</param>
         public void FindGlobalMinimum(double inertia, double constantOfSpeed1, double constantOfSpeed2, int iterationsNumber)
         {
-            while (Time < iterationsNumber)
+            int i = 0; 
+            while (i < iterationsNumber)
             {
                 UpdateFitnessValues();
                 SetBests();
                 UpdateVelocities(inertia, constantOfSpeed1, constantOfSpeed2);
                 UpdatePositions();
-                Time++;
+                i++;
             }
                 OutputParticles();
         }
@@ -116,7 +108,7 @@ namespace ScheduleMaker.PSO
                     double r2 = rnd.NextDouble();
                     Particles[i].Velocity[j] = intertia * Particles[i].Velocity[j] +
                         constant1 * r1 * (Particles[i].BestKnownPosition[j] - Particles[i].Position[j]) +
-                        constant2 * r2 * (GlobalBestParicle.Position[j] - Particles[i].Position[j]);
+                        constant2 * r2 * (GlobalBestParticle.Position[j] - Particles[i].Position[j]);
                 }
             }
         }
@@ -168,9 +160,9 @@ namespace ScheduleMaker.PSO
         {
             for (int i = 0; i < Particles.Length; i++)
             {
-                if (Particles[i].Fitness < GlobalBestParicle.Fitness)
+                if (Particles[i].Fitness < GlobalBestParticle.Fitness)
                 {
-                    GlobalBestParicle = Particles[i];
+                    GlobalBestParticle = Particles[i];
                 }
             }
         }
@@ -208,9 +200,9 @@ namespace ScheduleMaker.PSO
             Console.WriteLine($"Лучшая позиция Роя: ");
             for (int j = 0; j < Parameters.DimensionSize; j++)
             {
-                Console.Write($"{GlobalBestParicle.BestKnownPosition[j]} ");
+                Console.Write($"{GlobalBestParticle.BestKnownPosition[j]} ");
             }
-            Console.WriteLine($"Лучшее значение: {GlobalBestParicle.BestKnownFitness}");
+            Console.WriteLine($"Лучшее значение: {GlobalBestParticle.BestKnownFitness}");
             Console.WriteLine();
         }
     }

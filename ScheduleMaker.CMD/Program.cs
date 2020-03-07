@@ -26,14 +26,14 @@ namespace ScheduleMaker.CMD
             {
                 #region GA
                 case ConsoleKey.D1:
-                    int min = -130; // Мин. значение
-                    int max = 130; // Макс. значение
+                    int min = -500; // Мин. значение
+                    int max = 500; // Макс. значение
                     double mutationChance = 0.30; // Шанс мутации
                     int mutationDelta = 3; // Относительная дельта
-                    int chromosomeCount = 40; // Количество хромосом
+                    int chromosomeCount = 100; // Количество хромосом
                     int genesLength = 10; // Количество генов
-                    int generationsNumber = 500; // Количество итераций
-                    calculator = new FunctionSphere(); // Функция 
+                    int generationsNumber = 5000; // Количество итераций
+                    calculator = new FunctionSphere(); // Функция
 
                     while (true)
                     {
@@ -76,7 +76,7 @@ namespace ScheduleMaker.CMD
                     int iterationsNumber = 5000; // Количество повторений
                     int particlesCount = 100; // Количество Частиц
                     int dimensionsCount = 10; // Количество измерений
-                    calculator = new FunctionRosenbrock();
+                    calculator = new FunctionRastrigin();
 
                     while (true)
                     {
@@ -84,7 +84,7 @@ namespace ScheduleMaker.CMD
 
                         PSO.Parameter parameters = new PSO.Parameter(minimum, maximum, particlesCount, dimensionsCount);
                         PSOController pso = new PSOController(parameters, calculator);
-                        pso.InitializeSwarm();
+                        pso.InitializeParticleSwarm();
                         pso.FindGlobalMinimum(inertia, constantOfSpeed1, constantOfSpeed2, iterationsNumber);
 
                         // Повторить процесс?
