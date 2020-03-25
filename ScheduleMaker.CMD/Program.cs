@@ -1,7 +1,10 @@
 ﻿using ScheduleMaker.GA;
+using ScheduleMaker.OP;
+using ScheduleMaker.OP.School;
 using ScheduleMaker.PSO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ScheduleMaker.CMD
 {
@@ -20,7 +23,7 @@ namespace ScheduleMaker.CMD
             int maximumLessonsPerDay = 4; // 4-8 Уроков в День
             int maximumLessonsPerWeek = 21; // 21-34 Урока в зависимости от Класса. +3 если 6 Дней */
             #endregion
-            Console.WriteLine("Добро пожаловать. Нажмите на клавишу:\n1 - GA.\n2 - PSO.");
+            Console.WriteLine("Добро пожаловать. Нажмите на клавишу:\n1 - GA.\n2 - PSO.\n3 - Test Open Shop");
             var pressedKey = Console.ReadKey();
             switch (pressedKey.Key)
             {
@@ -28,11 +31,11 @@ namespace ScheduleMaker.CMD
                 case ConsoleKey.D1:
                     int min = -500; // Мин. значение
                     int max = 500; // Макс. значение
-                    double mutationChance = 0.30; // Шанс мутации
-                    int mutationDelta = 3; // Относительная дельта
-                    int chromosomeCount = 100; // Количество хромосом
+                    double mutationChance = 0.75; // Шанс мутации
+                    int mutationDelta = 2; // Относительная дельта
+                    int chromosomeCount = 400; // Количество хромосом
                     int genesLength = 10; // Количество генов
-                    int generationsNumber = 5000; // Количество итераций
+                    int generationsNumber = 1000; // Количество итераций
                     calculator = new FunctionSphere(); // Функция
 
                     while (true)
@@ -71,18 +74,18 @@ namespace ScheduleMaker.CMD
                     double constantOfSpeed1 = 1.49445; // Константа скорости 1
                     double constantOfSpeed2 = 1.49445; // Константа скорости 2
                     double inertia = 0.729; // Инерция
-                    int minimum = -500; // Мин. значение
-                    int maximum = 500; // Макс. значение
-                    int iterationsNumber = 5000; // Количество повторений
-                    int particlesCount = 100; // Количество Частиц
-                    int dimensionsCount = 10; // Количество измерений
-                    calculator = new FunctionRastrigin();
+                    int minimum = -300; // Мин. значение
+                    int maximum = 300; // Макс. значение
+                    int iterationsNumber = 4000; // Количество повторений
+                    int particleCount = 40; // Количество Частиц
+                    int dimensionCount = 10; // Количество измерений
+                    calculator = new FunctionRosenbrock();
 
                     while (true)
                     {
                         Console.WriteLine("\n\tВыбран Particle Swarm Optimization.\n");
 
-                        PSO.Parameter parameters = new PSO.Parameter(minimum, maximum, particlesCount, dimensionsCount);
+                        PSO.Parameter parameters = new PSO.Parameter(minimum, maximum, particleCount, dimensionCount);
                         PSOController pso = new PSOController(parameters, calculator);
                         pso.InitializeParticleSwarm();
                         pso.FindGlobalMinimum(inertia, constantOfSpeed1, constantOfSpeed2, iterationsNumber);
@@ -90,6 +93,39 @@ namespace ScheduleMaker.CMD
                         // Повторить процесс?
                         Console.WriteLine("\nСгенерировать новые данные? (Нажмите любую клавишу).");
 
+                        Console.ReadLine();
+                    }
+                #endregion
+
+                #region Open Shop
+                case ConsoleKey.D3:
+
+                    while (true)
+                    {
+                        Console.WriteLine("\n\tВыбран Open Shop.\n");
+
+
+                        // Создание учебного плана
+                        int daysCount = 6;
+                        int subjectsCount = 2;
+                        Subject[] subjects1 = new Subject[subjectsCount];
+                        Teacher[] teachers1 = new Teacher[subjectsCount];
+
+                        subjects1[0] = new Subject("Алгебра", 11, 3);
+                        subjects1[1] = new Subject("Рус. яз.", 11, 2);
+                        teachers1[0] = new Teacher(0, "Алгебра");
+                        teachers1[1] = new Teacher(0, "Рус. яз.");
+
+                        Syllabus syllabus1 = new Syllabus(0, "10А", subjects1, teachers1);
+
+                        // Создание расписания
+                        OpenShop openShop = new OpenShop(syllabus1, daysCount);
+                        openShop.MakeSchedule();
+                        openShop.OutputMachines();
+
+
+
+                        Console.WriteLine("\nПовторить процесс? (Нажмите любую клавишу).");
                         Console.ReadLine();
                     }
                     #endregion

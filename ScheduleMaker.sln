@@ -13,12 +13,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{5A45
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleMaker.GA", "ScheduleMaker.GA\ScheduleMaker.GA.csproj", "{81504F5D-6C7D-42D8-B5FC-70FD55B78D57}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Books", "Books", "{E94311E0-1F73-434B-B33C-6AE67B0A455D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleMaker.PSO", "ScheduleMaker.PSO\ScheduleMaker.PSO.csproj", "{26B162D2-CE5A-47DE-8395-211D55CF0490}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{780836FF-4B54-4314-B064-00E8A5A67F1C}"
 	ProjectSection(SolutionItems) = preProject
-		..\MA_lect.pdf = ..\MA_lect.pdf
+		Правила.txt = Правила.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMaker.PSO", "ScheduleMaker.PSO\ScheduleMaker.PSO.csproj", "{26B162D2-CE5A-47DE-8395-211D55CF0490}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMaker.OP", "ScheduleMaker.OP\ScheduleMaker.OP.csproj", "{EB3D565A-BFD4-4D4B-AB4B-D78C50163931}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{26B162D2-CE5A-47DE-8395-211D55CF0490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26B162D2-CE5A-47DE-8395-211D55CF0490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26B162D2-CE5A-47DE-8395-211D55CF0490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB3D565A-BFD4-4D4B-AB4B-D78C50163931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB3D565A-BFD4-4D4B-AB4B-D78C50163931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB3D565A-BFD4-4D4B-AB4B-D78C50163931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB3D565A-BFD4-4D4B-AB4B-D78C50163931}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

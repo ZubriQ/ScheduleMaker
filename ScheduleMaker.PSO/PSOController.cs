@@ -172,31 +172,6 @@ namespace ScheduleMaker.PSO
         /// </summary>
         public void OutputParticles()
         {
-            /*
-            for (int i = 0; i < Swarm.Count; i++)
-            {
-                
-                Console.WriteLine($"[{i + 1}]: pos:");
-                // Позиции
-                for (int j = 0; j < Parameters.DimensionsNumber; j++)
-                {
-                    Console.Write($"{Swarm[i].Position[j]} ");
-                }
-                // Скорости
-                Console.WriteLine("\tvel: ");
-                for (int j = 0; j < Parameters.DimensionsNumber; j++)
-                {
-                    Console.Write($"{Swarm[i].Velocity[j]} ");
-                }
-                //Лучшее
-                Console.WriteLine("\tbest: ");
-                for (int j = 0; j < Parameters.DimensionsNumber; j++)
-                {
-                    Console.Write($"{Swarm[i].BestKnownPosition[j]} ");
-                }
-                
-            }
-            */
             Console.WriteLine($"Лучшая позиция Роя: ");
             for (int j = 0; j < Parameters.DimensionSize; j++)
             {
