@@ -13,7 +13,7 @@
         /// <summary>
         /// Сложность предмета.
         /// </summary>
-        private int difficulty { get; }
+        private int difficulty { get; } // пока что не используется
 
         /// <summary>
         /// Количество уроков в неделю.

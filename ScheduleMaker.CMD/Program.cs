@@ -105,23 +105,35 @@ namespace ScheduleMaker.CMD
                         Console.WriteLine("\n\tВыбран Open Shop.\n");
 
 
-                        // Создание учебного плана
-                        int daysCount = 6;
+                        // Создание Open Shop и Учебного плана
+                        int teachersCount = 2;
+                        int syllabusesCount = 1;
                         int subjectsCount = 2;
+                        byte daysCount = 6;
+                        // Все Учителя в школе
+                        Teacher[] teachers = new Teacher[teachersCount];
+                        teachers[0] = new Teacher(0, "Алг.");
+                        teachers[1] = new Teacher(1, "Рус.");
+
+                        // Предмет одного Учебного плана
                         Subject[] subjects1 = new Subject[subjectsCount];
-                        Teacher[] teachers1 = new Teacher[subjectsCount];
+                        subjects1[0] = new Subject("Алг.", 11, 13);
+                        subjects1[1] = new Subject("Рус.", 11, 15);
 
-                        subjects1[0] = new Subject("Алгебра", 11, 3);
-                        subjects1[1] = new Subject("Рус. яз.", 11, 2);
-                        teachers1[0] = new Teacher(0, "Алгебра");
-                        teachers1[1] = new Teacher(0, "Рус. яз.");
+                        // Учебный план
+                        Syllabus[] syllabuses = new Syllabus[syllabusesCount];
+                        Syllabus syllabus1 = new Syllabus(0, "10А", subjects1, teachers, daysCount);
+                        syllabuses[0] = syllabus1;
 
-                        Syllabus syllabus1 = new Syllabus(0, "10А", subjects1, teachers1);
+                        // Вызов Open Shop
+                        OpenShop openShop = new OpenShop(teachers, syllabuses);
 
                         // Создание расписания
-                        OpenShop openShop = new OpenShop(syllabus1, daysCount);
-                        openShop.MakeSchedule();
+                        openShop.MakeScheduleById(0);
+
+                        // Вывод
                         openShop.OutputMachines();
+                        openShop.OutputScheduleById(0);
 
 
 

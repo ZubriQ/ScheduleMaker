@@ -18,7 +18,7 @@
         /// <summary>
         /// Учебный план, в который входит учитель.
         /// </summary>
-        private int syllabusId { get; }
+        private int syllabusId { get; } // пока что не используется
 
         /// <summary>
         /// Конструктор учителя.

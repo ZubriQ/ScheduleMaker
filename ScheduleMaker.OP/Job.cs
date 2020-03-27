@@ -18,7 +18,7 @@ namespace ScheduleMaker.OP
         /// <summary>
         /// Сложность работы (урока).
         /// </summary>
-        private int jobDifficulty { get; }
+        private int jobDifficulty { get; } // пока что не используется
 
         private int syllabusId { get; }
 

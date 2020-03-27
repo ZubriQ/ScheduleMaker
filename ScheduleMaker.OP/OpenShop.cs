@@ -9,52 +9,141 @@ namespace ScheduleMaker.OP
     public class OpenShop
     {
         /// <summary>
-        /// Учебный план.
+        /// Учебные планы.
         /// </summary>
-        private Syllabus syllabus { get; } // private Syllabus[] syllabus { get; } должно быть много классов 10a 10б 10в*?
-
-        /// <summary>
-        /// Количество дней (5/6).
-        /// </summary>
-        private int daysCount { get; }
-
-        /// <summary>
-        /// Количество Учителей.
-        /// </summary>
-        private int machinesCount { get; }
-
-        /// <summary>
-        /// Количество Уроков.
-        /// </summary>
-        private int jobsCount { get; }
-
-        /// <summary>
-        /// Уроки.
-        /// </summary>
-        private Job[] jobs { get; set; }
+        private Syllabus[] syllabuses { get; }
 
         /// <summary>
         /// Учителя.
         /// </summary>
-        private Machine[] machines { get; set; }
+        private Machine[] machines { get; }
 
         /// <summary>
         /// Операции.
         /// </summary>
         private int[][] operations { get; } // не используется пока что
 
-        public OpenShop(Syllabus syllabus, int daysCount)
+        /// <summary>
+        /// Конструктор Open Shop'a.
+        /// </summary>
+        /// <param name="teachers">Загрузка списка всех учителей в школе.</param>
+        /// <param name="syllabuses">Учебные планы, для которых необходимо составить расписание.</param>
+        public OpenShop(Teacher[] teachers, Syllabus[] syllabuses)
         {
-            this.syllabus = syllabus;
-            this.daysCount = daysCount;
-            this.machinesCount = syllabus.Teachers.Length;
-            this.jobsCount = initializeJobsCount();
-            this.operations = new int[machinesCount][]; // для чего использовать???
-            initializeJobs(syllabus.Id);
-            initializeMachines();
+            this.syllabuses = syllabuses;
+            this.machines = new Machine[teachers.Length];
+            this.operations = new int[teachers.Length][]; // для чего использовать???
+            initializeMachines(teachers);
         }
 
-        private int initializeJobsCount()
+        /// <summary>
+        /// Преобразование учителей в машины.
+        /// </summary>
+        private void initializeMachines(Teacher[] teachers)
+        {
+            for (int i = 0; i < machines.Length; i++)
+            {
+                machines[i] = new Machine(i, teachers[i].SubjectName);
+            }
+        }
+
+        /// <summary>
+        /// Составить расписание для одного Учебного плана.
+        /// </summary>
+        public void MakeScheduleById(int syllabusId)
+        {
+            int lessonsPerDay = (int)Math.Ceiling((double)syllabuses[syllabusId].JobsCount / syllabuses[syllabusId].DaysCount);
+            int indexOfJob = 0;
+            int day = 0;
+            
+            while (indexOfJob < syllabuses[syllabusId].JobsCount)
+            {
+                // Найти учителя, который ведет данный предмет 
+                int machineId = machines.FirstOrDefault(x => x.SubjectName == syllabuses[syllabusId].Jobs[indexOfJob].JobName).Id;
+
+                // Перейти на следующий день?
+                if (indexOfJob % lessonsPerDay == 0)
+                {
+                    day++;
+                }
+                // TODO: this
+                for (int numberOfLesson = 0; numberOfLesson < 8; numberOfLesson++)
+                {
+                    // Если у учителя уже есть урок в это время
+                    if (machines[machineId].Schedule[day - 1].ContainsKey(numberOfLesson))
+                    {
+                       
+                    }
+                    // Если у класса уже есть урок в это время
+                    else if (!string.IsNullOrEmpty(syllabuses[syllabusId].Schedule[day - 1, numberOfLesson]))
+                    {
+
+                    }
+                    else
+                    {
+                        // Добавляем урок
+                        // Ключ машины, день, обрабатываемая в данный момент работа
+                        machines[machineId].Schedule[day - 1].Add(numberOfLesson, syllabuses[syllabusId].Jobs[indexOfJob]);
+                        syllabuses[syllabusId].Schedule[day - 1, numberOfLesson] =
+                            (numberOfLesson + 1) + ". " + Syllabuses[syllabusId].Jobs[indexOfJob].JobName;
+                        break;
+                    }
+                }
+                indexOfJob++;
+                // Если день 6 и не будет места => Сделать день = 0 ?
+            }
+        }
+        
+        /// <summary>
+        /// Вывод расписания для каждого преподавателя.
+        /// </summary>
+        public void OutputMachines()
+        {
+            for (int i = 0; i < machines.Length; i++)
+            {
+                Console.WriteLine($"Учитель. id: {machines[i].Id}, предмет: {machines[i].SubjectName}");
+                Console.WriteLine(machines[i]);
+            }
+        }
+
+        public void OutputScheduleById(int syllabusId)
+        {
+            Console.WriteLine($"  Расписание {Syllabuses[syllabusId].ClassName} класса:");
+            for (byte i = 0; i < 6; i++)
+            {
+                for (byte j = 0; j < 8; j++)
+                {
+                    Console.Write($"{syllabuses[syllabusId].Schedule[i, j]} ");
+                }
+                Console.Write("\n");
+            }
+        }
+
+        // TODO: complete this
+        /*
+        public void OutputAllSchedules()
+        {
+            Console.WriteLine("  Расписание:");
+            for (byte i = 0; i < 6; i++)
+            {
+                for (byte j = 0; j < 8; j++)
+                {
+                    Console.Write($"{syllabuses[syllabusid].Schedule[i, j]} ");
+                }
+                Console.Write("\n");
+            }
+        }*/
+
+        public Syllabus[] Syllabuses => syllabuses;
+
+        public int MachinesCount => machines.Length;
+
+        public Machine[] Machines => machines;
+
+        public int[][] Operations => operations;
+
+        /*
+        private int calculateJobsCount()
         {
             int sum = 0;
             for (int i = 0; i < syllabus.Subjects.Length; i++)
@@ -84,67 +173,18 @@ namespace ScheduleMaker.OP
                 }
             }
         }
-
         /// <summary>
-        /// Преобразует учителей в машины.
+        /// 
         /// </summary>
-        private void initializeMachines()
+        private void initializeSchedule()
         {
-            machines = new Machine[machinesCount];
-            for (int i = 0; i < machinesCount; i++)
+            for (byte i = 0; i < 6; i++)
             {
-                machines[i] = new Machine(i, syllabus.Teachers[i].SubjectName);
-            }
-        }
-
-        /// <summary>
-        /// Составить расписание.
-        /// </summary>
-        public void MakeSchedule()
-        {
-            int lessonsPerDay = (int)Math.Ceiling((double)jobsCount / daysCount);
-            int indexOfJob = 0;
-            int day = 0;
-            
-            while (indexOfJob < jobsCount)
-            {
-                // Найти учителя, который ведет предмет
-                int machineId = machines.FirstOrDefault(x => x.SubjectName == jobs[indexOfJob].JobName).Id;
-                if (indexOfJob % lessonsPerDay == 0)
+                for (byte j = 0; j < 8; j++)
                 {
-                    day++;
+                    schedule[i, j] = -1;
                 }
-                // Ключ машины, день, обрабатываемая в данный момент работа
-                machines[machineId].Jobs[day - 1].Add(machines[machineId].Jobs[day - 1].Count, jobs[indexOfJob]);
-                // Перейти к обработке следующей работы
-                indexOfJob++;
             }
-        }
-        
-        /// <summary>
-        /// Вывод расписания для каждого преподавателя.
-        /// </summary>
-        public void OutputMachines()
-        {
-            for (int i = 0; i < machinesCount; i++)
-            {
-                Console.WriteLine($"Учитель. id: {machines[i].Id}, предмет: {machines[i].SubjectName}");
-                Console.WriteLine(machines[i]);
-            }
-        }
-
-        public Syllabus Syllabus => syllabus;
-
-        public int DaysCount => daysCount;
-
-        public int MachinesCount => machinesCount;
-
-        public int JobsCount => jobsCount;
-
-        public Job[] Jobs => jobs;
-
-        public Machine[] Machines => machines;
-
-        public int[][] Operations => operations;
+        }*/
     }
 }

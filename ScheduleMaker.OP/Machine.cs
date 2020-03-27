@@ -20,11 +20,6 @@ namespace ScheduleMaker.OP
         /// </summary>
         private Dictionary<int, Job>[] schedule { get; }
 
-        /// <summary>
-        /// Списки пустых мест.
-        /// </summary>
-        private List<int>[] emptyJobs { get; }
-
         public Machine(int id, string subjectName)
         {
             this.id = id;
@@ -35,11 +30,12 @@ namespace ScheduleMaker.OP
             {
                 schedule[i] = new Dictionary<int, Job>(8);
             }
+            /*
             emptyJobs = new List<int>[6];
             for (int i = 0; i < emptyJobs.Length; i++)
             {
                 emptyJobs[i] = new List<int>(8);
-            }
+            }*/
         }
 
         public override string ToString()
@@ -67,14 +63,21 @@ namespace ScheduleMaker.OP
 
         public string SubjectName => subjectName;
 
-        public Dictionary<int, Job>[] Jobs => schedule;
+        public Dictionary<int, Job>[] Schedule => schedule;
 
-        public List<int>[] EmptyJobs => emptyJobs;
+
+        /*
+        public List<int>[] EmptyJobs => emptyJobs; // не используется.
+
+        /// <summary>
+        /// Списки пустых мест.
+        /// </summary>
+        private List<int>[] emptyJobs { get; } // не используется
 
 
 
         // Зачем это?
-        /*
+        
         private int time { get; }
         public int Time => time;
 
