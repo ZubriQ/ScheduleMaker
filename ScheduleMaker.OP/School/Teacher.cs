@@ -13,35 +13,23 @@
         /// <summary>
         /// Предмет, который ведет учитель.
         /// </summary>
-        private string subjectName { get; }
+        private Subject subject { get; } // Пока что Учитель ведет только 1 предмет
+
+        //private string teacherName
 
         /// <summary>
-        /// Учебный план, в который входит учитель.
-        /// </summary>
-        private int syllabusId { get; } // пока что не используется
-
-        /// <summary>
-        /// Конструктор учителя.
+        /// Учитель
         /// </summary>
         /// <param name="id">Уникальный ключ.</param>
-        /// <param name="subjectName">Название урока.</param>
-        public Teacher(int id, string subjectName, int syllabusId)
+        /// <param name="subject">Предмет.</param>
+        public Teacher(int id, Subject subject)
         {
             this.id = id;
-            this.subjectName = subjectName;
-            this.syllabusId = syllabusId;
-        }
-
-        public Teacher(int id, string subjectName)
-        {
-            this.id = id;
-            this.subjectName = subjectName;
+            this.subject = subject;
         }
 
         public int Id => id;
 
-        public string SubjectName => subjectName;
-
-        public int SyllabusId => syllabusId;
+        public Subject Subject => subject;
     }
 }

@@ -1,68 +1,49 @@
-﻿using System.Collections.Generic;
+﻿using ScheduleMaker.OP.School;
 
 namespace ScheduleMaker.OP
 {
+    /// <summary>
+    /// Урок (работа).
+    /// </summary>
     public class Job
     {
         /// <summary>
-        /// Позиция.
+        /// Уникальный ключ.
         /// </summary>
         private int id { get; }
 
         /// <summary>
-        /// Название работы.
-        /// (Вид урока)
+        /// Предмет.
         /// </summary>
-        private string jobName { get; }
+        private Subject subject { get; }
 
         /// <summary>
-        /// Сложность работы (урока).
+        /// Учебный план, к которому пренадлежит урок.
         /// </summary>
-        private int jobDifficulty { get; } // пока что не используется
+        private int syllabusId { get; } // пока что не используется
 
-        private int syllabusId { get; }
-
-        public Job(int id, string jobName, int jobDifficulty, int syllabusId)
+        /// <summary>
+        /// Конструктор урока (работы).
+        /// </summary>
+        /// <param name="id">Уникальный ключ.</param>
+        /// <param name="subject">Предмет.</param>
+        /// <param name="syllabusId">Ключ Учебного плана.</param>
+        public Job(int id, Subject subject, int syllabusId)
         {
             this.id = id;
-            this.jobName = jobName;
-            this.jobDifficulty = jobDifficulty;
+            this.subject = subject;
             this.syllabusId = syllabusId;
         }
 
         public int Id => id;
 
-        public string JobName => jobName;
-
-        public int JobDifficulty => jobDifficulty;
+        public Subject Subject => subject;
 
         public int SyllabusId => syllabusId;
 
         public override string ToString()
         {
-            return $"id:{id}, предмет:{jobName}, сложность:{jobDifficulty}.";
+            return $"id:{id}, предмет:{subject}, сложность:{subject.Difficulty}.";
         }
-
-        /*
-        /// <summary>
-        /// Требуемые операции (над каждой машиной? (возможно только 1 операция будет)).
-        /// </summary>
-        private List<int> operations { get; }
-
-        /// <summary>
-        /// Завершенные операции.
-        /// </summary>
-        private List<int> processedEmptyJobs { get; }
-
-        /// <summary>
-        /// Время / Номер машины
-        /// </summary>
-        private Dictionary<int, int> processed { get; }
-
-        public List<int> GetOperations => operations;
-
-        public List<int> GetProcessedOperations => processedEmptyJobs;
-
-        public Dictionary<int, int> GetProcessed => processed;*/
     }
 }

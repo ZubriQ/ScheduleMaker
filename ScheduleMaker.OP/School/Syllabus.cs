@@ -18,7 +18,7 @@
         /// <summary>
         /// Уроки.
         /// </summary>
-        private Subject[] subjects { get; }
+        private SubjectPlan[] subjectPlans { get; }
 
         /// <summary>
         /// Учителя.
@@ -26,63 +26,48 @@
         private Teacher[] teachers { get; }
 
         /// <summary>
-        /// Работы (уроки).
+        /// Уроки (работы).
         /// </summary>
-        private Job[] jobs { get; }
+        private Job[] lessons { get; }
 
         /// <summary>
-        /// Количество уроков в неделю.
+        /// Общее количество уроков в неделю.
         /// </summary>
-        private int jobsCount { get; }
-
-        /// <summary>
-        /// Расписание.
-        /// </summary>
-        private string[,] schedule { get; }
-
-        /// <summary>
-        /// Количество дней в неделю.
-        /// </summary>
-        private byte daysCount { get; }
+        private int lessonsCount { get; }
 
         /// <summary>
         /// Конструктор Учебного плана.
         /// </summary>
         /// <param name="id">Уникальный ключ.</param>
-        /// <param name="className">Наименование класса.</param>
-        /// <param name="subjects">Уроки.</param>
+        /// <param name="className">Наименование школьного класса.</param>
+        /// <param name="subjects">Предметы.</param>
         /// <param name="teachers">Учителя.</param>
-        /// <param name="daysCount">5 или 6 дневный план.</param>
-        public Syllabus(int id, string className, Subject[] subjects, Teacher[] teachers, byte daysCount)
+        public Syllabus(int id, string className, SubjectPlan[] subjects, Teacher[] teachers)
         {
             this.id = id;
             this.className = className;
-            this.subjects = subjects;
+            this.subjectPlans = subjects;
             this.teachers = teachers;
-            this.daysCount = daysCount;
-            this.jobsCount = calculateLessonsCount();
-            jobs = new Job[jobsCount];
-            initializeJobs();
-            schedule = new string[6, 8];
-            initializeSchedule();
+            this.lessonsCount = calculateLessonsCount();
+            lessons = new Job[lessonsCount];
+            initializeLessons();
         }
 
         /// <summary>
         /// Преобразует уроки в работы.
         /// </summary>
-        private void initializeJobs()
+        private void initializeLessons()
         {
             int index = 0;
-            for (int i = 0; i < Subjects.Length; i++)
+            for (int i = 0; i < SubjectPlans.Length; i++)
             {
-                for (int j = 0; j < Subjects[i].Count; j++)
+                for (int j = 0; j < SubjectPlans[i].Count; j++)
                 {
-                    Job newJob = new Job(index,
-                        Subjects[i].Name,
-                        Subjects[i].Difficulty,
+                    Job newLesson = new Job(index,
+                        SubjectPlans[i].Subject,
                         id);
 
-                    jobs[index] = newJob;
+                    lessons[index] = newLesson;
                     index++;
                 }
             }
@@ -95,41 +80,23 @@
         private int calculateLessonsCount()
         {
             int sum = 0;
-            for (int i = 0; i < Subjects.Length; i++)
+            for (int i = 0; i < SubjectPlans.Length; i++)
             {
-                sum += Subjects[i].Count;
+                sum += SubjectPlans[i].Count;
             }
             return sum;
-        }
-
-        /// <summary>
-        /// Инициализация матрицы расписания.
-        /// </summary>
-        private void initializeSchedule()
-        {
-            for (byte i = 0; i < 6; i++)
-            {
-                for (byte j = 0; j < 8; j++)
-                {
-                    schedule[i, j] = null;
-                }
-            }
         }
 
         public int Id => id;
 
         public string ClassName => className;
 
-        public Subject[] Subjects => subjects;
+        public SubjectPlan[] SubjectPlans => subjectPlans;
 
         public Teacher[] Teachers => teachers;
 
-        public Job[] Jobs => jobs;
+        public Job[] Lessons => lessons;
 
-        public string[,] Schedule => schedule;
-
-        public byte DaysCount => daysCount;
-
-        public int JobsCount => jobsCount;
+        public int LessonsCount => lessonsCount;
     }
 }

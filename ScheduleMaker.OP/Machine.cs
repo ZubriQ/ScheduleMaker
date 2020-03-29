@@ -1,42 +1,77 @@
-﻿using System.Collections.Generic;
+﻿using ScheduleMaker.OP.School;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ScheduleMaker.OP
 {
+    /// <summary>
+    /// Учитель (машина).
+    /// </summary>
     public class Machine
     {
         /// <summary>
-        /// Номер машины.
+        /// Ключ 
         /// </summary>
         private int id { get; }
 
         /// <summary>
-        /// Какой предмет ведет учитель.
+        /// Предмет, который ведет учитель.
         /// </summary>
-        private string subjectName { get; }
+        private Subject subject { get; }
 
         /// <summary>
         /// Список работ / расписание.
         /// </summary>
         private Dictionary<int, Job>[] schedule { get; }
 
-        public Machine(int id, string subjectName)
+        /// <summary>
+        /// Количество уроков в матрице <see cref="schedule"/>.
+        /// </summary>
+        public byte LessonsCount { get; set; }
+
+        /// <summary>
+        /// Конструктор учителя (машины).
+        /// </summary>
+        /// <param name="id">Уникальный ключ.</param>
+        /// <param name="subject">Предмет, который ведет учитель.</param>
+        public Machine(int id, Subject subject)
         {
             this.id = id;
-            this.subjectName = subjectName;
+            this.subject = subject;
             // 6 дней, максимально возможное кол-во уроков 8
             schedule = new Dictionary<int, Job>[6];
             for (int i = 0; i < schedule.Length; i++)
             {
                 schedule[i] = new Dictionary<int, Job>(8);
             }
-            /*
-            emptyJobs = new List<int>[6];
-            for (int i = 0; i < emptyJobs.Length; i++)
-            {
-                emptyJobs[i] = new List<int>(8);
-            }*/
+            LessonsCount = 0;
         }
+        /*
+        /// <summary>
+        /// Проверяет поместится ли заданное количество Уроков у Учителя.
+        /// </summary>
+        /// <param name="lessonsCount">Количество Уроков одного вида.</param>
+        /// <returns>Занят ли учитель.</returns>
+        public bool CanHandle(int lessonsCount)
+        {
+            int remainingSpace = 0;
+            for (byte i = 0; i < 6; i++)
+            {
+                remainingSpace += schedule[i].Count;
+            }
+            return lessonsCount > (48 - remainingSpace);
+        }*/
+
+        /// <summary>
+        /// Проверяет поместится ли заданное количество Уроков у Учителя.
+        /// </summary>
+        /// <param name="lessonsCount">Количество Уроков одного вида.</param>
+        /// <returns>Занят ли учитель.</returns>
+        public bool CanHandle(int lessonsCount)
+        {
+            return lessonsCount > (48 - lessonsCount);
+        }
+
 
         public override string ToString()
         {
@@ -51,8 +86,9 @@ namespace ScheduleMaker.OP
                 {
                     result.Append("№:");
                     result.Append(job.Key + 1);
-                    result.Append(" предмет: ");
-                    result.Append(job.Value.JobName);
+                    result.Append(" ");
+                    result.Append(job.Value.Subject.Name);
+                    result.Append(" ");
                 }
                 result.Append("\n");
             }
@@ -61,10 +97,9 @@ namespace ScheduleMaker.OP
 
         public int Id => id;
 
-        public string SubjectName => subjectName;
+        public Subject Subject => subject;
 
         public Dictionary<int, Job>[] Schedule => schedule;
-
 
         /*
         public List<int>[] EmptyJobs => emptyJobs; // не используется.

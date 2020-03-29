@@ -107,35 +107,58 @@ namespace ScheduleMaker.CMD
 
                         // Создание Open Shop и Учебного плана
                         int teachersCount = 2;
-                        int syllabusesCount = 1;
                         int subjectsCount = 2;
-                        byte daysCount = 6;
+                        int syllabusesCount = 3;
+                        byte numberOfDays = 6;
+
+                        // Определение всех видов предметов
+                        Subject[] subjects = new Subject[subjectsCount];
+                        subjects[0] = new Subject(0, "математика", 11);
+                        subjects[1] = new Subject(1, "русский язык", 11);
+
                         // Все Учителя в школе
                         Teacher[] teachers = new Teacher[teachersCount];
-                        teachers[0] = new Teacher(0, "Алг.");
-                        teachers[1] = new Teacher(1, "Рус.");
+                        teachers[0] = new Teacher(0, subjects[0]);
+                        teachers[1] = new Teacher(1, subjects[1]);
 
-                        // Предмет одного Учебного плана
-                        Subject[] subjects1 = new Subject[subjectsCount];
-                        subjects1[0] = new Subject("Алг.", 11, 13);
-                        subjects1[1] = new Subject("Рус.", 11, 15);
+                        // Планы предметов в Учебных планах
+                        SubjectPlan[] subjects1 = new SubjectPlan[subjectsCount];
+                        subjects1[0] = new SubjectPlan(subjects[0], 10);
+                        subjects1[1] = new SubjectPlan(subjects[1], 7);
+                        SubjectPlan[] subjects2 = new SubjectPlan[subjectsCount];
+                        subjects2[0] = new SubjectPlan(subjects[0], 10);
+                        subjects2[1] = new SubjectPlan(subjects[1], 7);
+                        SubjectPlan[] subjects3 = new SubjectPlan[subjectsCount];
+                        subjects3[0] = new SubjectPlan(subjects[0], 10);
+                        subjects3[1] = new SubjectPlan(subjects[1], 7);
 
-                        // Учебный план
+                        // Учебные планы
                         Syllabus[] syllabuses = new Syllabus[syllabusesCount];
-                        Syllabus syllabus1 = new Syllabus(0, "10А", subjects1, teachers, daysCount);
+                        Syllabus syllabus1 = new Syllabus(0, "10А", subjects1, teachers);
+                        Syllabus syllabus2 = new Syllabus(1, "11Б", subjects2, teachers);
+                        Syllabus syllabus3 = new Syllabus(2, "9Г", subjects3, teachers);
                         syllabuses[0] = syllabus1;
+                        syllabuses[1] = syllabus2;
+                        syllabuses[2] = syllabus3;
 
                         // Вызов Open Shop
-                        OpenShop openShop = new OpenShop(teachers, syllabuses);
+                        OpenShop openShop = new OpenShop(teachers);
 
-                        // Создание расписания
-                        openShop.MakeScheduleById(0);
+                        // Создание расписания для учебных планов
+                        //Schedule[] schedules = new Schedule[3];
+                        //schedules[0] = openShop.MakeSchedule(syllabus1, numberOfDays);
+                        //schedules[1] = openShop.MakeSchedule(syllabus2, numberOfDays);
+                        //schedules[2] = openShop.MakeSchedule(syllabus3, numberOfDays);
+                        openShop.MakeSchedule(syllabus1, numberOfDays);
+                        openShop.MakeSchedule(syllabus2, numberOfDays);
+                        openShop.MakeSchedule(syllabus3, numberOfDays);
 
-                        // Вывод
+                        // Вывод Учителей
                         openShop.OutputMachines();
-                        openShop.OutputScheduleById(0);
 
-
+                        // Вывод расписания для каждого школьного класса
+                        openShop.OutputSchedules();
+                        
 
                         Console.WriteLine("\nПовторить процесс? (Нажмите любую клавишу).");
                         Console.ReadLine();
