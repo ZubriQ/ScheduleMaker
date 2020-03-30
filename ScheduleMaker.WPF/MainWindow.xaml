@@ -16,36 +16,48 @@
             <Button Content="test" Margin="5" Click="Button_Click_1"/>
         </StackPanel>
 
-        <ListBox x:Name="SchedulesListView" Background="AntiqueWhite" Grid.Column="1">
+        <ListBox x:Name="SchedulesListView" Grid.Column="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <!--Класс-->
-                        <StackPanel>
-                            <TextBlock>
+                        <!--Название Класса-->
+                        <TextBlock Text="{Binding ClassName}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="28"/>
+                        <!--Расписание Класса-->
+                        <ListBox ItemsSource="{Binding Schedule}" Grid.Column="1" Background="AntiqueWhite">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel HorizontalAlignment="Right">
+                                        <!--Дни Класса-->
+                                        <StackPanel>
+                                            <TextBlock>
                                 <Run Text="{Binding Id}"/>
                                 <Run Text="День "/>
-                            </TextBlock>
-                        </StackPanel>
-                        <!--Дни класса-->
-                        <StackPanel>
-                            <ListBox x:Name="Monday" ItemsSource="{Binding Lessons}" HorizontalContentAlignment="Stretch">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Name}" DockPanel.Dock="Right"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                            </ListBox>
-                        </StackPanel>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <!--Уроки-->
+                                        <StackPanel>
+                                            <ListBox ItemsSource="{Binding Lessons}" >
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" />
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                            </ListBox>
+                                        </StackPanel>
+                                        
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
     </Grid>
 </Window>

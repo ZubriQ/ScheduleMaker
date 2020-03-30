@@ -18,6 +18,11 @@ namespace ScheduleMaker.OP
         private int syllabusId { get; }
 
         /// <summary>
+        /// Название школьного класса.
+        /// </summary>
+        private string className { get; }
+
+        /// <summary>
         /// Расписание.
         /// </summary>
         private string[,] lessons { get; }
@@ -27,10 +32,11 @@ namespace ScheduleMaker.OP
         /// </summary>
         /// <param name="id">Уникальный ключ.</param>
         /// <param name="syllabusId">Ключ Учебного плана.</param>
-        public Schedule(int id, int syllabusId)
+        public Schedule(int id, int syllabusId, string className)
         {
             this.id = id;
             this.syllabusId = syllabusId;
+            this.className = className;
             this.lessons = new string[6, 8];
             initializeSchedule();
         }
@@ -69,6 +75,8 @@ namespace ScheduleMaker.OP
         public int Id => id;
 
         public int SyllabusId => syllabusId;
+
+        public string ClassName => className;
 
         public string[,] Lessons => lessons;
     }

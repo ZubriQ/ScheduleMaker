@@ -53,7 +53,7 @@ namespace ScheduleMaker.OP
         /// <param name="numberOfDays">5 или 6 дневный план.</param>
         public Schedule MakeSchedule(Syllabus syllabus, int numberOfDays)
         {
-            Schedule schedule = new Schedule(scheduleCounter, syllabus.Id);
+            Schedule schedule = new Schedule(scheduleCounter, syllabus.Id, syllabus.ClassName);
             int lessonsPerDay = (int)Math.Ceiling((double)syllabus.LessonsCount / numberOfDays);
             int indexOfJob = 0;
             byte day = 0;

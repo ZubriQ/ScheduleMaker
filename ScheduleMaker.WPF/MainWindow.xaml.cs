@@ -27,9 +27,13 @@ namespace ScheduleMaker.WPF
         public Teacher[] teachers;
         public Syllabus[] syllabuses;
 
-        public List<List<Day>> Schedules = new List<List<Day>>();
+        // работает
+        //public List<List<Day>> Schedules = new List<List<Day>>();
 
-        public List<Day> Schedule = new List<Day>();
+        // не работает
+        public List<ClassSchedule> SchedulesList = new List<ClassSchedule>();
+
+        //public List<Day> Schedule = new List<Day>();
 
         public MainWindow()
         {
@@ -84,17 +88,28 @@ namespace ScheduleMaker.WPF
             Schedule schedule3 = openShop.MakeSchedule(syllabus3, numberOfDays);
             schedulesList.Add(schedule3);
 
-
-
-
+            ClassSchedule classSchedule1 = new ClassSchedule(schedule1.ClassName, CreateSchedule(schedule1));
+            SchedulesList.Add(classSchedule1);
+            ClassSchedule classSchedule2 = new ClassSchedule(schedule2.ClassName, CreateSchedule(schedule2));
+            SchedulesList.Add(classSchedule2);
+            ClassSchedule classSchedule3 = new ClassSchedule(schedule3.ClassName, CreateSchedule(schedule3));
+            SchedulesList.Add(classSchedule3);
             // тест показа уроков
+            /*
             CreateSchedule(schedule1);
             CreateSchedule(schedule2);
             CreateSchedule(schedule3);
+            */
         }
 
-        private void CreateSchedule(Schedule schedule)
+        /// <summary>
+        /// Создание расписания для класса.
+        /// </summary>
+        /// <param name="schedule">Расписание.</param>
+        /// <returns>Расписание.</returns>
+        private List<Day> CreateSchedule(Schedule schedule)
         {
+            List<Day> Schedule = new List<Day>();
             for (int i = 0; i < 6; i++)
             {
                 Lesson[] lessons = new Lesson[8];
@@ -102,7 +117,7 @@ namespace ScheduleMaker.WPF
                 {
                     if (string.IsNullOrEmpty(schedule.Lessons[i, j]))
                     {
-                        lessons[j] = new Lesson($"{j + 1}. -----");
+                        lessons[j] = new Lesson($"{j + 1}. ----");
                     }
                     else
                     {
@@ -111,12 +126,13 @@ namespace ScheduleMaker.WPF
                 }
                 Schedule.Add(new Day(i + 1, lessons));
             }
+            return Schedule;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //SchedulesListView.ItemsSource = schedulesList;
-            SchedulesListView.ItemsSource = Schedule;
+            SchedulesListView.ItemsSource = SchedulesList;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

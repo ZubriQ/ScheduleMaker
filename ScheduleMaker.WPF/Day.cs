@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ScheduleMaker.WPF
+﻿namespace ScheduleMaker.WPF
 {
     public class Day
     {
@@ -18,7 +12,11 @@ namespace ScheduleMaker.WPF
         /// </summary>
         public Lesson[] Lessons { get; set; }
 
-        
+        /// <summary>
+        /// Конструктор дня.
+        /// </summary>
+        /// <param name="id">Номер дня.</param>
+        /// <param name="lessons">Уроки.</param>
         public Day(int id, Lesson[] lessons)
         {
             Id = id;
