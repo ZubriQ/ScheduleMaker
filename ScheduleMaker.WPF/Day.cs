@@ -8,10 +8,20 @@ namespace ScheduleMaker.WPF
 {
     public class Day
     {
-        public string[] Lessons { get; set; }
+        /// <summary>
+        /// Номер дня.
+        /// </summary>
+        public int Id { get; set; }
 
-        public Day(string[] lessons)
+        /// <summary>
+        /// Уроки дня.
+        /// </summary>
+        public Lesson[] Lessons { get; set; }
+
+        
+        public Day(int id, Lesson[] lessons)
         {
+            Id = id;
             Lessons = lessons;
             Name = "";
             GetLessons();
@@ -23,7 +33,7 @@ namespace ScheduleMaker.WPF
         {
             for (int i = 0; i < Lessons.Length; i++)
             {
-                Name += Lessons[i];
+                Name += Lessons[i].Name;
             }
         }
     }

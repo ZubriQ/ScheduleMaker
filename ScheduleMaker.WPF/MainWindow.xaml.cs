@@ -27,8 +27,10 @@ namespace ScheduleMaker.WPF
         public Teacher[] teachers;
         public Syllabus[] syllabuses;
 
+        public List<List<Day>> Schedules = new List<List<Day>>();
 
         public List<Day> Schedule = new List<Day>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -75,29 +77,46 @@ namespace ScheduleMaker.WPF
 
             // Создание расписания для учебных планов
             schedulesList = new List<Schedule>();
-            schedulesList.Add(openShop.MakeSchedule(syllabus1, numberOfDays));
-            schedulesList.Add(openShop.MakeSchedule(syllabus2, numberOfDays));
-            schedulesList.Add(openShop.MakeSchedule(syllabus3, numberOfDays));
+            Schedule schedule1 = openShop.MakeSchedule(syllabus1, numberOfDays);
+            schedulesList.Add(schedule1);
+            Schedule schedule2 = openShop.MakeSchedule(syllabus2, numberOfDays);
+            schedulesList.Add(schedule2);
+            Schedule schedule3 = openShop.MakeSchedule(syllabus3, numberOfDays);
+            schedulesList.Add(schedule3);
 
 
 
 
             // тест показа уроков
+            CreateSchedule(schedule1);
+            CreateSchedule(schedule2);
+            CreateSchedule(schedule3);
+        }
+
+        private void CreateSchedule(Schedule schedule)
+        {
             for (int i = 0; i < 6; i++)
             {
-                string[] lessons = new string[8];
+                Lesson[] lessons = new Lesson[8];
                 for (int j = 0; j < 8; j++)
                 {
-                    lessons[j] += "урок";
+                    if (string.IsNullOrEmpty(schedule.Lessons[i, j]))
+                    {
+                        lessons[j] = new Lesson($"{j + 1}. -----");
+                    }
+                    else
+                    {
+                        lessons[j] = new Lesson(schedule.Lessons[i, j]);
+                    }
                 }
-                Schedule.Add(new Day(lessons));
+                Schedule.Add(new Day(i + 1, lessons));
             }
-            SchedulesListView.ItemsSource = Schedule;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SchedulesListView.ItemsSource = schedulesList;
+            //SchedulesListView.ItemsSource = schedulesList;
+            SchedulesListView.ItemsSource = Schedule;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

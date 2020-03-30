@@ -22,15 +22,17 @@
                     <DockPanel>
                         <!--Класс-->
                         <StackPanel>
-                            <TextBlock Text="Класс"/>
-                            <TextBlock Text="{Binding Id}"/>
+                            <TextBlock>
+                                <Run Text="{Binding Id}"/>
+                                <Run Text="День "/>
+                            </TextBlock>
                         </StackPanel>
                         <!--Дни класса-->
                         <StackPanel>
                             <ListBox x:Name="Monday" ItemsSource="{Binding Lessons}" HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Day.Name}" DockPanel.Dock="Right"/>
+                                        <TextBlock Text="{Binding Name}" DockPanel.Dock="Right"/>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemsPanel>
@@ -39,44 +41,6 @@
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                             </ListBox>
-                            <!--
-                            <DockPanel>
-                                <ListBox x:Name="Tuesday" ItemsSource="{Binding Lessons}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Schedule}"/>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </DockPanel>
-                            <ListBox x:Name="Wednesday">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Schedule}"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                            <ListBox x:Name="Thursday">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Schedule}"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                            <ListBox x:Name="Friday">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Schedule}"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                            <ListBox x:Name="Saturday">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Schedule}"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>-->
                         </StackPanel>
                     </DockPanel>
                 </DataTemplate>

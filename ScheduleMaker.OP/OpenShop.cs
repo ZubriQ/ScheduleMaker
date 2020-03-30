@@ -99,15 +99,13 @@ namespace ScheduleMaker.OP
         {
             for (byte numberOfLesson = 0; numberOfLesson < 8; numberOfLesson++)
             {
-                // Если у учителя уже есть урок в это время
                 if (machines[machineId].Schedule[day - 1].ContainsKey(numberOfLesson))
                 {
-
+                    // Если у учителя уже есть урок в это время
                 }
-                // Если у класса уже есть урок в это время
                 else if (!string.IsNullOrEmpty(schedule.Lessons[day - 1, numberOfLesson]))
                 {
-
+                    // Если у класса уже есть урок в это время
                 }
                 // Добавляем урок учителю, расписанию, переход к другому уроку
                 else
