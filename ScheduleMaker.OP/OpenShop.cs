@@ -121,6 +121,7 @@ namespace ScheduleMaker.OP
             }
         }
 
+        #region output to console
         /// <summary>
         /// Вывод расписания для каждого преподавателя в консоль.
         /// </summary>
@@ -156,6 +157,7 @@ namespace ScheduleMaker.OP
                 Console.WriteLine();
             }
         }
+        #endregion
 
         public int MachinesCount => machines.Length;
 
