@@ -21,18 +21,6 @@
         {
             Id = id;
             Lessons = lessons;
-            Name = "";
-            GetLessons();
-        }
-
-        public string Name { get; set; }
-
-        public void GetLessons()
-        {
-            for (int i = 0; i < Lessons.Length; i++)
-            {
-                Name += Lessons[i].Name;
-            }
         }
     }
 }

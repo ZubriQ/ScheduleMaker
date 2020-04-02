@@ -27,9 +27,9 @@ namespace ScheduleMaker.OP
         /// Конструктор Open Shop'a.
         /// </summary>
         /// <param name="teachers">Загрузка списка всех учителей в школе.</param>
-        public OpenShop(Teacher[] teachers)
+        public OpenShop(List<Teacher> teachers)
         {
-            this.machines = new Machine[teachers.Length];
+            this.machines = new Machine[teachers.Count];
             this.schedules = new List<Schedule>();
             initializeMachines(teachers);
         }
@@ -38,13 +38,14 @@ namespace ScheduleMaker.OP
         /// Преобразование учителей в машины.
         /// </summary>
         /// <param name="teachers">Учителя.</param>
-        private void initializeMachines(Teacher[] teachers)
+        private void initializeMachines(List<Teacher> teachers)
         {
             for (int i = 0; i < machines.Length; i++)
             {
                 machines[i] = new Machine(i, teachers[i].Subject);
             }
         }
+
 
         /// <summary>
         /// Составить расписание для одного Учебного плана.
@@ -59,7 +60,6 @@ namespace ScheduleMaker.OP
             byte day = 0;
             // Проверка: справятся ли учителя с нагрузкой нового Учебного плана
             canTeachersHandle(syllabus);
-
             while (indexOfJob < syllabus.LessonsCount)
             {
                 // Найти учителя, который ведет данный предмет 
@@ -71,16 +71,65 @@ namespace ScheduleMaker.OP
                 }
                 addLesson(machineId, day, syllabus, schedule, indexOfJob);
                 indexOfJob++;
-                // Если день 6 и не будет места => Сделать день = 0 ?
             }
-            // пока что есть добавление расписаний в лист. нужно ли?
-            schedules.Add(schedule);
+            schedules.Add(schedule);// пока что есть добавление расписаний в лист. нужно ли?
             scheduleCounter++;
             return schedule;
         }
 
         /// <summary>
-        /// Проверяет справляются ли учителя с новым Учебным.
+        /// Добавить урок.
+        /// </summary>
+        /// <param name="machineId">Ключ учителя.</param>
+        /// <param name="day">День.</param>
+        /// <param name="syllabus">Учебный план.</param>
+        /// <param name="schedule">Расписание.</param>
+        /// <param name="indexOfJob">Индекс урока (работы).</param>
+        private void addLesson(int machineId, byte day, Syllabus syllabus, Schedule schedule, int indexOfJob)
+        {
+            for (sbyte numberOfLesson = 0; numberOfLesson < 8; numberOfLesson++)
+            {
+                if (machines[machineId].Schedule[day - 1].ContainsKey(numberOfLesson)
+                    || !string.IsNullOrEmpty(schedule.Lessons[day - 1, numberOfLesson]))
+                {
+                    // Если у Учителя уже есть урок в это время или у Класса уже есть урок в это время
+                    nextDay(ref numberOfLesson, ref day);
+                }
+                else
+                {
+                    machines[machineId].Schedule[day - 1].Add(numberOfLesson, syllabus.Lessons[indexOfJob]);
+                    schedule.Lessons[day - 1, numberOfLesson] =
+                        (numberOfLesson + 1) + ". " + syllabus.Lessons[indexOfJob].Subject.Name;
+                    machines[machineId].LessonsCount++;
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Переход к следующему дню, 
+        /// Если в этом дне не нашлось места для урока.
+        /// </summary>
+        /// <param name="numberOfLesson">Номер урока.</param>
+        /// <param name="day">Номер дня.</param>
+        private void nextDay(ref sbyte numberOfLesson, ref byte day)
+        {
+            if (numberOfLesson == 7)
+            {
+                if (day < 6)
+                {
+                    day++;
+                }
+                else
+                {
+                    day = 1;
+                }
+                numberOfLesson = -1;
+            }
+        }
+
+        /// <summary>
+        /// Проверяет справляются ли учителя с новым Учебным планом.
         /// </summary>
         /// <param name="syllabus">Учебный план.</param>
         private void canTeachersHandle(Syllabus syllabus)
@@ -91,30 +140,6 @@ namespace ScheduleMaker.OP
                 if (machines[i].CanHandle(numberOfLessons))
                 {
                     throw new Exception($"Учитель id:{machines[i].Id} не справится с нагрузкой.");
-                }
-            }
-        }
-
-        private void addLesson(int machineId, byte day, Syllabus syllabus, Schedule schedule, int indexOfJob)
-        {
-            for (byte numberOfLesson = 0; numberOfLesson < 8; numberOfLesson++)
-            {
-                if (machines[machineId].Schedule[day - 1].ContainsKey(numberOfLesson))
-                {
-                    // Если у учителя уже есть урок в это время
-                }
-                else if (!string.IsNullOrEmpty(schedule.Lessons[day - 1, numberOfLesson]))
-                {
-                    // Если у класса уже есть урок в это время
-                }
-                // Добавляем урок учителю, расписанию, переход к другому уроку
-                else
-                {
-                    machines[machineId].Schedule[day - 1].Add(numberOfLesson, syllabus.Lessons[indexOfJob]);
-                    schedule.Lessons[day - 1, numberOfLesson] =
-                        (numberOfLesson + 1) + ". " + syllabus.Lessons[indexOfJob].Subject.Name;
-                    machines[machineId].LessonsCount++;
-                    break;
                 }
             }
         }

@@ -1,50 +1,36 @@
-﻿<Window x:Class="ScheduleMaker.WPF.MainWindow"
+﻿<Window x:Class="ScheduleMaker.WPF.WindowTeachers"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleMaker.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="780" Width="1015">
+        Title="WindowTeachers" Height="450" Width="900">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.5*"/>
-            <ColumnDefinition Width="10*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Background="Lavender" Grid.Column="0">
-            <Button x:Name="scheduleButton" Content="Расписание" Margin="5" Click="scheduleButton_Click"/>
-            <Button x:Name="randomScheduleButton" Margin="5" Click="randomScheduleButton_Click">
-                <Button.Content>
-                    <TextBlock TextWrapping="Wrap" Text="Случайное расположение уроков в планах" TextAlignment="Center"/>
-                </Button.Content>
-            </Button>
-            <Button x:Name="showTeachersButton" Content="Учителя" Margin="5" Click="showTeachersButton_Click"/>
-        </StackPanel>
-
-        <ItemsControl x:Name="SchedulesItemsControl" Grid.Column="1">
+        <ItemsControl x:Name="TeachersItemsControl">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Margin="5">
-                        <!--Название Класса-->
-                        <TextBlock Text="{Binding ClassName}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="28" Height="28"/>
-                        <!--Расписание Класса-->
-                        <ItemsControl ItemsSource="{Binding Schedule}" Grid.Column="1" Background="AntiqueWhite">
+                        <!--Учитель-->
+                        <TextBlock Text="{Binding FullName}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                        <!--Расписание-->
+                        <ItemsControl ItemsSource="{Binding Schedule}" Background="AntiqueWhite">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <DockPanel>
-                                        <!--Дни Класса-->
+                                        <!--Дни-->
                                         <StackPanel>
-                                            <TextBlock Margin="2,3,3,2">
+                                            <TextBlock Margin="2,4,2,4">
                                 <Run Text="{Binding Id}"/>
                                 <Run Text="День "/>
                                             </TextBlock>
                                         </StackPanel>
                                         <!--Уроки-->
                                         <StackPanel>
-                                            <ItemsControl ItemsSource="{Binding Lessons}" >
+                                            <ItemsControl ItemsSource="{Binding Lessons}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding Name}" Margin="2,3,3,2" />
+                                                        <TextBlock Text="{Binding Name}" Margin="2,4,2,4"/>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                                 <ItemsControl.ItemsPanel>
@@ -54,7 +40,6 @@
                                                 </ItemsControl.ItemsPanel>
                                             </ItemsControl>
                                         </StackPanel>
-
                                     </DockPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -62,6 +47,7 @@
                     </DockPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
+
             <!--Скролл-->
             <ItemsControl.Template>
                 <ControlTemplate>
@@ -71,6 +57,5 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
-
     </Grid>
 </Window>

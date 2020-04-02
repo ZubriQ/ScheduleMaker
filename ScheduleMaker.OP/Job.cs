@@ -43,7 +43,7 @@ namespace ScheduleMaker.OP
 
         public override string ToString()
         {
-            return $"id:{id}, предмет:{subject}, сложность:{subject.Difficulty}.";
+            return $"{subject.Name}";
         }
     }
 }

@@ -17,8 +17,8 @@ namespace ScheduleMaker.WPF
         /// <summary>
         /// Конструктор расписания.
         /// </summary>
-        /// <param name="className">Расписание класса.</param>
-        /// <param name="schedule">Название школьного класса.</param>
+        /// <param name="className">Название школьного класса.</param>
+        /// <param name="schedule">Расписание класса.</param>
         public ClassSchedule(string className, List<Day> schedule)
         {
             Schedule = schedule;

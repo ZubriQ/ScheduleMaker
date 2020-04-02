@@ -22,7 +22,7 @@ namespace ScheduleMaker.OP
         /// <summary>
         /// Список работ / расписание.
         /// </summary>
-        private Dictionary<int, Job>[] schedule { get; }
+        private Dictionary<sbyte, Job>[] schedule { get; }
 
         /// <summary>
         /// Количество уроков в матрице <see cref="schedule"/>.
@@ -39,28 +39,13 @@ namespace ScheduleMaker.OP
             this.id = id;
             this.subject = subject;
             // 6 дней, максимально возможное кол-во уроков 8
-            schedule = new Dictionary<int, Job>[6];
+            schedule = new Dictionary<sbyte, Job>[6];
             for (int i = 0; i < schedule.Length; i++)
             {
-                schedule[i] = new Dictionary<int, Job>(8);
+                schedule[i] = new Dictionary<sbyte, Job>(8);
             }
             LessonsCount = 0;
         }
-        /*
-        /// <summary>
-        /// Проверяет поместится ли заданное количество Уроков у Учителя.
-        /// </summary>
-        /// <param name="lessonsCount">Количество Уроков одного вида.</param>
-        /// <returns>Занят ли учитель.</returns>
-        public bool CanHandle(int lessonsCount)
-        {
-            int remainingSpace = 0;
-            for (byte i = 0; i < 6; i++)
-            {
-                remainingSpace += schedule[i].Count;
-            }
-            return lessonsCount > (48 - remainingSpace);
-        }*/
 
         /// <summary>
         /// Проверяет поместится ли заданное количество Уроков у Учителя.
@@ -82,7 +67,7 @@ namespace ScheduleMaker.OP
                 result.Append(" день, уроки: ");
                 result.Append(schedule[i].Count);
                 result.Append("\n  ");
-                foreach (KeyValuePair<int, Job> job in schedule[i])
+                foreach (KeyValuePair<sbyte, Job> job in schedule[i])
                 {
                     result.Append("№:");
                     result.Append(job.Key + 1);
@@ -99,42 +84,6 @@ namespace ScheduleMaker.OP
 
         public Subject Subject => subject;
 
-        public Dictionary<int, Job>[] Schedule => schedule;
-
-        /*
-        public List<int>[] EmptyJobs => emptyJobs; // не используется.
-
-        /// <summary>
-        /// Списки пустых мест.
-        /// </summary>
-        private List<int>[] emptyJobs { get; } // не используется
-
-
-
-        // Зачем это?
-        
-        private int time { get; }
-        public int Time => time;
-
-        /// <summary>
-        /// Заполненность Машины.
-        /// </summary>
-        /// <param name="day">День.</param>
-        /// <returns>Возвращает количество выполненных работ.</returns>
-        public int CompletedJobs(int day)
-        {
-            return schedule[day].Count + emptyJobs[day].Count;
-        }
-
-        /// <summary>
-        /// Завершена ли Работа.
-        /// </summary>
-        /// <param name="job">Работа (урок).</param>
-        /// <returns>Завершена ли работа.</returns>
-        public bool IsJobCompleted(Job job)
-        {
-            return false; // если jobs или emptyJobs содержат job - return true
-        }
-        */
+        public Dictionary<sbyte, Job>[] Schedule => schedule;
     }
 }

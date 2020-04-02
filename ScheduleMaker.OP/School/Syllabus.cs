@@ -1,4 +1,6 @@
-﻿namespace ScheduleMaker.OP.School
+﻿using System.Collections.Generic;
+
+namespace ScheduleMaker.OP.School
 {
     /// <summary>
     /// Учебный план.
@@ -23,12 +25,12 @@
         /// <summary>
         /// Учителя.
         /// </summary>
-        private Teacher[] teachers { get; }
+        private List<Teacher> teachers { get; }
 
         /// <summary>
         /// Уроки (работы).
         /// </summary>
-        private Job[] lessons { get; }
+        private Job[] lessons { get; set; }
 
         /// <summary>
         /// Общее количество уроков в неделю.
@@ -41,8 +43,25 @@
         /// <param name="id">Уникальный ключ.</param>
         /// <param name="className">Наименование школьного класса.</param>
         /// <param name="subjects">Предметы.</param>
-        /// <param name="teachers">Учителя.</param>
-        public Syllabus(int id, string className, SubjectPlan[] subjects, Teacher[] teachers)
+        /// <param name="teachers">Учителя, которые ведут данный Учебный план.</param>
+        public Syllabus(int id, string className, SubjectPlan[] subjects, List<Teacher> teachers)
+        {
+            this.id = id;
+            this.className = className;
+            this.subjectPlans = subjects;
+            this.teachers = teachers;
+            this.lessonsCount = calculateLessonsCount();
+            lessons = new Job[lessonsCount];
+            initializeLessons();
+        }
+
+        /// <summary>
+        /// Тестовый конструктор
+        /// </summary>
+        /// <param name="id">Уникальный ключ.</param>
+        /// <param name="className">Наименование школьного класса.</param>
+        /// <param name="subjects">Предметы.</param>
+        public Syllabus(int id, string className, SubjectPlan[] subjects)
         {
             this.id = id;
             this.className = className;
@@ -87,13 +106,18 @@
             return sum;
         }
 
+        public void SetLessons(Job[] lessons)
+        {
+            this.lessons = lessons;
+        }
+
         public int Id => id;
 
         public string ClassName => className;
 
         public SubjectPlan[] SubjectPlans => subjectPlans;
 
-        public Teacher[] Teachers => teachers;
+        public List<Teacher> Teachers => teachers;
 
         public Job[] Lessons => lessons;
 

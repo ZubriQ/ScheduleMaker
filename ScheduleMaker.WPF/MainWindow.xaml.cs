@@ -22,84 +22,58 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<Schedule> schedulesList;
+        /// <summary>
+        /// Список расписаний школьных классов.
+        /// </summary>
+        public List<Schedule> SchedulesList = new List<Schedule>();
+
+        /// <summary>
+        /// Список учебных планов.
+        /// </summary>
+        public List<Syllabus> Syllabuses = new List<Syllabus>();
+
+        /// <summary>
+        /// Список всех учителей в школе.
+        /// </summary>
+        public List<Teacher> Teachers = new List<Teacher>();
+
+        /// <summary>
+        /// Список расписаний для каждого школьного класса.
+        /// </summary>
+        public List<ClassSchedule> ClassSchedulesList = new List<ClassSchedule>();
+
+        /// <summary>
+        /// Все предметы в школе.
+        /// </summary>
         public Subject[] subjects;
-        public Teacher[] teachers;
-        public Syllabus[] syllabuses;
 
-        // работает
-        //public List<List<Day>> Schedules = new List<List<Day>>();
+        /// <summary>
+        /// Open Shop.
+        /// </summary>
+        public OpenShop OpenShop;
 
-        // не работает
-        public List<ClassSchedule> SchedulesList = new List<ClassSchedule>();
+        public Random rnd = new Random();
 
-        //public List<Day> Schedule = new List<Day>();
+        // Параметры Open Shop и Учебного плана
+        public int TeachersCount = 2;
+        public int SubjectsCount = 2;
+        public int SyllabusesCount = 4;
 
         public MainWindow()
         {
             InitializeComponent();
-            SchedulesListView.ItemsSource = null;
-
-            // Создание Open Shop и Учебного плана
-            int teachersCount = 2;
-            int subjectsCount = 2;
-            int syllabusesCount = 3;
-            byte numberOfDays = 6;
 
             // Определение всех видов предметов
-            subjects = new Subject[subjectsCount];
+            subjects = new Subject[SubjectsCount];
             subjects[0] = new Subject(0, "математика", 11);
             subjects[1] = new Subject(1, "русский язык", 11);
 
             // Все Учителя в школе
-            teachers = new Teacher[teachersCount];
-            teachers[0] = new Teacher(0, subjects[0]);
-            teachers[1] = new Teacher(1, subjects[1]);
-
-            // Планы предметов в Учебных планах
-            SubjectPlan[] subjects1 = new SubjectPlan[subjectsCount];
-            subjects1[0] = new SubjectPlan(subjects[0], 10);
-            subjects1[1] = new SubjectPlan(subjects[1], 7);
-            SubjectPlan[] subjects2 = new SubjectPlan[subjectsCount];
-            subjects2[0] = new SubjectPlan(subjects[0], 10);
-            subjects2[1] = new SubjectPlan(subjects[1], 7);
-            SubjectPlan[] subjects3 = new SubjectPlan[subjectsCount];
-            subjects3[0] = new SubjectPlan(subjects[0], 10);
-            subjects3[1] = new SubjectPlan(subjects[1], 7);
-
-            // Учебные планы
-            Syllabus[] syllabuses = new Syllabus[syllabusesCount];
-            Syllabus syllabus1 = new Syllabus(0, "10А", subjects1, teachers);
-            Syllabus syllabus2 = new Syllabus(1, "11Б", subjects2, teachers);
-            Syllabus syllabus3 = new Syllabus(2, "9Г", subjects3, teachers);
-            syllabuses[0] = syllabus1;
-            syllabuses[1] = syllabus2;
-            syllabuses[2] = syllabus3;
+            Teachers.Add(new Teacher(0, subjects[0]));
+            Teachers.Add(new Teacher(1, subjects[1]));
 
             // Вызов Open Shop
-            OpenShop openShop = new OpenShop(teachers);
-
-            // Создание расписания для учебных планов
-            schedulesList = new List<Schedule>();
-            Schedule schedule1 = openShop.MakeSchedule(syllabus1, numberOfDays);
-            schedulesList.Add(schedule1);
-            Schedule schedule2 = openShop.MakeSchedule(syllabus2, numberOfDays);
-            schedulesList.Add(schedule2);
-            Schedule schedule3 = openShop.MakeSchedule(syllabus3, numberOfDays);
-            schedulesList.Add(schedule3);
-
-            ClassSchedule classSchedule1 = new ClassSchedule(schedule1.ClassName, CreateSchedule(schedule1));
-            SchedulesList.Add(classSchedule1);
-            ClassSchedule classSchedule2 = new ClassSchedule(schedule2.ClassName, CreateSchedule(schedule2));
-            SchedulesList.Add(classSchedule2);
-            ClassSchedule classSchedule3 = new ClassSchedule(schedule3.ClassName, CreateSchedule(schedule3));
-            SchedulesList.Add(classSchedule3);
-            // тест показа уроков
-            /*
-            CreateSchedule(schedule1);
-            CreateSchedule(schedule2);
-            CreateSchedule(schedule3);
-            */
+            OpenShop = new OpenShop(Teachers);
         }
 
         /// <summary>
@@ -115,29 +89,150 @@ namespace ScheduleMaker.WPF
                 Lesson[] lessons = new Lesson[8];
                 for (int j = 0; j < 8; j++)
                 {
-                    if (string.IsNullOrEmpty(schedule.Lessons[i, j]))
-                    {
-                        lessons[j] = new Lesson($"{j + 1}. ----");
-                    }
-                    else
-                    {
-                        lessons[j] = new Lesson(schedule.Lessons[i, j]);
-                    }
+                    AddClassSchedules(schedule, lessons, i, j);
                 }
                 Schedule.Add(new Day(i + 1, lessons));
             }
             return Schedule;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Добавить расписания классов.
+        /// </summary>
+        /// <param name="schedule">Расписание.</param>
+        /// <param name="lessons">Уроки.</param>
+        /// <param name="i">Итератор 1 (день).</param>
+        /// <param name="j">Итератор 2 (номер урока).</param>
+        public void AddClassSchedules(Schedule schedule, Lesson[] lessons, int i, int j)
         {
-            //SchedulesListView.ItemsSource = schedulesList;
-            SchedulesListView.ItemsSource = SchedulesList;
+            if (string.IsNullOrEmpty(schedule.Lessons[i, j]))
+            {
+                lessons[j] = new Lesson($"{j + 1}. ----");
+            }
+            else
+            {
+                lessons[j] = new Lesson(schedule.Lessons[i, j]);
+            }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void scheduleButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            // Если расписание уже создано, то обнулить текущее
+            if (SchedulesItemsControl.ItemsSource != null)
+            {
+                ClassSchedulesList.Clear();
+                Syllabuses.Clear();
+                Teachers.Clear();
+                SchedulesList.Clear();
+                Teachers.Add(new Teacher(0, subjects[0]));
+                Teachers.Add(new Teacher(1, subjects[1]));
+                OpenShop = new OpenShop(Teachers);
+                SchedulesItemsControl.ItemsSource = null;
+            }
+            byte NumberOfDays = 6;
+            // Планы предметов в Учебных планах
+            SubjectPlan[] subjects1 = new SubjectPlan[SubjectsCount];
+            subjects1[0] = new SubjectPlan(subjects[0], 10);
+            subjects1[1] = new SubjectPlan(subjects[1], 10);
+            SubjectPlan[] subjects2 = new SubjectPlan[SubjectsCount];
+            subjects2[0] = new SubjectPlan(subjects[0], 10);
+            subjects2[1] = new SubjectPlan(subjects[1], 10);
+            SubjectPlan[] subjects3 = new SubjectPlan[SubjectsCount];
+            subjects3[0] = new SubjectPlan(subjects[0], 18);
+            subjects3[1] = new SubjectPlan(subjects[1], 10);
+            SubjectPlan[] subjects4 = new SubjectPlan[SubjectsCount];
+            subjects4[0] = new SubjectPlan(subjects[0], 10);
+            subjects4[1] = new SubjectPlan(subjects[1], 18);
+
+            // Учебные планы
+            Syllabus syllabus1 = new Syllabus(0, "10А", subjects1);
+            Syllabus syllabus2 = new Syllabus(1, "11Б", subjects2);
+            Syllabus syllabus3 = new Syllabus(2, "9Г", subjects3);
+            Syllabus syllabus4 = new Syllabus(3, "11В", subjects4);
+            Syllabuses.Add(syllabus1);
+            Syllabuses.Add(syllabus2);
+            Syllabuses.Add(syllabus3);
+            Syllabuses.Add(syllabus4);
+
+            // Создание расписания для классов
+            for (int i = 0; i < SyllabusesCount; i++)
+            {
+                Schedule schedule = OpenShop.MakeSchedule(Syllabuses[i], NumberOfDays);
+                SchedulesList.Add(schedule);
+                ClassSchedule classSchedule = new ClassSchedule(schedule.ClassName, CreateSchedule(schedule));
+                ClassSchedulesList.Add(classSchedule);
+            }
+
+            // Источник
+            SchedulesItemsControl.ItemsSource = ClassSchedulesList;
+        }
+
+        private void randomScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Если расписание уже создано, то обнулить текущее
+            if(SchedulesItemsControl.ItemsSource != null)
+            {
+                ClassSchedulesList.Clear();
+                Syllabuses.Clear();
+                Teachers.Clear();
+                SchedulesList.Clear();
+                Teachers.Add(new Teacher(0, subjects[0]));
+                Teachers.Add(new Teacher(1, subjects[1]));
+                OpenShop = new OpenShop(Teachers);
+                SchedulesItemsControl.ItemsSource = null;
+            }
+            byte NumberOfDays = 6;
+            // Планы предметов в Учебных планах
+            SubjectPlan[] subjects1 = new SubjectPlan[SubjectsCount];
+            subjects1[0] = new SubjectPlan(subjects[0], 10);
+            subjects1[1] = new SubjectPlan(subjects[1], 10);
+            SubjectPlan[] subjects2 = new SubjectPlan[SubjectsCount];
+            subjects2[0] = new SubjectPlan(subjects[0], 10);
+            subjects2[1] = new SubjectPlan(subjects[1], 10);
+            SubjectPlan[] subjects3 = new SubjectPlan[SubjectsCount];
+            subjects3[0] = new SubjectPlan(subjects[0], 18);
+            subjects3[1] = new SubjectPlan(subjects[1], 10);
+            SubjectPlan[] subjects4 = new SubjectPlan[SubjectsCount];
+            subjects4[0] = new SubjectPlan(subjects[0], 10);
+            subjects4[1] = new SubjectPlan(subjects[1], 18);
+
+            // Учебные планы
+            Syllabus syllabus1 = new Syllabus(0, "10А", subjects1);
+            Syllabus syllabus2 = new Syllabus(1, "11Б", subjects2);
+            Syllabus syllabus3 = new Syllabus(2, "9Г", subjects3);
+            Syllabus syllabus4 = new Syllabus(3, "11В", subjects4);
+            var randomizedLessons1 = syllabus1.Lessons.OrderBy(x => rnd.Next()).ToArray();
+            var randomizedLessons2 = syllabus1.Lessons.OrderBy(x => rnd.Next()).ToArray();
+            var randomizedLessons3 = syllabus1.Lessons.OrderBy(x => rnd.Next()).ToArray();
+            var randomizedLessons4 = syllabus1.Lessons.OrderBy(x => rnd.Next()).ToArray();
+            syllabus1.SetLessons(randomizedLessons1);
+            syllabus1.SetLessons(randomizedLessons2);
+            syllabus1.SetLessons(randomizedLessons3);
+            syllabus1.SetLessons(randomizedLessons4);
+
+            Syllabuses.Add(syllabus1);
+            Syllabuses.Add(syllabus2);
+            Syllabuses.Add(syllabus3);
+            Syllabuses.Add(syllabus4);
+
+            // Создание расписания для классов
+            for (int i = 0; i < SyllabusesCount; i++)
+            {
+                Schedule schedule = OpenShop.MakeSchedule(Syllabuses[i], NumberOfDays);
+                SchedulesList.Add(schedule);
+                ClassSchedule classSchedule = new ClassSchedule(schedule.ClassName, CreateSchedule(schedule));
+                ClassSchedulesList.Add(classSchedule);
+            }
+
+            // Источник
+            SchedulesItemsControl.ItemsSource = ClassSchedulesList;
+        }
+
+        // учителя
+        private void showTeachersButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowTeachers window = new WindowTeachers(OpenShop.Machines);
+            window.Show();
         }
     }
 }
