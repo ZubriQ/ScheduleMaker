@@ -18,9 +18,9 @@ namespace ScheduleMaker.OP
         private Subject subject { get; }
 
         /// <summary>
-        /// Учебный план, к которому пренадлежит урок.
+        /// Учебный план, к которому принадлежит урок.
         /// </summary>
-        private int syllabusId { get; } // пока что не используется
+        private int syllabusId { get; }
 
         /// <summary>
         /// Конструктор урока (работы).

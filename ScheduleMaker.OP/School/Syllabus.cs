@@ -13,9 +13,9 @@ namespace ScheduleMaker.OP.School
         private int id { get; }
 
         /// <summary>
-        /// Название класса.
+        /// Школьный класс (группа школьников).
         /// </summary>
-        private string className { get; }
+        public Class Class { get; set; }
 
         /// <summary>
         /// Уроки.
@@ -41,13 +41,13 @@ namespace ScheduleMaker.OP.School
         /// Конструктор Учебного плана.
         /// </summary>
         /// <param name="id">Уникальный ключ.</param>
-        /// <param name="className">Наименование школьного класса.</param>
+        /// <param name="class">Школьный класс.</param>
         /// <param name="subjects">Предметы.</param>
         /// <param name="teachers">Учителя, которые ведут данный Учебный план.</param>
-        public Syllabus(int id, string className, SubjectPlan[] subjects, List<Teacher> teachers)
+        public Syllabus(int id, Class @class, SubjectPlan[] subjects, List<Teacher> teachers)
         {
             this.id = id;
-            this.className = className;
+            Class = @class;
             this.subjectPlans = subjects;
             this.teachers = teachers;
             this.lessonsCount = calculateLessonsCount();
@@ -61,10 +61,10 @@ namespace ScheduleMaker.OP.School
         /// <param name="id">Уникальный ключ.</param>
         /// <param name="className">Наименование школьного класса.</param>
         /// <param name="subjects">Предметы.</param>
-        public Syllabus(int id, string className, SubjectPlan[] subjects)
+        public Syllabus(int id, Class @class, SubjectPlan[] subjects)
         {
             this.id = id;
-            this.className = className;
+            Class = @class;
             this.subjectPlans = subjects;
             this.teachers = teachers;
             this.lessonsCount = calculateLessonsCount();
@@ -112,8 +112,6 @@ namespace ScheduleMaker.OP.School
         }
 
         public int Id => id;
-
-        public string ClassName => className;
 
         public SubjectPlan[] SubjectPlans => subjectPlans;
 

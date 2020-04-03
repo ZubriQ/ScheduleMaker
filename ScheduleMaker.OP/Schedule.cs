@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScheduleMaker.OP.School;
+using System;
 
 namespace ScheduleMaker.OP
 {
@@ -18,9 +19,9 @@ namespace ScheduleMaker.OP
         private int syllabusId { get; }
 
         /// <summary>
-        /// Название школьного класса.
+        /// Школьный класс.
         /// </summary>
-        private string className { get; }
+        public Class Class { get; }
 
         /// <summary>
         /// Расписание.
@@ -32,11 +33,12 @@ namespace ScheduleMaker.OP
         /// </summary>
         /// <param name="id">Уникальный ключ.</param>
         /// <param name="syllabusId">Ключ Учебного плана.</param>
-        public Schedule(int id, int syllabusId, string className)
+        /// <param name="class">Школьный класс.</param>
+        public Schedule(int id, int syllabusId, Class @class)
         {
             this.id = id;
             this.syllabusId = syllabusId;
-            this.className = className;
+            this.Class = @class;
             this.lessons = new string[6, 8];
             initializeSchedule();
         }
@@ -75,8 +77,6 @@ namespace ScheduleMaker.OP
         public int Id => id;
 
         public int SyllabusId => syllabusId;
-
-        public string ClassName => className;
 
         public string[,] Lessons => lessons;
     }

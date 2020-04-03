@@ -106,21 +106,17 @@ namespace ScheduleMaker.CMD
 
 
                         // Создание Open Shop и Учебного плана
-                        int teachersCount = 2;
                         int subjectsCount = 2;
                         int syllabusesCount = 3;
                         byte numberOfDays = 6;
-
                         // Определение всех видов предметов
                         Subject[] subjects = new Subject[subjectsCount];
                         subjects[0] = new Subject(0, "математика", 11);
                         subjects[1] = new Subject(1, "русский язык", 11);
-
                         // Все Учителя в школе
-                        Teacher[] teachers = new Teacher[teachersCount];
-                        teachers[0] = new Teacher(0, subjects[0]);
-                        teachers[1] = new Teacher(1, subjects[1]);
-
+                        List<Teacher> teachers = new List<Teacher>();
+                        teachers.Add(new Teacher(0, subjects[0]));
+                        teachers.Add(new Teacher(1, subjects[1]));
                         // Планы предметов в Учебных планах
                         SubjectPlan[] subjects1 = new SubjectPlan[subjectsCount];
                         subjects1[0] = new SubjectPlan(subjects[0], 10);
@@ -131,27 +127,27 @@ namespace ScheduleMaker.CMD
                         SubjectPlan[] subjects3 = new SubjectPlan[subjectsCount];
                         subjects3[0] = new SubjectPlan(subjects[0], 10);
                         subjects3[1] = new SubjectPlan(subjects[1], 7);
-
+                        // Классы
+                        Class class1 = new Class(0, "10А");
+                        Class class2 = new Class(0, "11Б");
+                        Class class3 = new Class(0, "11В");
                         // Учебные планы
                         Syllabus[] syllabuses = new Syllabus[syllabusesCount];
-                        Syllabus syllabus1 = new Syllabus(0, "10А", subjects1, teachers);
-                        Syllabus syllabus2 = new Syllabus(1, "11Б", subjects2, teachers);
-                        Syllabus syllabus3 = new Syllabus(2, "9Г", subjects3, teachers);
+                        Syllabus syllabus1 = new Syllabus(0, class1, subjects1, teachers);
+                        Syllabus syllabus2 = new Syllabus(1, class2, subjects2, teachers);
+                        Syllabus syllabus3 = new Syllabus(2, class3, subjects3, teachers);
                         syllabuses[0] = syllabus1;
                         syllabuses[1] = syllabus2;
                         syllabuses[2] = syllabus3;
-
                         // Вызов Open Shop
                         OpenShop openShop = new OpenShop(teachers);
+                        // Создание расписаний для всех учебных планов
+                        openShop.MakeSchedules(syllabuses);
 
                         // Создание расписания для учебных планов
-                        //Schedule[] schedules = new Schedule[3];
-                        //schedules[0] = openShop.MakeSchedule(syllabus1, numberOfDays);
-                        //schedules[1] = openShop.MakeSchedule(syllabus2, numberOfDays);
-                        //schedules[2] = openShop.MakeSchedule(syllabus3, numberOfDays);
-                        openShop.MakeSchedule(syllabus1, numberOfDays);
-                        openShop.MakeSchedule(syllabus2, numberOfDays);
-                        openShop.MakeSchedule(syllabus3, numberOfDays);
+                        //openShop.MakeSchedule(syllabus1, numberOfDays);
+                        //openShop.MakeSchedule(syllabus2, numberOfDays);
+                        //openShop.MakeSchedule(syllabus3, numberOfDays);
 
                         // Вывод Учителей
                         openShop.OutputMachines();

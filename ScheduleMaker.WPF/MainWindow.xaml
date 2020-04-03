@@ -13,11 +13,6 @@
         </Grid.ColumnDefinitions>
         <StackPanel Background="Lavender" Grid.Column="0">
             <Button x:Name="scheduleButton" Content="Расписание" Margin="5" Click="scheduleButton_Click"/>
-            <Button x:Name="randomScheduleButton" Margin="5" Click="randomScheduleButton_Click">
-                <Button.Content>
-                    <TextBlock TextWrapping="Wrap" Text="Случайное расположение уроков в планах" TextAlignment="Center"/>
-                </Button.Content>
-            </Button>
             <Button x:Name="showTeachersButton" Content="Учителя" Margin="5" Click="showTeachersButton_Click"/>
         </StackPanel>
 
