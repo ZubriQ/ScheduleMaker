@@ -1,10 +1,11 @@
 ﻿using ScheduleMaker.OP.School;
 using System;
+using System.Collections.Generic;
 
 namespace ScheduleMaker.OP
 {
     /// <summary>
-    /// Расписание для Учебных планов.
+    /// Расписание Учебного плана.
     /// </summary>
     public class Schedule
     {
@@ -24,9 +25,9 @@ namespace ScheduleMaker.OP
         public Class Class { get; }
 
         /// <summary>
-        /// Расписание.
+        /// Уроки.
         /// </summary>
-        private string[,] lessons { get; }
+        private Job[] lessons { get; }
 
         /// <summary>
         /// Конструктор расписания.
@@ -39,10 +40,10 @@ namespace ScheduleMaker.OP
             this.id = id;
             this.syllabusId = syllabusId;
             this.Class = @class;
-            this.lessons = new string[6, 8];
-            initializeSchedule();
+            this.lessons = new Job[60];
         }
 
+        /*
         /// <summary>
         /// Инициализация матрицы расписания.
         /// </summary>
@@ -56,7 +57,6 @@ namespace ScheduleMaker.OP
                 }
             }
         }
-
         /// <summary>
         /// Вывод расписания в консоль.
         /// </summary>
@@ -72,12 +72,12 @@ namespace ScheduleMaker.OP
                 Console.WriteLine();
             }
             Console.WriteLine();
-        }
+        }*/
 
         public int Id => id;
 
         public int SyllabusId => syllabusId;
 
-        public string[,] Lessons => lessons;
+        public Job[] Lessons => lessons;
     }
 }

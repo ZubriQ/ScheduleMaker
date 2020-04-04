@@ -19,15 +19,17 @@ namespace ScheduleMaker.OP
         /// </summary>
         private Subject subject { get; }
 
+        //private Dictionary<sbyte, Job>[] schedule { get; }
+
         /// <summary>
         /// Список работ / расписание.
         /// </summary>
-        private Dictionary<sbyte, Job>[] schedule { get; }
+        private Job[] lessons { get; }
 
-        /// <summary>
-        /// Количество уроков в матрице <see cref="schedule"/>.
+        /*/// <summary>
+        /// Количество уроков в матрице <see cref="lessons"/>.
         /// </summary>
-        public byte LessonsCount { get; set; }
+        public byte LessonsCount { get; set; }*/
 
         /// <summary>
         /// Конструктор учителя (машины).
@@ -38,13 +40,7 @@ namespace ScheduleMaker.OP
         {
             this.id = id;
             this.subject = subject;
-            // 6 дней, максимально возможное кол-во уроков 8
-            schedule = new Dictionary<sbyte, Job>[6];
-            for (int i = 0; i < schedule.Length; i++)
-            {
-                schedule[i] = new Dictionary<sbyte, Job>(8);
-            }
-            LessonsCount = 0;
+            lessons = new Job[60];
         }
 
         /// <summary>
@@ -57,7 +53,7 @@ namespace ScheduleMaker.OP
             return lessonsCount > (48 - lessonsCount);
         }
 
-
+        /*
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
@@ -78,12 +74,12 @@ namespace ScheduleMaker.OP
                 result.Append("\n");
             }
             return result.ToString();
-        }
+        }*/
 
         public int Id => id;
 
         public Subject Subject => subject;
 
-        public Dictionary<sbyte, Job>[] Schedule => schedule;
+        public Job[] Lessons => lessons;
     }
 }

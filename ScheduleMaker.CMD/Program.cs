@@ -150,10 +150,9 @@ namespace ScheduleMaker.CMD
                         //openShop.MakeSchedule(syllabus3, numberOfDays);
 
                         // Вывод Учителей
-                        openShop.OutputMachines();
-
+                        openShop.OutputTeachersSchedules();
                         // Вывод расписания для каждого школьного класса
-                        openShop.OutputSchedules();
+                        openShop.OutputClassSchedules();
                         
 
                         Console.WriteLine("\nПовторить процесс? (Нажмите любую клавишу).");

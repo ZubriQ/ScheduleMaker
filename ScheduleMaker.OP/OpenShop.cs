@@ -9,6 +9,7 @@ namespace ScheduleMaker.OP
     public class OpenShop
     {
         private static readonly Random rnd = new Random();
+
         /// <summary>
         /// Все Учителя в школе.
         /// </summary>
@@ -16,17 +17,11 @@ namespace ScheduleMaker.OP
 
         /// <summary>
         /// Расписания Учебных планов.
-        /// Ключ, Расписание
         /// </summary>
-        public Dictionary<int, Schedule> SchedulesList { get; set; }
+        public List<Schedule> SchedulesList { get; set; }
 
         /// <summary>
-        /// Счетчик id для <see cref="SchedulesList"/>.
-        /// </summary>
-        private int ScheduleCounter { get; set; }
-
-        /// <summary>
-        /// Вектор с уроков.
+        /// Вектор со всеми уроками.
         /// </summary>
         public Job[] AllLessons { get; set; }
 
@@ -37,8 +32,8 @@ namespace ScheduleMaker.OP
         public OpenShop(List<Teacher> teachers)
         {
             Teachers = new Machine[teachers.Count];
-            SchedulesList = new Dictionary<int, Schedule>();
             initializeTeachers(teachers);
+            SchedulesList = new List<Schedule>();
             AllLessons = null;
         }
 
@@ -91,13 +86,11 @@ namespace ScheduleMaker.OP
         {
             for (int i = 0; i < syllabuses.Length; i++)
             {
-                Schedule schedule = new Schedule(ScheduleCounter, syllabuses[i].Id, syllabuses[i].Class);
-                SchedulesList.Add(syllabuses[i].Id, schedule);
-                ScheduleCounter++;
+                Schedule schedule = new Schedule(SchedulesList.Count, syllabuses[i].Id, syllabuses[i].Class);
+                SchedulesList.Add(schedule);
             }
         }
 
-        #region make schedule for Many syllabuses
         /// <summary>
         /// Составить расписание для всех Учебных планов.
         /// </summary>
@@ -106,17 +99,16 @@ namespace ScheduleMaker.OP
         {
             initializeAllLessons(syllabuses);
             initializeSchedules(syllabuses);
-            short indexOfJob = 0;
-            sbyte numberOfLesson = 0; // 1-8 (0-7)
             randomizeAllLessons();
-            // TODO: проверить: справятся ли учителя с нагрузкой.
+            short indexOfJob = 0;
+            // TODO: проверить: справятся ли учителя с нагрузкой
             while (indexOfJob < AllLessons.Length)
             {
                 // Найти учителя, который ведет предмет
                 int teacherId = Teachers.FirstOrDefault(x => x.Subject.Id == AllLessons[indexOfJob].Subject.Id).Id;
                 // Найти расписание нужного класса
-                int scheduleId = SchedulesList.FirstOrDefault(x => x.Key == AllLessons[indexOfJob].SyllabusId).Key;
-                addLesson(teacherId, scheduleId, numberOfLesson, indexOfJob);
+                int scheduleId = SchedulesList.FirstOrDefault(x => x.SyllabusId == AllLessons[indexOfJob].SyllabusId).SyllabusId;
+                addLesson(teacherId, scheduleId, indexOfJob);
                 indexOfJob++;
             }
         }
@@ -126,10 +118,76 @@ namespace ScheduleMaker.OP
         /// </summary>
         /// <param name="teacherId">Ключ учителя.</param>
         /// <param name="scheduleId">Ключ Учебного плана.</param>
-        /// <param name="numberOfLesson">Номер урока.</param>
         /// <param name="indexOfJob">Индекст текущего урока в векторе.</param>
-        private void addLesson(int teacherId, int scheduleId, sbyte numberOfLesson, short indexOfJob)
+        private void addLesson(int teacherId, int scheduleId, short indexOfJob)
         {
+            for (int i = 0; i < 48; i++)
+            {
+                if (Teachers[teacherId].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null)
+                {
+                    Teachers[teacherId].Lessons[i] = AllLessons[indexOfJob];
+                    SchedulesList[scheduleId].Lessons[i] = AllLessons[indexOfJob];
+                    break;
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        /*/// <summary>
+        /// Найти следующее пустое место в расписании.
+        /// </summary>
+        /// <param name="day">День.</param>
+        /// <param name="numberOfLesson">Номер урока.</param>
+        private void findGap(ref sbyte day, ref sbyte numberOfLesson)
+        {
+
+        }*/
+
+        /// <summary>
+        /// Перемешать уроки в векторе.
+        /// </summary>
+        private void randomizeAllLessons()
+        {
+            var randomizedLessons = AllLessons.OrderBy(x => rnd.Next()).ToArray();
+            AllLessons = randomizedLessons;
+        }
+
+        /*
+        #region make schedule for Many syllabuses
+        /// <summary>
+        /// Составить расписание для всех Учебных планов.
+        /// </summary>
+        /// <param name="syllabuses">Учебные планы.</param>
+        public void MakeSchedules(Syllabus[] syllabuses)
+        {
+            initializeAllLessons(syllabuses);
+            initializeSchedules(syllabuses);
+            randomizeAllLessons();
+            short indexOfJob = 0;
+            // TODO: проверить: справятся ли учителя с нагрузкой.
+            while (indexOfJob < AllLessons.Length)
+            {
+                // Найти учителя, который ведет предмет
+                int teacherId = Teachers.FirstOrDefault(x => x.Subject.Id == AllLessons[indexOfJob].Subject.Id).Id;
+                // Найти расписание нужного класса
+                int scheduleId = SchedulesList.FirstOrDefault(x => x.Key == AllLessons[indexOfJob].SyllabusId).Key;
+                addLesson(teacherId, scheduleId, indexOfJob);
+                indexOfJob++;
+            }
+        }
+
+        /// <summary>
+        /// Добавить урок.
+        /// </summary>
+        /// <param name="teacherId">Ключ учителя.</param>
+        /// <param name="scheduleId">Ключ Учебного плана.</param>
+        /// <param name="indexOfJob">Индекст текущего урока в векторе.</param>
+        private void addLesson(int teacherId, int scheduleId, short indexOfJob)
+        {
+            sbyte numberOfLesson = 0;
             for (sbyte day = 0; day < 6; day++)
             {
                 if (Teachers[teacherId].Schedule[day].ContainsKey(numberOfLesson)
@@ -278,7 +336,7 @@ namespace ScheduleMaker.OP
             }
         }
         #endregion
-
+        */
         #region output to console
         /// <summary>
         /// Вывод расписания для каждого преподавателя в консоль.
@@ -287,7 +345,7 @@ namespace ScheduleMaker.OP
         {
             for (int i = 0; i < Teachers.Length; i++)
             {
-                Console.WriteLine($"Учитель. id: {Teachers[i].Id}, предмет: {Teachers[i].Subject.Name}");
+                Console.WriteLine($"  Учитель. id: {Teachers[i].Id}, предмет: {Teachers[i].Subject.Name}");
                 Console.WriteLine(Teachers[i]);
             }
         }
@@ -295,25 +353,49 @@ namespace ScheduleMaker.OP
         /// <summary>
         /// Вывод расписания всех школьных классов в консоль.
         /// </summary>
-        public void OutputSchedules()
+        public void OutputClassSchedules()
         {
-            for (int scheduleId = 0; scheduleId < SchedulesList.Count; scheduleId++)
+            for (int id = 0; id < SchedulesList.Count; id++)
             {
-                Console.WriteLine($"  Расписание {SchedulesList[scheduleId].SyllabusId + 1} класса:");
-                for (byte i = 0; i < 6; i++)
+                Console.WriteLine($"  Расписание {SchedulesList[id].SyllabusId + 1} класса:");
+                for (byte i = 0; i < 60; i++)
                 {
-                    for (byte j = 0; j < 8; j++)
+                    if (SchedulesList[id].Lessons[i] != null)
                     {
-                        // Чтобы не было пробелов.
-                        if (!string.IsNullOrEmpty(SchedulesList[scheduleId].Lessons[i, j]))
+                        Console.Write($"i:{i}. {SchedulesList[id].Lessons[i].Subject.Name} ");
+                        if ((i + 1) % 8 == 0)
                         {
-                            Console.Write($"{SchedulesList[scheduleId].Lessons[i, j]} ");
+                            Console.WriteLine();
                         }
                     }
-                    Console.WriteLine();
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Вывод расписания всех школьных классов в консоль.
+        /// </summary>
+        public void OutputTeachersSchedules()
+        {
+            for (int t = 0; t < Teachers.Length; t++)
+            {
+                Console.WriteLine($"Учитель. id: {Teachers[t].Id}, предмет: {Teachers[t].Subject.Name}");
+                for (byte i = 0; i < 60; i++)
+                {
+                    if (Teachers[t].Lessons[i] != null)
+                    {
+                        Console.Write($"i:{i}. {Teachers[t].Lessons[i].Subject.Name} ");
+                        if ((i + 1) % 8 == 0)
+                        {
+                            Console.WriteLine();
+                        }
+                    }
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
         }
         #endregion
     }

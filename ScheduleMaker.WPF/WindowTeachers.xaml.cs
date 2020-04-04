@@ -25,33 +25,51 @@ namespace ScheduleMaker.WPF
         public WindowTeachers(Machine[] teachers)
         {
             InitializeComponent();
-            ConvertSchedules(teachers);
+            DecodeTeachersSchedules(teachers);
             TeachersItemsControl.ItemsSource = teacherSchedules;
         }
-
-        public void ConvertSchedules(Machine[] teachers)
+        
+        public void DecodeTeachersSchedules(Machine[] teachers)
         {
             for (int t = 0; t < teachers.Length; t++)
             {
-                List<Day> Schedule = new List<Day>();
+                // Инициализация 6 недель
+                List<Day> newSchedule = new List<Day>();
                 for (int i = 0; i < 6; i++)
                 {
-                    Lesson[] lessons = new Lesson[8];
-                    for (sbyte j = 0; j < 8; j++)
-                    {
-                        if (!teachers[t].Schedule[i].ContainsKey(j))
-                        {
-                            lessons[j] = new Lesson($"{j + 1}. ----");
-                        }
-                        else
-                        {
-                            lessons[j] = new Lesson($"{j + 1}. {teachers[t].Schedule[i][j]}");
-                        }
-                    }
-                    Schedule.Add(new Day(i + 1, lessons));
+                    Lesson[] lessons = new Lesson[10];
+                    newSchedule.Add(new Day(i + 1, lessons));
                 }
-                TeacherSchedule teacherSchedule = new TeacherSchedule(teachers[t].Id.ToString(), Schedule);
+                // Добавление уроков в расписание
+                int indexOfLesson = 0;
+                while (indexOfLesson < 60)
+                {
+                    AddLesson(teachers, newSchedule, ref indexOfLesson, t);
+                }
+                TeacherSchedule teacherSchedule = new TeacherSchedule(teachers[t].Id.ToString(), newSchedule);
                 teacherSchedules.Add(teacherSchedule);
+            }
+        }
+
+        public void AddLesson(Machine[] teachers, List<Day> newSchedule, ref int indexOfLesson, int teacherId)
+        {
+            // Номер урока
+            for (int column = 0; column < 10; column++)
+            {
+                // день
+                for (int row = 0; row < 6; row++)
+                {
+                    if (teachers[teacherId].Lessons[indexOfLesson] != null)
+                    {
+                        newSchedule[row].Lessons[column] = new Lesson($"{column + 1}. " +
+                            $"{teachers[teacherId].Lessons[indexOfLesson].Subject.Name}");
+                    }
+                    else
+                    {
+                        newSchedule[row].Lessons[column] = new Lesson($"{column + 1}. ----");
+                    }
+                    indexOfLesson++;
+                }
             }
         }
 
