@@ -37,6 +37,7 @@ namespace ScheduleMaker.OP
             AllLessons = null;
         }
 
+        #region initializations
         /// <summary>
         /// Преобразование учителей в машины.
         /// </summary>
@@ -90,7 +91,9 @@ namespace ScheduleMaker.OP
                 SchedulesList.Add(schedule);
             }
         }
+        #endregion
 
+        #region making schedules
         /// <summary>
         /// Составить расписание для всех Учебных планов.
         /// </summary>
@@ -111,6 +114,9 @@ namespace ScheduleMaker.OP
                 addLesson(teacherId, scheduleId, indexOfJob);
                 indexOfJob++;
             }
+            // тест найденных пробелов
+            int gaps = findGapsInAllSchedules();
+            int kek = 0;
         }
 
         /// <summary>
@@ -121,7 +127,7 @@ namespace ScheduleMaker.OP
         /// <param name="indexOfJob">Индекст текущего урока в векторе.</param>
         private void addLesson(int teacherId, int scheduleId, short indexOfJob)
         {
-            for (int i = 0; i < 48; i++)
+            for (int i = 0; i < 60; i++)
             {
                 if (Teachers[teacherId].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null)
                 {
@@ -129,22 +135,8 @@ namespace ScheduleMaker.OP
                     SchedulesList[scheduleId].Lessons[i] = AllLessons[indexOfJob];
                     break;
                 }
-                else
-                {
-
-                }
             }
         }
-
-        /*/// <summary>
-        /// Найти следующее пустое место в расписании.
-        /// </summary>
-        /// <param name="day">День.</param>
-        /// <param name="numberOfLesson">Номер урока.</param>
-        private void findGap(ref sbyte day, ref sbyte numberOfLesson)
-        {
-
-        }*/
 
         /// <summary>
         /// Перемешать уроки в векторе.
@@ -154,189 +146,98 @@ namespace ScheduleMaker.OP
             var randomizedLessons = AllLessons.OrderBy(x => rnd.Next()).ToArray();
             AllLessons = randomizedLessons;
         }
+        #endregion
 
-        /*
-        #region make schedule for Many syllabuses
+        #region finding gaps in schedules
         /// <summary>
-        /// Составить расписание для всех Учебных планов.
+        /// Подсчитать кол-во пробелов во всех расписаниях.
         /// </summary>
-        /// <param name="syllabuses">Учебные планы.</param>
-        public void MakeSchedules(Syllabus[] syllabuses)
+        /// <returns>Возвращает кол-во пробелов.</returns>
+        private int findGapsInAllSchedules()
         {
-            initializeAllLessons(syllabuses);
-            initializeSchedules(syllabuses);
-            randomizeAllLessons();
-            short indexOfJob = 0;
-            // TODO: проверить: справятся ли учителя с нагрузкой.
-            while (indexOfJob < AllLessons.Length)
+            int gapsCount = 0;
+            for (int i = 0; i < SchedulesList.Count; i++)
             {
-                // Найти учителя, который ведет предмет
-                int teacherId = Teachers.FirstOrDefault(x => x.Subject.Id == AllLessons[indexOfJob].Subject.Id).Id;
-                // Найти расписание нужного класса
-                int scheduleId = SchedulesList.FirstOrDefault(x => x.Key == AllLessons[indexOfJob].SyllabusId).Key;
-                addLesson(teacherId, scheduleId, indexOfJob);
-                indexOfJob++;
+                findGaps(i, ref gapsCount);
+            }
+            return gapsCount;
+        }
+
+        /// <summary>
+        /// Находит пробелы в одном расписании.
+        /// </summary>
+        /// <param name="scheduleId">Расписание, в котором идет подсчет.</param>
+        /// <param name="gapsCount">Кол-во пробелов.</param>
+        private void findGaps(int scheduleId, ref int gapsCount)
+        {
+            int[] left = new int[6];
+            int[] right = new int[6];
+            for (byte day = 0; day < 6; day++)
+            {
+                findFirstLesson(ref left, day, scheduleId);
+                findLastLesson(ref right, day, scheduleId);
+            }
+            calculateGaps(left, right, ref gapsCount, scheduleId);
+        }
+
+        /// <summary>
+        /// Узнать индекс начального урока в дне.
+        /// </summary>
+        /// <param name="left">Массив со значением для каждого дня. Индекс самого левого урока.</param>
+        /// <param name="day">День.</param>
+        /// <param name="scheduleId">Расписание, в котором идет подсчет.</param>
+        private void findFirstLesson(ref int[] left, byte day, int scheduleId)
+        {
+            for (byte job = 0; job < 10; job++)
+            {
+                if (SchedulesList[scheduleId].Lessons[day + (job * 6)] != null)
+                {
+                    left[day] = day + job * 6;
+                    break;
+                }
             }
         }
 
         /// <summary>
-        /// Добавить урок.
+        /// Узнать индекс последнего урока в дне.
         /// </summary>
-        /// <param name="teacherId">Ключ учителя.</param>
-        /// <param name="scheduleId">Ключ Учебного плана.</param>
-        /// <param name="indexOfJob">Индекст текущего урока в векторе.</param>
-        private void addLesson(int teacherId, int scheduleId, short indexOfJob)
+        /// <param name="right">Массив со значением для каждого дня. Индекс самого правого урока.</param>
+        /// <param name="day">День.</param>
+        /// <param name="scheduleId">Расписание, в котором идет подсчет.</param>
+        private void findLastLesson(ref int[] right, byte day, int scheduleId)
         {
-            sbyte numberOfLesson = 0;
-            for (sbyte day = 0; day < 6; day++)
+            for (sbyte job = 9; job >= 0; job--)
             {
-                if (Teachers[teacherId].Schedule[day].ContainsKey(numberOfLesson)
-                || !string.IsNullOrEmpty(SchedulesList[scheduleId].Lessons[day, numberOfLesson]))
+                if (SchedulesList[scheduleId].Lessons[day + (job * 6)] != null)
                 {
-                    // Дальше искать пустое место, если у Учителя или Класса уже есть урок в это время
-                    if (day == 5)
+                    right[day] = day + job * 6;
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Подсчет пробелов в каждом дне между/>
+        /// </summary>
+        /// <param name="left">Левое значение.</param>
+        /// <param name="right">Правое значение.</param>
+        /// <param name="gapsCount">Кол-во пробелов.</param>
+        /// <param name="scheduleId">Расписание, в котором идет подсчет.</param>
+        private void calculateGaps(int[] left, int[] right, ref int gapsCount, int scheduleId)
+        {
+            for (int day = 0; day < 6; day++)
+            {
+                for (int job = left[day]; job < right[day]; job += 6)
+                {
+                    if (SchedulesList[scheduleId].Lessons[job] == null)
                     {
-                        if (numberOfLesson < 7)
-                        {
-                            numberOfLesson++;
-                        }
-                        else
-                        {
-                            numberOfLesson = 0;
-                        }
-                        day = -1;
+                        gapsCount++;
                     }
                 }
-                else
-                {
-                    Teachers[teacherId].Schedule[day].Add(numberOfLesson, AllLessons[indexOfJob]);
-                    SchedulesList[scheduleId].Lessons[day, numberOfLesson] =
-                        (numberOfLesson + 1) + ". " + AllLessons[indexOfJob].Subject.Name;
-                    Teachers[teacherId].LessonsCount++;
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Найти следующее пустое место в расписании.
-        /// </summary>
-        /// <param name="day">День.</param>
-        /// <param name="numberOfLesson">Номер урока.</param>
-        private void findGap(ref sbyte day, ref sbyte numberOfLesson)
-        {
-            
-        }
-
-        /// <summary>
-        /// Перемешать уроки в векторе.
-        /// </summary>
-        private void randomizeAllLessons()
-        {
-            var randomizedLessons = AllLessons.OrderBy(x => rnd.Next()).ToArray();
-            AllLessons = randomizedLessons;
-        }
-        #endregion
-
-        #region schedule for 1 syllabus
-        /// <summary>
-        /// Составить расписание для одного Учебного плана.
-        /// </summary>
-        /// <param name="syllabus">Учебный план.</param>
-        /// <param name="numberOfDays">5 или 6 дневный план.</param>
-        public Schedule MakeSchedule(Syllabus syllabus, int numberOfDays)
-        {
-            Schedule schedule = new Schedule(ScheduleCounter, syllabus.Id, syllabus.Class);
-            int lessonsPerDay = (int)Math.Ceiling((double)syllabus.LessonsCount / numberOfDays);
-            int indexOfJob = 0;
-            byte day = 0;
-            // Проверка: справятся ли учителя с нагрузкой нового Учебного плана
-            canTeachersHandle(syllabus);
-            while (indexOfJob < syllabus.LessonsCount)
-            {
-                // Найти учителя, который ведет данный предмет 
-                int machineId = Teachers.FirstOrDefault(x => x.Subject.Id == syllabus.Lessons[indexOfJob].Subject.Id).Id;
-                // Перейти на следующий день?
-                if (indexOfJob % lessonsPerDay == 0)
-                {
-                    day++;
-                }
-                addLesson(machineId, day, syllabus, schedule, indexOfJob);
-                indexOfJob++;
-            }
-            //schedules.Add(schedule);// пока что есть добавление расписаний в лист. нужно ли?
-            ScheduleCounter++;
-            return schedule;
-        }
-
-        /// <summary>
-        /// Добавить урок.
-        /// </summary>
-        /// <param name="machineId">Ключ учителя.</param>
-        /// <param name="day">День.</param>
-        /// <param name="syllabus">Учебный план.</param>
-        /// <param name="schedule">Расписание.</param>
-        /// <param name="indexOfJob">Индекс урока (работы).</param>
-        private void addLesson(int machineId, byte day, Syllabus syllabus, Schedule schedule, int indexOfJob)
-        {
-            for (sbyte numberOfLesson = 0; numberOfLesson < 8; numberOfLesson++)
-            {
-                if (Teachers[machineId].Schedule[day - 1].ContainsKey(numberOfLesson)
-                    || !string.IsNullOrEmpty(schedule.Lessons[day - 1, numberOfLesson]))
-                {
-                    // Если у Учителя уже есть урок в это время или у Класса уже есть урок в это время
-                    nextDay(ref numberOfLesson, ref day);
-                }
-                else
-                {
-                    Teachers[machineId].Schedule[day - 1].Add(numberOfLesson, syllabus.Lessons[indexOfJob]);
-                    schedule.Lessons[day - 1, numberOfLesson] =
-                        (numberOfLesson + 1) + ". " + syllabus.Lessons[indexOfJob].Subject.Name;
-                    Teachers[machineId].LessonsCount++;
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Переход к следующему дню, 
-        /// Если в этом дне не нашлось места для урока.
-        /// </summary>
-        /// <param name="numberOfLesson">Номер урока.</param>
-        /// <param name="day">Номер дня.</param>
-        private void nextDay(ref sbyte numberOfLesson, ref byte day)
-        {
-            if (numberOfLesson == 7)
-            {
-                if (day < 6)
-                {
-                    day++;
-                }
-                else
-                {
-                    day = 1;
-                }
-                numberOfLesson = -1;
-            }
-        }
-
-        /// <summary>
-        /// Проверяет справляются ли учителя с новым Учебным планом.
-        /// </summary>
-        /// <param name="syllabus">Учебный план.</param>
-        private void canTeachersHandle(Syllabus syllabus)
-        {
-            for (int i = 0; i < Teachers.Length; i++)
-            {
-                int numberOfLessons = syllabus.SubjectPlans.FirstOrDefault(x => x.Subject.Id == Teachers[i].Subject.Id).Count;
-                if (Teachers[i].CanHandle(numberOfLessons))
-                {
-                    throw new Exception($"Учитель id:{Teachers[i].Id} не справится с нагрузкой.");
-                }
             }
         }
         #endregion
-        */
+
         #region output to console
         /// <summary>
         /// Вывод расписания для каждого преподавателя в консоль.

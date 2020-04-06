@@ -58,6 +58,7 @@ namespace ScheduleMaker.WPF
         public int TeachersCount = 2;
         public int SubjectsCount = 2;
         public int SyllabusesCount = 4;
+        public int gaps = 0;
 
         public MainWindow()
         {

@@ -143,7 +143,10 @@ namespace ScheduleMaker.CMD
                         OpenShop openShop = new OpenShop(teachers);
                         // Создание расписаний для всех учебных планов
                         openShop.MakeSchedules(syllabuses);
-
+                        for (sbyte day = 5; day >= 0; --day)
+                        {
+                            Console.WriteLine(day);
+                        }
                         // Создание расписания для учебных планов
                         //openShop.MakeSchedule(syllabus1, numberOfDays);
                         //openShop.MakeSchedule(syllabus2, numberOfDays);

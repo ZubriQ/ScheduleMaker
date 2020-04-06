@@ -6,9 +6,6 @@ namespace ScheduleMaker.GA
     {
         public string FunctionName => "Расписание";
 
-        // TODO: code here
-        public int maxTime = 6; // 6-8 кол-во уроков
-
         public double Fitness(double[] values)
         {
             double sum = 0;
