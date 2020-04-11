@@ -103,29 +103,6 @@ namespace ScheduleMaker.OP
         #endregion
 
         #region making schedules
-        /*
-        /// <summary>
-        /// Составить расписание для всех Учебных планов.
-        /// </summary>
-        /// <param name="syllabi">Учебные планы.</param>
-        public void MakeSchedules(Syllabus[] syllabi)
-        {
-            initializeLessons(syllabi);
-            initializeSchedules(syllabi);
-            //randomizeAllLessons();
-            short indexOfJob = 0;
-            // TODO: проверить: справятся ли учителя с нагрузкой
-            while (indexOfJob < TempLessons.Length)
-            {
-                // Найти учителя, который ведет предмет
-                int teacherId = Teachers.FirstOrDefault(x => x.Subject.Id == TempLessons[indexOfJob].Subject.Id).Id;
-                // Найти расписание нужного класса
-                int scheduleId = SchedulesList.FirstOrDefault(x => x.SyllabusId == TempLessons[indexOfJob].SyllabusId).SyllabusId;
-                addLesson(teacherId, scheduleId, indexOfJob);
-                indexOfJob++;
-            }
-        }*/
-
         /// <summary>
         /// Составить расписание для всех Учебных планов.
         /// </summary>
@@ -154,8 +131,14 @@ namespace ScheduleMaker.OP
 
         private void copyAndSortLessons(double[] priorities)
         {
+            double[] temp = new double[priorities.Length];
+            for (int i = 0; i < priorities.Length; i++)
+            {
+                temp[i] = priorities[i];
+            }
             Array.Copy(AllLessons, TempLessons, AllLessons.Length);
-            Array.Sort(priorities, TempLessons);
+            Array.Sort(temp, TempLessons);
+            int k = 0;
         }
         
         private void clearTempLessons()

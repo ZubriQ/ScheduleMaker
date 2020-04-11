@@ -52,7 +52,7 @@ namespace ScheduleMaker.OP.PSO
         public double[] FindBestSchedulesPriorities()
         {
             PSOController.InitializeParticleSwarm();
-            PSOController.FindGlobalMinimum(0.729, 1.49445, 1.49445, 300);
+            PSOController.FindGlobalMinimum(0.729, 1.49445, 1.49445, 600);
             return PSOController.GlobalBestParticle.BestKnownPosition;
         }
 

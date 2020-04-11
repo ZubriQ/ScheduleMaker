@@ -102,11 +102,11 @@ namespace ScheduleMaker.WPF
             subjects2[0] = new SubjectPlan(subjects[0], 10);
             subjects2[1] = new SubjectPlan(subjects[1], 10);
             SubjectPlan[] subjects3 = new SubjectPlan[SubjectsCount];
-            subjects3[0] = new SubjectPlan(subjects[0], 18);
+            subjects3[0] = new SubjectPlan(subjects[0], 10);
             subjects3[1] = new SubjectPlan(subjects[1], 10);
             SubjectPlan[] subjects4 = new SubjectPlan[SubjectsCount];
-            subjects4[0] = new SubjectPlan(subjects[0], 10);
-            subjects4[1] = new SubjectPlan(subjects[1], 18);
+            subjects4[0] = new SubjectPlan(subjects[0], 14);
+            subjects4[1] = new SubjectPlan(subjects[1], 14);
             // Классы
             Class class1 = new Class(0, "10А");
             Class class2 = new Class(0, "11Б");
