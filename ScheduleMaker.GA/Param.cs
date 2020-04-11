@@ -1,6 +1,6 @@
 ﻿namespace ScheduleMaker.GA
 {
-    public class Parameter
+    public class Param
     {
         /// <summary>
         /// Минимальное значение Гена.
@@ -40,7 +40,7 @@
         /// <param name="genesLength">Количество Генов.</param>
         /// <param name="mutationChance">Шанс мутации.</param>
         /// <param name="delta">Возможное смещение значения Гена (± дельта).</param>
-        public Parameter(int min, int max, int genesLength, double mutationChance, int delta)
+        public Param(int min, int max, int genesLength, double mutationChance, int delta)
         {
             Min = min;
             Max = max;

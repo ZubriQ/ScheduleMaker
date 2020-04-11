@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ScheduleMaker.GA\ScheduleMaker.GA.csproj" />
+    <ProjectReference Include="..\ScheduleMaker.PSO\ScheduleMaker.PSO.csproj" />
+  </ItemGroup>
+
 </Project>

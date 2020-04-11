@@ -43,36 +43,13 @@ namespace ScheduleMaker.OP
             this.lessons = new Job[60];
         }
 
-        /*
-        /// <summary>
-        /// Инициализация матрицы расписания.
-        /// </summary>
-        private void initializeSchedule()
+        public void ClearLessons()
         {
-            for (byte i = 0; i < 6; i++)
+            for (int i = 0; i < 60; i++)
             {
-                for (byte j = 0; j < 8; j++)
-                {
-                    lessons[i, j] = null;
-                }
+                lessons[i] = null;
             }
         }
-        /// <summary>
-        /// Вывод расписания в консоль.
-        /// </summary>
-        public void OutputSchedule()
-        {
-            Console.WriteLine($"  Расписание {SyllabusId} класса:");
-            for (byte i = 0; i < 6; i++)
-            {
-                for (byte j = 0; j < 8; j++)
-                {
-                    Console.Write($"{Lessons[i, j]} ");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-        }*/
 
         public int Id => id;
 

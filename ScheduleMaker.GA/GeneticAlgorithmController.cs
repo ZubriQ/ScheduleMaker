@@ -12,7 +12,7 @@ namespace ScheduleMaker.GA
         /// <summary>
         /// Базовые параметры алгоритма.
         /// </summary>
-        public Parameter Parameters { get; set; }
+        public Param Parameters { get; set; }
 
         /// <summary>
         /// Наилучшая хромосома.
@@ -29,7 +29,7 @@ namespace ScheduleMaker.GA
         /// </summary>
         /// <param name="parameters">Базовые значения алгоритма.</param>
         /// <param name="calculator">Функция оценки Приспособленности.</param>
-        public GeneticAlgorithmController(Parameter parameters, ICalculator calculator)
+        public GeneticAlgorithmController(Param parameters, ICalculator calculator)
         {
             Parameters = parameters;
             Calculator = calculator;

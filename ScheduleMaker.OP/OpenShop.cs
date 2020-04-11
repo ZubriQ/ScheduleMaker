@@ -1,4 +1,5 @@
-﻿using ScheduleMaker.OP.School;
+﻿using ScheduleMaker.GA;
+using ScheduleMaker.OP.School;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,11 @@ namespace ScheduleMaker.OP
         public Job[] AllLessons { get; set; }
 
         /// <summary>
+        /// Вектор со всеми уроками, который сортируется по приоритетам.
+        /// </summary>
+        public Job[] TempLessons { get; set; }
+
+        /// <summary>
         /// Конструктор Open Shop'a.
         /// </summary>
         /// <param name="teachers">Загрузка списка всех учителей в школе.</param>
@@ -35,6 +41,7 @@ namespace ScheduleMaker.OP
             initializeTeachers(teachers);
             SchedulesList = new List<Schedule>();
             AllLessons = null;
+            TempLessons = null;
         }
 
         #region initializations
@@ -53,70 +60,124 @@ namespace ScheduleMaker.OP
         /// <summary>
         /// Инициализирует уроки.
         /// </summary>
-        /// <param name="syllabuses">Учебные планы.</param>
-        private void initializeAllLessons(Syllabus[] syllabuses)
+        /// <param name="syllabi">Учебные планы.</param>
+        private void initializeLessons(Syllabus[] syllabi)
         {
-            AllLessons = new Job[calculateNumberOfLessons(syllabuses)];
+            AllLessons = new Job[CalculateNumberOfLessons(syllabi)];
             int i = 0;
-            for (int s = 0; s < syllabuses.Length; s++)
+            for (int s = 0; s < syllabi.Length; s++)
             {
-                for (int l = 0; l < syllabuses[s].LessonsCount; l++)
+                for (int l = 0; l < syllabi[s].LessonsCount; l++)
                 {
-                    AllLessons[i] = syllabuses[s].Lessons[l];
+                    AllLessons[i] = syllabi[s].Lessons[l];
                     i++;
                 }
             }
+            TempLessons = new Job[CalculateNumberOfLessons(syllabi)];
         }
 
         /// <summary>
         /// Подсчитывает сумму всех уроков в учебных планах.
         /// </summary>
-        /// <param name="syllabuses">Учебные планы.</param>
+        /// <param name="syllabi">Учебные планы.</param>
         /// <returns>Возвращает сумму всех уроков в учебных плана.</returns>
-        private int calculateNumberOfLessons(Syllabus[] syllabuses)
+        public int CalculateNumberOfLessons(Syllabus[] syllabi)
         {
             int sum = 0;
-            for (int i = 0; i < syllabuses.Length; i++)
+            for (int i = 0; i < syllabi.Length; i++)
             {
-                sum += syllabuses[i].LessonsCount;
+                sum += syllabi[i].LessonsCount;
             }
             return sum;
         }
 
-        private void initializeSchedules(Syllabus[] syllabuses)
+        private void initializeSchedules(Syllabus[] syllabi)
         {
-            for (int i = 0; i < syllabuses.Length; i++)
+            SchedulesList.Clear();
+            for (int i = 0; i < syllabi.Length; i++)
             {
-                Schedule schedule = new Schedule(SchedulesList.Count, syllabuses[i].Id, syllabuses[i].Class);
+                Schedule schedule = new Schedule(SchedulesList.Count, syllabi[i].Id, syllabi[i].Class);
                 SchedulesList.Add(schedule);
             }
         }
         #endregion
 
         #region making schedules
+        /*
         /// <summary>
         /// Составить расписание для всех Учебных планов.
         /// </summary>
-        /// <param name="syllabuses">Учебные планы.</param>
-        public void MakeSchedules(Syllabus[] syllabuses)
+        /// <param name="syllabi">Учебные планы.</param>
+        public void MakeSchedules(Syllabus[] syllabi)
         {
-            initializeAllLessons(syllabuses);
-            initializeSchedules(syllabuses);
-            randomizeAllLessons();
+            initializeLessons(syllabi);
+            initializeSchedules(syllabi);
+            //randomizeAllLessons();
             short indexOfJob = 0;
             // TODO: проверить: справятся ли учителя с нагрузкой
-            while (indexOfJob < AllLessons.Length)
+            while (indexOfJob < TempLessons.Length)
             {
                 // Найти учителя, который ведет предмет
-                int teacherId = Teachers.FirstOrDefault(x => x.Subject.Id == AllLessons[indexOfJob].Subject.Id).Id;
+                int teacherId = Teachers.FirstOrDefault(x => x.Subject.Id == TempLessons[indexOfJob].Subject.Id).Id;
                 // Найти расписание нужного класса
-                int scheduleId = SchedulesList.FirstOrDefault(x => x.SyllabusId == AllLessons[indexOfJob].SyllabusId).SyllabusId;
+                int scheduleId = SchedulesList.FirstOrDefault(x => x.SyllabusId == TempLessons[indexOfJob].SyllabusId).SyllabusId;
                 addLesson(teacherId, scheduleId, indexOfJob);
                 indexOfJob++;
             }
-            // тест найденных пробелов
-            int gaps = findGapsInAllSchedules();
-            int kek = 0;
+        }*/
+
+        /// <summary>
+        /// Составить расписание для всех Учебных планов.
+        /// </summary>
+        /// <param name="syllabi">Учебные планы.</param>
+        /// <param name="priorities">Приоритеты уроков.</param>
+        public void MakeSchedulesWithPriorities(Syllabus[] syllabi, double[] priorities)
+        {
+            clearTeacherLessons();
+            //clearTempLessons();
+            initializeLessons(syllabi);
+            initializeSchedules(syllabi);
+            // Отсортировать вектор уроков по приоритетам
+            copyAndSortLessons(priorities);
+            short indexOfJob = 0;
+            // TODO: проверить: справятся ли учителя с нагрузкой
+            while (indexOfJob < TempLessons.Length)
+            {
+                // Найти учителя, который ведет предмет
+                int teacherId = Teachers.FirstOrDefault(x => x.Subject.Id == TempLessons[indexOfJob].Subject.Id).Id;
+                // Найти расписание нужного класса
+                int scheduleId = SchedulesList.FirstOrDefault(x => x.SyllabusId == TempLessons[indexOfJob].SyllabusId).SyllabusId;
+                addLesson(teacherId, scheduleId, indexOfJob);
+                indexOfJob++;
+            }
+        }
+
+        private void copyAndSortLessons(double[] priorities)
+        {
+            Array.Copy(AllLessons, TempLessons, AllLessons.Length);
+            Array.Sort(priorities, TempLessons);
+        }
+        
+        private void clearTempLessons()
+        {
+            if (TempLessons != null)
+            {
+                for (int i = 0; i < 60; i++)
+                {
+                    TempLessons[i] = null;
+                }
+            }
+        }
+
+        private void clearTeacherLessons()
+        {
+            for (int i = 0; i < Teachers.Length; i++)
+            {
+                for (int j = 0; j < 60; j++)
+                {
+                    Teachers[i].Lessons[j] = null;
+                }
+            }
         }
 
         /// <summary>
@@ -131,8 +192,8 @@ namespace ScheduleMaker.OP
             {
                 if (Teachers[teacherId].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null)
                 {
-                    Teachers[teacherId].Lessons[i] = AllLessons[indexOfJob];
-                    SchedulesList[scheduleId].Lessons[i] = AllLessons[indexOfJob];
+                    Teachers[teacherId].Lessons[i] = TempLessons[indexOfJob];
+                    SchedulesList[scheduleId].Lessons[i] = TempLessons[indexOfJob];
                     break;
                 }
             }
@@ -153,7 +214,7 @@ namespace ScheduleMaker.OP
         /// Подсчитать кол-во пробелов во всех расписаниях.
         /// </summary>
         /// <returns>Возвращает кол-во пробелов.</returns>
-        private int findGapsInAllSchedules()
+        public int FindGapsInAllSchedules()
         {
             int gapsCount = 0;
             for (int i = 0; i < SchedulesList.Count; i++)
@@ -239,18 +300,6 @@ namespace ScheduleMaker.OP
         #endregion
 
         #region output to console
-        /// <summary>
-        /// Вывод расписания для каждого преподавателя в консоль.
-        /// </summary>
-        public void OutputMachines()
-        {
-            for (int i = 0; i < Teachers.Length; i++)
-            {
-                Console.WriteLine($"  Учитель. id: {Teachers[i].Id}, предмет: {Teachers[i].Subject.Name}");
-                Console.WriteLine(Teachers[i]);
-            }
-        }
-        
         /// <summary>
         /// Вывод расписания всех школьных классов в консоль.
         /// </summary>

@@ -106,6 +106,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ScheduleMaker.GA\ScheduleMaker.GA.csproj">
+      <Project>{81504F5D-6C7D-42D8-B5FC-70FD55B78D57}</Project>
+      <Name>ScheduleMaker.GA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ScheduleMaker.OP\ScheduleMaker.OP.csproj">
       <Project>{EB3D565A-BFD4-4D4B-AB4B-D78C50163931}</Project>
       <Name>ScheduleMaker.OP</Name>

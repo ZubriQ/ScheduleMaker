@@ -19,17 +19,10 @@ namespace ScheduleMaker.OP
         /// </summary>
         private Subject subject { get; }
 
-        //private Dictionary<sbyte, Job>[] schedule { get; }
-
         /// <summary>
         /// Список работ / расписание.
         /// </summary>
         private Job[] lessons { get; }
-
-        /*/// <summary>
-        /// Количество уроков в матрице <see cref="lessons"/>.
-        /// </summary>
-        public byte LessonsCount { get; set; }*/
 
         /// <summary>
         /// Конструктор учителя (машины).
@@ -53,28 +46,13 @@ namespace ScheduleMaker.OP
             return lessonsCount > (48 - lessonsCount);
         }
 
-        /*
-        public override string ToString()
+        public void ClearLessons()
         {
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < schedule.Length; i++)
+            for (int i = 0; i < 60; i++)
             {
-                result.Append(i + 1);
-                result.Append(" день, уроки: ");
-                result.Append(schedule[i].Count);
-                result.Append("\n  ");
-                foreach (KeyValuePair<sbyte, Job> job in schedule[i])
-                {
-                    result.Append("№:");
-                    result.Append(job.Key + 1);
-                    result.Append(" ");
-                    result.Append(job.Value.Subject.Name);
-                    result.Append(" ");
-                }
-                result.Append("\n");
+                lessons[i] = null;
             }
-            return result.ToString();
-        }*/
+        }
 
         public int Id => id;
 

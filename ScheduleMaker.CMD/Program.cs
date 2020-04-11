@@ -1,5 +1,6 @@
 ﻿using ScheduleMaker.GA;
 using ScheduleMaker.OP;
+using ScheduleMaker.OP.PSO;
 using ScheduleMaker.OP.School;
 using ScheduleMaker.PSO;
 using System;
@@ -42,7 +43,7 @@ namespace ScheduleMaker.CMD
                     {
                         Console.WriteLine("\n\tВыбран Genetic Algorithm.\n");
                         // Создание параметров и контроллера Генетического Алгоритма
-                        GA.Parameter parameters = new GA.Parameter(min, max, genesLength, mutationChance, mutationDelta);
+                        GA.Param parameters = new GA.Param(min, max, genesLength, mutationChance, mutationDelta);
                         GeneticAlgorithmController gac = new GeneticAlgorithmController(parameters, calculator);
 
                         // Инициализация начального поколения
@@ -140,23 +141,19 @@ namespace ScheduleMaker.CMD
                         syllabuses[1] = syllabus2;
                         syllabuses[2] = syllabus3;
                         // Вызов Open Shop
-                        OpenShop openShop = new OpenShop(teachers);
+                        //OpenShop openShop = new OpenShop(teachers);
+                        OpenShopPSO openShopPSO = new OpenShopPSO(teachers, syllabuses);
+                        openShopPSO.SetFunction(openShopPSO);
+                        openShopPSO.OpenShop.MakeSchedulesWithPriorities(syllabuses, openShopPSO.FindBestSchedulesPriorities());
                         // Создание расписаний для всех учебных планов
-                        openShop.MakeSchedules(syllabuses);
-                        for (sbyte day = 5; day >= 0; --day)
-                        {
-                            Console.WriteLine(day);
-                        }
-                        // Создание расписания для учебных планов
-                        //openShop.MakeSchedule(syllabus1, numberOfDays);
-                        //openShop.MakeSchedule(syllabus2, numberOfDays);
-                        //openShop.MakeSchedule(syllabus3, numberOfDays);
+                        //openShop.MakeSchedules(syllabuses);
 
                         // Вывод Учителей
-                        openShop.OutputTeachersSchedules();
+                        openShopPSO.OpenShop.OutputTeachersSchedules();
                         // Вывод расписания для каждого школьного класса
-                        openShop.OutputClassSchedules();
-                        
+                        openShopPSO.OpenShop.OutputClassSchedules();
+
+                        Console.WriteLine($"пробелы в расписании: {openShopPSO.OpenShop.FindGapsInAllSchedules()}");
 
                         Console.WriteLine("\nПовторить процесс? (Нажмите любую клавишу).");
                         Console.ReadLine();
