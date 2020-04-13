@@ -144,16 +144,16 @@ namespace ScheduleMaker.CMD
                         //OpenShop openShop = new OpenShop(teachers);
                         OpenShopPSO openShopPSO = new OpenShopPSO(teachers, syllabuses);
                         openShopPSO.SetFunction(openShopPSO);
-                        openShopPSO.OpenShop.MakeSchedulesWithPriorities(syllabuses, openShopPSO.FindBestSchedulesPriorities());
+                        openShopPSO.ScheduleData.MakeSchedulesWithPriorities(syllabuses, openShopPSO.FindBestPriorities());
                         // Создание расписаний для всех учебных планов
                         //openShop.MakeSchedules(syllabuses);
 
                         // Вывод Учителей
-                        openShopPSO.OpenShop.OutputTeachersSchedules();
+                        openShopPSO.ScheduleData.OutputTeachersSchedules();
                         // Вывод расписания для каждого школьного класса
-                        openShopPSO.OpenShop.OutputClassSchedules();
+                        openShopPSO.ScheduleData.OutputClassSchedules();
 
-                        Console.WriteLine($"пробелы в расписании: {openShopPSO.OpenShop.FindGapsInAllSchedules()}");
+                        Console.WriteLine($"пробелы в расписании: {openShopPSO.ScheduleData.FindGapsInAllSchedules()}");
 
                         Console.WriteLine("\nПовторить процесс? (Нажмите любую клавишу).");
                         Console.ReadLine();

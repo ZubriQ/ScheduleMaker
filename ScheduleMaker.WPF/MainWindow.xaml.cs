@@ -31,7 +31,7 @@ namespace ScheduleMaker.WPF
         /// <summary>
         /// Список учебных планов.
         /// </summary>
-        public Syllabus[] Syllabuses;
+        public Syllabus[] Syllabi;
 
         /// <summary>
         /// Список всех учителей в школе.
@@ -72,12 +72,9 @@ namespace ScheduleMaker.WPF
             Teachers.Add(new Teacher(1, subjects[1]));
 
             // Кол-во Учебных планов
-            Syllabuses = new Syllabus[SyllabusesCount];
+            Syllabi = new Syllabus[SyllabusesCount];
 
-            // Вызов Open Shop
-            //OpenShop = new OpenShop(Teachers);
-
-            OpenShopPSO = new OpenShopPSO(Teachers, Syllabuses);
+            OpenShopPSO = new OpenShopPSO();
         }
 
         private void scheduleButton_Click(object sender, RoutedEventArgs e)
@@ -86,12 +83,12 @@ namespace ScheduleMaker.WPF
             if (SchedulesItemsControl.ItemsSource != null)
             {
                 ClassSchedulesList.Clear();
-                Syllabuses = new Syllabus[SyllabusesCount];
+                Syllabi = new Syllabus[SyllabusesCount];
                 Teachers.Clear();
                 //SchedulesList.Clear();
                 Teachers.Add(new Teacher(0, subjects[0]));
                 Teachers.Add(new Teacher(1, subjects[1]));
-                OpenShopPSO = new OpenShopPSO(Teachers, Syllabuses);
+                OpenShopPSO = new OpenShopPSO(Teachers, Syllabi);
                 SchedulesItemsControl.ItemsSource = null;
             }
             // Планы предметов в Учебных планах
@@ -117,23 +114,25 @@ namespace ScheduleMaker.WPF
             Syllabus syllabus2 = new Syllabus(1, class2, subjects2);
             Syllabus syllabus3 = new Syllabus(2, class3, subjects3);
             Syllabus syllabus4 = new Syllabus(3, class4, subjects4);
-            Syllabuses[0] = syllabus1;
-            Syllabuses[1] = syllabus2;
-            Syllabuses[2] = syllabus3;
-            Syllabuses[3] = syllabus4;
+            Syllabi[0] = syllabus1;
+            Syllabi[1] = syllabus2;
+            Syllabi[2] = syllabus3;
+            Syllabi[3] = syllabus4;
             // Присвоение фитнесс функции
+            OpenShopPSO = new OpenShopPSO(Teachers, Syllabi);
             OpenShopPSO.SetFunction(OpenShopPSO);
             // Создать расписания
-            OpenShopPSO.OpenShop.MakeSchedulesWithPriorities(Syllabuses, OpenShopPSO.FindBestSchedulesPriorities());
+            ScheduleData scheduleData = new ScheduleData(Teachers, Syllabi);
+            OpenShopPSO.ScheduleConstructor.MakeSchedules(scheduleData, OpenShopPSO.FindBestPriorities());
             // Проверка пробелов между уроками в расписании 
-            int k = OpenShopPSO.OpenShop.FindGapsInAllSchedules();
+            int k = OpenShopPSO.ScheduleEvaluator.FindGapsInAllSchedules();
             int t = 0;
             //OpenShop.MakeSchedules(Syllabuses);
 
             // Создание расписания для классов
             for (int i = 0; i < SyllabusesCount; i++)
             {
-                Schedule schedule = OpenShopPSO.OpenShop.SchedulesList[i];
+                Schedule schedule = OpenShopPSO.ScheduleConstructor.SchedulesList[i];
                 //SchedulesList.Add(schedule);
                 ClassSchedule classSchedule = new ClassSchedule(schedule.Class.Name, DecodeClassSchedule(schedule));
                 ClassSchedulesList.Add(classSchedule);

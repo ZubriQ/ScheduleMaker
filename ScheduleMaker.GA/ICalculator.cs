@@ -2,10 +2,6 @@
 {
     public interface ICalculator
     {
-        /// <summary>Название функции.</summary>
-        /// <returns>Название функции.</returns>
-        string FunctionName { get; }
-
         /// <summary>
         /// Приспособленность особи с несколькими значениями.
         /// </summary>
