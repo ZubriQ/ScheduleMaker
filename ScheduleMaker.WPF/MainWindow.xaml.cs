@@ -88,7 +88,6 @@ namespace ScheduleMaker.WPF
                 //SchedulesList.Clear();
                 Teachers.Add(new Teacher(0, subjects[0]));
                 Teachers.Add(new Teacher(1, subjects[1]));
-                OpenShopPSO = new OpenShopPSO(Teachers, Syllabi);
                 SchedulesItemsControl.ItemsSource = null;
             }
             // Планы предметов в Учебных планах
@@ -119,7 +118,8 @@ namespace ScheduleMaker.WPF
             Syllabi[2] = syllabus3;
             Syllabi[3] = syllabus4;
             // Присвоение фитнесс функции
-            OpenShopPSO = new OpenShopPSO(Teachers, Syllabi);
+            //OpenShopPSO = new OpenShopPSO(Teachers, Syllabi);
+            OpenShopPSO.SetData(Teachers, Syllabi);
             OpenShopPSO.SetFunction(OpenShopPSO);
             // Создать расписания
             ScheduleData scheduleData = new ScheduleData(Teachers, Syllabi);

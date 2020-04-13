@@ -50,7 +50,11 @@ namespace ScheduleMaker.OP.PSO
             ScheduleEvaluator = new ScheduleEvaluator();
         }
 
-        public OpenShopPSO() { }
+        public OpenShopPSO() 
+        {
+            ScheduleConstructor = new ScheduleConstructor();
+            ScheduleEvaluator = new ScheduleEvaluator();
+        }
 
         /// <summary>
         /// Фитнесс функция.
@@ -60,6 +64,11 @@ namespace ScheduleMaker.OP.PSO
         {
             Parameter parameters = new Parameter(-150, 150, 40, ScheduleData.LessonsCount);
             PSOController = new PSOController(parameters, calculator);
+        }
+
+        public void SetData(List<Teacher> teachers, Syllabus[] syllabi)
+        {
+            ScheduleData = new ScheduleData(teachers, syllabi);
         }
 
         /// <summary>
