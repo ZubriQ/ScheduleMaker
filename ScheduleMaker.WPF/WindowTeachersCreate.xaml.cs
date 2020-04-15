@@ -35,6 +35,7 @@ namespace ScheduleMaker.WPF
         {
             // TODO: должно быть много предметов
             App.Teachers.Add(new Teacher(App.Teachers.Count, lessonsListBox.SelectedItem as Subject));
+            this.Close();
         }
     }
 }

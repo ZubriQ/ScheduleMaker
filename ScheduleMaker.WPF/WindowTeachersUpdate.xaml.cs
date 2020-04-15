@@ -26,6 +26,7 @@ namespace ScheduleMaker.WPF
             InitializeComponent();
             Teacher = teacher;
             lessonsListBox.ItemsSource = App.Subjects;
+            label1.Content = "Редактирование " + teacher.Id + ".";
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)

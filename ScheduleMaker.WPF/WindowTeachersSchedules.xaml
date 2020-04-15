@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleMaker.WPF"
         mc:Ignorable="d"
-        Title="WindowTeachersSchedules" Height="450" Width="900">
+        Title="Расписания учителей" Height="450" Width="900">
     <Grid>
         <ItemsControl x:Name="TeachersItemsControl">
             <ItemsControl.ItemTemplate>
