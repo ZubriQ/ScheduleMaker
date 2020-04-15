@@ -1,4 +1,6 @@
 ﻿using ScheduleMaker.OP;
+using ScheduleMaker.OP.School;
+using ScheduleMaker.WPF.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,58 +22,42 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class WindowTeachers : Window
     {
-        public List<TeacherSchedule> teacherSchedules = new List<TeacherSchedule>();
-
-        public WindowTeachers(Machine[] teachers)
+        public WindowTeachers()
         {
             InitializeComponent();
-            DecodeTeachersSchedules(teachers);
-            TeachersItemsControl.ItemsSource = teacherSchedules;
+            teachersDataGrid.ItemsSource = App.Teachers;
         }
-        
-        public void DecodeTeachersSchedules(Machine[] teachers)
+
+        private void commandCreate_Click(object sender, RoutedEventArgs e)
         {
-            for (int t = 0; t < teachers.Length; t++)
+            WindowTeachersCreate window = new WindowTeachersCreate();
+            window.Show();
+        }
+
+        private void commandUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (teachersDataGrid.SelectedItem != null)
             {
-                // Инициализация 6 недель
-                List<Day> newSchedule = new List<Day>();
-                for (int i = 0; i < 6; i++)
-                {
-                    Lesson[] lessons = new Lesson[10];
-                    newSchedule.Add(new Day(i + 1, lessons));
-                }
-                // Добавление уроков в расписание
-                int indexOfLesson = 0;
-                while (indexOfLesson < 60)
-                {
-                    AddLesson(teachers, newSchedule, ref indexOfLesson, t);
-                }
-                TeacherSchedule teacherSchedule = new TeacherSchedule(teachers[t].Id.ToString(), newSchedule);
-                teacherSchedules.Add(teacherSchedule);
+                WindowTeachersUpdate window = new WindowTeachersUpdate(teachersDataGrid.SelectedItem as Teacher);
+                window.Show();
             }
         }
 
-        public void AddLesson(Machine[] teachers, List<Day> newSchedule, ref int indexOfLesson, int teacherId)
+        private void commandDelete_Click(object sender, RoutedEventArgs e)
         {
-            // Номер урока
-            for (int column = 0; column < 10; column++)
-            {
-                // день
-                for (int row = 0; row < 6; row++)
-                {
-                    if (teachers[teacherId].Lessons[indexOfLesson] != null)
-                    {
-                        newSchedule[row].Lessons[column] = new Lesson($"{column + 1}. " +
-                            $"{teachers[teacherId].Lessons[indexOfLesson].Subject.Name}");
-                    }
-                    else
-                    {
-                        newSchedule[row].Lessons[column] = new Lesson($"{column + 1}. ----");
-                    }
-                    indexOfLesson++;
-                }
-            }
+            App.Teachers.Remove(teachersDataGrid.SelectedItem as Teacher);
+            RefreshTable();
         }
 
+        private void commandRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshTable();
+        }
+
+        private void RefreshTable()
+        {
+            teachersDataGrid.ItemsSource = null;
+            teachersDataGrid.ItemsSource = App.Teachers;
+        }
     }
 }

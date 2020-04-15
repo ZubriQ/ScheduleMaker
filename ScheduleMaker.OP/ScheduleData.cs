@@ -17,7 +17,7 @@ namespace ScheduleMaker.OP
         /// <summary>
         /// Учебные планы.
         /// </summary>
-        public Syllabus[] Syllabi { get; set; }
+        public List<Syllabus> Syllabi { get; set; }
 
         /// <summary>
         /// Вектор со всеми уроками.
@@ -33,7 +33,7 @@ namespace ScheduleMaker.OP
         /// Конструктор Open Shop'a.
         /// </summary>
         /// <param name="teachers">Загрузка списка всех учителей в школе.</param>
-        public ScheduleData(List<Teacher> teachers, Syllabus[] syllabi)
+        public ScheduleData(List<Teacher> teachers, List<Syllabus> syllabi)
         {
             Teachers = new Machine[teachers.Count];
             InitializeTeachers(teachers);
@@ -58,10 +58,10 @@ namespace ScheduleMaker.OP
         /// Подсчитывает сумму всех уроков в учебных планах.
         /// </summary>
         /// <param name="syllabi">Учебные планы.</param>
-        public void InitializeLessonsCount(Syllabus[] syllabi)
+        public void InitializeLessonsCount(List<Syllabus> syllabi)
         {
             LessonsCount = 0;
-            for (int i = 0; i < syllabi.Length; i++)
+            for (int i = 0; i < syllabi.Count; i++)
             {
                 LessonsCount += syllabi[i].LessonsCount;
             }
@@ -74,7 +74,7 @@ namespace ScheduleMaker.OP
         {
             AllLessons = new Job[LessonsCount];
             int i = 0;
-            for (int s = 0; s < Syllabi.Length; s++)
+            for (int s = 0; s < Syllabi.Count; s++)
             {
                 for (int l = 0; l < Syllabi[s].LessonsCount; l++)
                 {

@@ -55,9 +55,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="TeacherSchedule.cs" />
+    <Compile Include="Model\TeacherSchedule.cs" />
     <Compile Include="WindowTeachers.xaml.cs">
       <DependentUpon>WindowTeachers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowTeachersCreate.xaml.cs">
+      <DependentUpon>WindowTeachersCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowTeachersSchedules.xaml.cs">
+      <DependentUpon>WindowTeachersSchedules.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowTeachersUpdate.xaml.cs">
+      <DependentUpon>WindowTeachersUpdate.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -67,14 +76,26 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ClassSchedule.cs" />
-    <Compile Include="Day.cs" />
-    <Compile Include="Lesson.cs" />
+    <Compile Include="Model\ClassSchedule.cs" />
+    <Compile Include="Model\Day.cs" />
+    <Compile Include="Model\Lesson.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="WindowTeachers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowTeachersCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowTeachersSchedules.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowTeachersUpdate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -115,5 +136,6 @@
       <Name>ScheduleMaker.OP</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ScheduleMaker.WPF
+namespace ScheduleMaker.WPF.Model
 {
     public class TeacherSchedule
     {

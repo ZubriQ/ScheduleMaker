@@ -1,6 +1,7 @@
 ﻿using ScheduleMaker.OP;
 using ScheduleMaker.OP.PSO;
 using ScheduleMaker.OP.School;
+using ScheduleMaker.WPF.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,58 +25,63 @@ namespace ScheduleMaker.WPF
     public partial class MainWindow : Window
     {
         /// <summary>
-        /// Список расписаний школьных классов.
-        /// </summary>
-        //public List<Schedule> SchedulesList = new List<Schedule>();
-
-        /// <summary>
-        /// Список учебных планов.
-        /// </summary>
-        public Syllabus[] Syllabi;
-
-        /// <summary>
-        /// Список всех учителей в школе.
-        /// </summary>
-        public List<Teacher> Teachers = new List<Teacher>();
-
-        /// <summary>
         /// Список расписаний для каждого школьного класса.
         /// </summary>
         public List<ClassSchedule> ClassSchedulesList = new List<ClassSchedule>();
 
-        /// <summary>
-        /// Все предметы в школе.
-        /// </summary>
-        public Subject[] subjects;
-
-        public Random rnd = new Random();
-
-        OpenShopPSO OpenShopPSO;
-
         // Параметры Open Shop и Учебного плана
-        public int TeachersCount = 2;
         public int SubjectsCount = 2;
-        public int SyllabusesCount = 4;
-        public int gaps = 0;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            // Определение всех видов предметов
-            subjects = new Subject[SubjectsCount];
-            subjects[0] = new Subject(0, "математика", 11);
-            subjects[1] = new Subject(1, "русский язык", 11);
-
-            // Все Учителя в школе
-            Teachers.Add(new Teacher(0, subjects[0]));
-            Teachers.Add(new Teacher(1, subjects[1]));
-
-            // Кол-во Учебных планов
-            Syllabi = new Syllabus[SyllabusesCount];
-
-            OpenShopPSO = new OpenShopPSO();
+            // Инициализация начальных данных
+            InitializeSchool();
         }
+
+        #region Initializations
+        private void InitializeSchool()
+        {
+            InitializeTypesOfLessons();
+            InitializeTeachers();
+        }
+
+        /// <summary>
+        /// Загрузка предметов.
+        /// </summary>
+        private void InitializeTypesOfLessons()
+        {
+            App.Subjects.Add(new Subject(0, "математика", 11));
+            App.Subjects.Add(new Subject(1, "русский язык", 11));
+            App.Subjects.Add(new Subject(2, "иностранный язык", 10));
+            App.Subjects.Add(new Subject(3, "физика", 9));
+            App.Subjects.Add(new Subject(4, "химия", 9));
+            App.Subjects.Add(new Subject(5, "информатика", 9));
+            App.Subjects.Add(new Subject(6, "история", 8));
+            App.Subjects.Add(new Subject(7, "обществознание", 8));
+            App.Subjects.Add(new Subject(8, "литература", 7));
+            App.Subjects.Add(new Subject(9, "биология", 6));
+            App.Subjects.Add(new Subject(10, "география", 6));
+            App.Subjects.Add(new Subject(11, "экономика", 6));
+            App.Subjects.Add(new Subject(12, "астрономия", 6));
+            App.Subjects.Add(new Subject(13, "физкультура", 5));
+            App.Subjects.Add(new Subject(14, "ОБЖ", 5));
+            App.Subjects.Add(new Subject(15, "технология", 4));
+            App.Subjects.Add(new Subject(16, "черчение", 3));
+            App.Subjects.Add(new Subject(17, "ИЗО", 2));
+            App.Subjects.Add(new Subject(18, "МХК", 2));
+            App.Subjects.Add(new Subject(19, "музыка", 1));
+        }
+
+        /// <summary>
+        /// Загрузка работающих учителей
+        /// </summary>
+        private void InitializeTeachers()
+        {
+            App.Teachers.Add(new Teacher(0, App.Subjects[0]));
+            App.Teachers.Add(new Teacher(1, App.Subjects[1]));
+        }
+        #endregion
 
         private void scheduleButton_Click(object sender, RoutedEventArgs e)
         {
@@ -83,26 +89,25 @@ namespace ScheduleMaker.WPF
             if (SchedulesItemsControl.ItemsSource != null)
             {
                 ClassSchedulesList.Clear();
-                Syllabi = new Syllabus[SyllabusesCount];
-                Teachers.Clear();
-                //SchedulesList.Clear();
-                Teachers.Add(new Teacher(0, subjects[0]));
-                Teachers.Add(new Teacher(1, subjects[1]));
+                App.Syllabi = new List<Syllabus>();
+                App.Teachers.Clear();
+                App.Teachers.Add(new Teacher(0, App.Subjects[0]));
+                App.Teachers.Add(new Teacher(1, App.Subjects[1]));
                 SchedulesItemsControl.ItemsSource = null;
             }
             // Планы предметов в Учебных планах
             SubjectPlan[] subjects1 = new SubjectPlan[SubjectsCount];
-            subjects1[0] = new SubjectPlan(subjects[0], 10);
-            subjects1[1] = new SubjectPlan(subjects[1], 10);
+            subjects1[0] = new SubjectPlan(App.Subjects[0], 10);
+            subjects1[1] = new SubjectPlan(App.Subjects[1], 10);
             SubjectPlan[] subjects2 = new SubjectPlan[SubjectsCount];
-            subjects2[0] = new SubjectPlan(subjects[0], 10);
-            subjects2[1] = new SubjectPlan(subjects[1], 10);
+            subjects2[0] = new SubjectPlan(App.Subjects[0], 10);
+            subjects2[1] = new SubjectPlan(App.Subjects[1], 10);
             SubjectPlan[] subjects3 = new SubjectPlan[SubjectsCount];
-            subjects3[0] = new SubjectPlan(subjects[0], 10);
-            subjects3[1] = new SubjectPlan(subjects[1], 10);
+            subjects3[0] = new SubjectPlan(App.Subjects[0], 10);
+            subjects3[1] = new SubjectPlan(App.Subjects[1], 10);
             SubjectPlan[] subjects4 = new SubjectPlan[SubjectsCount];
-            subjects4[0] = new SubjectPlan(subjects[0], 14);
-            subjects4[1] = new SubjectPlan(subjects[1], 14);
+            subjects4[0] = new SubjectPlan(App.Subjects[0], 14);
+            subjects4[1] = new SubjectPlan(App.Subjects[1], 14);
             // Классы
             Class class1 = new Class(0, "10А");
             Class class2 = new Class(0, "11Б");
@@ -113,26 +118,25 @@ namespace ScheduleMaker.WPF
             Syllabus syllabus2 = new Syllabus(1, class2, subjects2);
             Syllabus syllabus3 = new Syllabus(2, class3, subjects3);
             Syllabus syllabus4 = new Syllabus(3, class4, subjects4);
-            Syllabi[0] = syllabus1;
-            Syllabi[1] = syllabus2;
-            Syllabi[2] = syllabus3;
-            Syllabi[3] = syllabus4;
+            App.Syllabi.Add(syllabus1);
+            App.Syllabi.Add(syllabus2);
+            App.Syllabi.Add(syllabus3);
+            App.Syllabi.Add(syllabus4);
             // Присвоение фитнесс функции
             //OpenShopPSO = new OpenShopPSO(Teachers, Syllabi);
-            OpenShopPSO.SetData(Teachers, Syllabi);
-            OpenShopPSO.SetFunction(OpenShopPSO);
+            App.OpenShopPSO.SetData(App.Teachers, App.Syllabi);
+            App.OpenShopPSO.SetFunction(App.OpenShopPSO);
             // Создать расписания
-            ScheduleData scheduleData = new ScheduleData(Teachers, Syllabi);
-            OpenShopPSO.ScheduleConstructor.MakeSchedules(scheduleData, OpenShopPSO.FindBestPriorities());
+            ScheduleData scheduleData = new ScheduleData(App.Teachers, App.Syllabi);
+            App.OpenShopPSO.ScheduleConstructor.MakeSchedules(scheduleData, App.OpenShopPSO.FindBestPriorities());
             // Проверка пробелов между уроками в расписании 
-            int k = OpenShopPSO.ScheduleEvaluator.FindGapsInAllSchedules();
+            int k = App.OpenShopPSO.ScheduleEvaluator.FindGapsInAllSchedules();
             int t = 0;
-            //OpenShop.MakeSchedules(Syllabuses);
 
             // Создание расписания для классов
-            for (int i = 0; i < SyllabusesCount; i++)
+            for (int i = 0; i < App.Syllabi.Count; i++)
             {
-                Schedule schedule = OpenShopPSO.ScheduleConstructor.SchedulesList[i];
+                Schedule schedule = App.OpenShopPSO.ScheduleConstructor.SchedulesList[i];
                 //SchedulesList.Add(schedule);
                 ClassSchedule classSchedule = new ClassSchedule(schedule.Class.Name, DecodeClassSchedule(schedule));
                 ClassSchedulesList.Add(classSchedule);
@@ -142,6 +146,7 @@ namespace ScheduleMaker.WPF
             SchedulesItemsControl.ItemsSource = ClassSchedulesList;
         }
 
+        #region Decode schedules
         /// <summary>
         /// Создание расписания для класса.
         /// </summary>
@@ -192,11 +197,21 @@ namespace ScheduleMaker.WPF
                 }
             }
         }
+        #endregion
 
-        // учителя
-        private void showTeachersButton_Click(object sender, RoutedEventArgs e)
+        // Учителя
+        private void teachersSchedulesMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            WindowTeachers window = new WindowTeachers(OpenShopPSO.Teachers);
+            if (App.OpenShopPSO.ScheduleData != null)
+            {
+                WindowTeachersSchedules window = new WindowTeachersSchedules();
+                window.Show();
+            }
+        }
+
+        private void teachersMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowTeachers window = new WindowTeachers();
             window.Show();
         }
     }

@@ -21,10 +21,10 @@ namespace ScheduleMaker.OP
         /// Инициализировать расписания.
         /// </summary>
         /// <param name="syllabi">Учебные планы.</param>
-        private void InitializeSchedules(Syllabus[] syllabi)
+        private void InitializeSchedules(List<Syllabus> syllabi)
         {
             SchedulesList.Clear();
-            for (int i = 0; i < syllabi.Length; i++)
+            for (int i = 0; i < syllabi.Count; i++)
             {
                 Schedule schedule = new Schedule(SchedulesList.Count, syllabi[i].Id, syllabi[i].Class);
                 SchedulesList.Add(schedule);

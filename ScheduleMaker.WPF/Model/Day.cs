@@ -1,4 +1,4 @@
-﻿namespace ScheduleMaker.WPF
+﻿namespace ScheduleMaker.WPF.Model
 {
     public class Day
     {

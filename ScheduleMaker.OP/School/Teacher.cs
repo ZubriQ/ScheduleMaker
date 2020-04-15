@@ -13,7 +13,7 @@
         /// <summary>
         /// Предмет, который ведет учитель.
         /// </summary>
-        private Subject subject { get; } // Пока что Учитель ведет только 1 предмет
+        public Subject Subject { get; set; } // Пока что Учитель ведет только 1 предмет
 
         //private string teacherName
 
@@ -25,11 +25,14 @@
         public Teacher(int id, Subject subject)
         {
             this.id = id;
-            this.subject = subject;
+            Subject = subject;
+        }
+
+        public void Update(Subject subject)
+        {
+            Subject = subject;
         }
 
         public int Id => id;
-
-        public Subject Subject => subject;
     }
 }

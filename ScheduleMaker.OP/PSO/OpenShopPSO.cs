@@ -1,9 +1,7 @@
 ﻿using ScheduleMaker.GA;
 using ScheduleMaker.OP.School;
 using ScheduleMaker.PSO;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ScheduleMaker.OP.PSO
 {
@@ -31,7 +29,7 @@ namespace ScheduleMaker.OP.PSO
 
         public Machine[] Teachers => ScheduleData.Teachers;
 
-        public OpenShopPSO(List<Teacher> teachers, Syllabus[] syllabi, ICalculator calculator)
+        public OpenShopPSO(List<Teacher> teachers, List<Syllabus> syllabi, ICalculator calculator)
         {
             ScheduleData = new ScheduleData(teachers, syllabi);
             Parameter parameters = new Parameter(-300, 300, 40, ScheduleData.LessonsCount);
@@ -43,7 +41,7 @@ namespace ScheduleMaker.OP.PSO
         /// </summary>
         /// <param name="teachers">Учителя.</param>
         /// <param name="syllabi">Учебные планы.</param>
-        public OpenShopPSO(List<Teacher> teachers, Syllabus[] syllabi)
+        public OpenShopPSO(List<Teacher> teachers, List<Syllabus> syllabi)
         {
             ScheduleData = new ScheduleData(teachers, syllabi);
             ScheduleConstructor = new ScheduleConstructor();
@@ -66,7 +64,7 @@ namespace ScheduleMaker.OP.PSO
             PSOController = new PSOController(parameters, calculator);
         }
 
-        public void SetData(List<Teacher> teachers, Syllabus[] syllabi)
+        public void SetData(List<Teacher> teachers, List<Syllabus> syllabi)
         {
             ScheduleData = new ScheduleData(teachers, syllabi);
         }
@@ -84,8 +82,6 @@ namespace ScheduleMaker.OP.PSO
 
         public double Fitness(double[] values)
         {
-            //Array.Copy(OpenShop.AllLessons, OpenShop.TempLessons, OpenShop.AllLessons.Length);
-            //Array.Sort(values, OpenShop.TempLessons);
             ScheduleConstructor.MakeSchedules(ScheduleData, values);
             int gapsCount = ScheduleEvaluator.EstimateSchedule(ScheduleConstructor.SchedulesList);
             return gapsCount;

@@ -5,18 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleMaker.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="780" Width="1015">
+        Title="Составитель Расписаний" Height="780" Width="1015">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.5*"/>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="131*"/>
+            <ColumnDefinition Width="232*"/>
+            <ColumnDefinition Width="644*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Background="Lavender" Grid.Column="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.ColumnSpan="3" Padding="3">
+            <MenuItem  Header="Учителя" Margin="2,0,2,0">
+                <MenuItem x:Name="teachersMenuItem" Header="Просмотр учителей" Click="teachersMenuItem_Click"/>
+                <MenuItem x:Name="teachersSchedulesMenuItem" Header="Расписания учителей" Click="teachersSchedulesMenuItem_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="classesMenuItem" Header="Классы" Margin="2,0,2,0"/>
+            <MenuItem x:Name="syllabiMenuItem" Header="Учебные планы" Margin="2,0,2,0"/>
+            <MenuItem Header="Справочники" Margin="2,0,2,0">
+                <MenuItem x:Name="lessonsMenuItem" Header="Уроки"/>
+                <MenuItem x:Name="classroomsMenuItem" Header="Кабинеты"/>
+            </MenuItem>
+            <MenuItem x:Name="aboutMenuItem" Header="О программе" Margin="2,0,2,0"/>
+        </Menu>
+
+        <StackPanel Background="Lavender" Grid.Column="0" Margin="0,24,0,0" Grid.RowSpan="2">
             <Button x:Name="scheduleButton" Content="Расписание" Margin="5" Click="scheduleButton_Click"/>
-            <Button x:Name="showTeachersButton" Content="Учителя" Margin="5" Click="showTeachersButton_Click"/>
         </StackPanel>
 
-        <ItemsControl x:Name="SchedulesItemsControl" Grid.Column="1">
+        <ItemsControl x:Name="SchedulesItemsControl" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,24,0,0" Grid.RowSpan="2">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Margin="5">

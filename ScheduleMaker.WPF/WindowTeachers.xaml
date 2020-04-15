@@ -5,57 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleMaker.WPF"
         mc:Ignorable="d"
-        Title="WindowTeachers" Height="450" Width="900">
+        Title="WindowTeachers" Height="450" Width="800">
     <Grid>
-        <ItemsControl x:Name="TeachersItemsControl">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel Margin="5">
-                        <!--Учитель-->
-                        <TextBlock Text="{Binding FullName}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
-                        <!--Расписание-->
-                        <ItemsControl ItemsSource="{Binding Schedule}" Background="AntiqueWhite">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <!--Дни-->
-                                        <StackPanel>
-                                            <TextBlock Margin="2,4,2,4">
-                                <Run Text="{Binding Id}"/>
-                                <Run Text="День "/>
-                                            </TextBlock>
-                                        </StackPanel>
-                                        <!--Уроки-->
-                                        <StackPanel>
-                                            <ItemsControl ItemsSource="{Binding Lessons}">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Name}" Margin="2,4,2,4"/>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <WrapPanel Orientation="Horizontal"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                            </ItemsControl>
-                                        </StackPanel>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </DockPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-            <!--Скролл-->
-            <ItemsControl.Template>
-                <ControlTemplate>
-                    <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
+        <Menu Padding="3">
+            <MenuItem x:Name="commandCreate" Header="Добавить" Margin="2,0,2,0" Click="commandCreate_Click"/>
+            <MenuItem x:Name="commandUpdate" Header="Изменить" Margin="2,0,2,0" Click="commandUpdate_Click"/>
+            <MenuItem x:Name="commandDelete" Header="Удалить" Margin="2,0,2,0" Click="commandDelete_Click"/>
+            <MenuItem x:Name="commandRefresh" Header="Обновить" Margin="2,0,2,0" Click="commandRefresh_Click"/>
+        </Menu>
+
+        <DataGrid x:Name="teachersDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ф.И.О." Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Предметы, которые ведет учитель" Binding="{Binding Subject.Name}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
