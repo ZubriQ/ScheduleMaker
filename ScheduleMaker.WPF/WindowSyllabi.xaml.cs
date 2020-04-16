@@ -1,6 +1,4 @@
-﻿using ScheduleMaker.OP;
-using ScheduleMaker.OP.School;
-using ScheduleMaker.WPF.Model;
+﻿using ScheduleMaker.OP.School;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,38 +16,38 @@ using System.Windows.Shapes;
 namespace ScheduleMaker.WPF
 {
     /// <summary>
-    /// Логика взаимодействия для WindowTeachers.xaml
+    /// Логика взаимодействия для WindowSyllabi.xaml
     /// </summary>
-    public partial class WindowTeachers : Window
+    public partial class WindowSyllabi : Window
     {
-        public WindowTeachers()
+        public WindowSyllabi()
         {
             InitializeComponent();
-            teachersDataGrid.ItemsSource = App.Teachers;
+            syllabiDataGrid.ItemsSource = App.Syllabi;
         }
 
         private void commandCreate_Click(object sender, RoutedEventArgs e)
         {
-            WindowTeachersCreate window = new WindowTeachersCreate();
+            WindowSyllabiCreate window = new WindowSyllabiCreate();
             window.Show();
         }
 
         private void commandUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (teachersDataGrid.SelectedItem != null)
+            if (syllabiDataGrid.SelectedItem != null)
             {
-                WindowTeachersUpdate window = new WindowTeachersUpdate(teachersDataGrid.SelectedItem as Teacher);
+                WindowSyllabiUpdate window = new WindowSyllabiUpdate(syllabiDataGrid.SelectedItem as Syllabus);
                 window.Show();
             }
         }
 
         private void commandDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (teachersDataGrid.SelectedItem != null)
+            if (syllabiDataGrid.SelectedItem != null)
             {
-                App.Teachers.Remove(teachersDataGrid.SelectedItem as Teacher);
-                RefreshTable();
+                App.Syllabi.Remove(syllabiDataGrid.SelectedItem as Syllabus);
             }
+            RefreshTable();
         }
 
         private void commandRefresh_Click(object sender, RoutedEventArgs e)
@@ -59,8 +57,8 @@ namespace ScheduleMaker.WPF
 
         private void RefreshTable()
         {
-            teachersDataGrid.ItemsSource = null;
-            teachersDataGrid.ItemsSource = App.Teachers;
+            syllabiDataGrid.ItemsSource = null;
+            syllabiDataGrid.ItemsSource = App.Syllabi;
         }
     }
 }

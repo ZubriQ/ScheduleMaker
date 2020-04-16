@@ -38,6 +38,26 @@ namespace ScheduleMaker.OP.School
         private int lessonsCount { get; }
 
         /// <summary>
+        /// Вывод списка всех предметов
+        /// </summary>
+        public string AllSubjects
+        {
+            get
+            {
+                string result = "";
+                for (int i = 0; i < subjectPlans.Length; i++)
+                {
+                    result += subjectPlans[i].Subject.Name;
+                    if (i < subjectPlans.Length - 1)
+                    {
+                        result += ", ";
+                    }
+                }
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Конструктор Учебного плана.
         /// </summary>
         /// <param name="id">Уникальный ключ.</param>

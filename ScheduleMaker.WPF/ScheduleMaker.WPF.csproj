@@ -65,14 +65,23 @@
     <Compile Include="WindowClassesUpdate.xaml.cs">
       <DependentUpon>WindowClassesUpdate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowLessons.xaml.cs">
-      <DependentUpon>WindowLessons.xaml</DependentUpon>
+    <Compile Include="WindowSubjects.xaml.cs">
+      <DependentUpon>WindowSubjects.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowLessonsCreate.xaml.cs">
-      <DependentUpon>WindowLessonsCreate.xaml</DependentUpon>
+    <Compile Include="WindowSubjectsCreate.xaml.cs">
+      <DependentUpon>WindowSubjectsCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowLessonsUpdate.xaml.cs">
-      <DependentUpon>WindowLessonsUpdate.xaml</DependentUpon>
+    <Compile Include="WindowSubjectsUpdate.xaml.cs">
+      <DependentUpon>WindowSubjectsUpdate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowSyllabi.xaml.cs">
+      <DependentUpon>WindowSyllabi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowSyllabiCreate.xaml.cs">
+      <DependentUpon>WindowSyllabiCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowSyllabiUpdate.xaml.cs">
+      <DependentUpon>WindowSyllabiUpdate.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowTeachers.xaml.cs">
       <DependentUpon>WindowTeachers.xaml</DependentUpon>
@@ -113,15 +122,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WindowLessons.xaml">
+    <Page Include="WindowSubjects.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WindowLessonsCreate.xaml">
+    <Page Include="WindowSubjectsCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WindowLessonsUpdate.xaml">
+    <Page Include="WindowSubjectsUpdate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowSyllabi.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowSyllabiCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowSyllabiUpdate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -17,9 +17,9 @@ namespace ScheduleMaker.WPF
     /// <summary>
     /// Логика взаимодействия для WindowLessonsCreate.xaml
     /// </summary>
-    public partial class WindowLessonsCreate : Window
+    public partial class WindowSubjectsCreate : Window
     {
-        public WindowLessonsCreate()
+        public WindowSubjectsCreate()
         {
             InitializeComponent();
         }

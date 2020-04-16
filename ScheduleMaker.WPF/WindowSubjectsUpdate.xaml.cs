@@ -18,10 +18,10 @@ namespace ScheduleMaker.WPF
     /// <summary>
     /// Логика взаимодействия для WindowLessonsUpdate.xaml
     /// </summary>
-    public partial class WindowLessonsUpdate : Window
+    public partial class WindowSubjectsUpdate : Window
     {
         Subject Subject;
-        public WindowLessonsUpdate(Subject subject)
+        public WindowSubjectsUpdate(Subject subject)
         {
             InitializeComponent();
             Subject = subject;

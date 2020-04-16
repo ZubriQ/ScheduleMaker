@@ -53,8 +53,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="updateButton" Content="Изменить" Width="100" Height="30" Margin="5" Click="updateButton_Click" Background="#f7fbfc"/>
-            <Button x:Name="cancelButton" Content="Отмена" Width="100" Height="30" Grid.Column="1" Margin="5" Click="cancelButton_Click" Background="#f7fbfc"/>
+            <Button x:Name="updateButton" Content="Изменить" Width="100" Margin="5" Click="updateButton_Click" Background="#f7fbfc"/>
+            <Button x:Name="cancelButton" Content="Отмена" Width="100" Grid.Column="1" Margin="5" Click="cancelButton_Click" Background="#f7fbfc"/>
         </Grid>
     </Grid>
 </Window>

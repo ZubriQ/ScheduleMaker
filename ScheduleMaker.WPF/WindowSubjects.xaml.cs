@@ -18,9 +18,9 @@ namespace ScheduleMaker.WPF
     /// <summary>
     /// Логика взаимодействия для WindowLessons.xaml
     /// </summary>
-    public partial class WindowLessons : Window
+    public partial class WindowSubjects : Window
     {
-        public WindowLessons()
+        public WindowSubjects()
         {
             InitializeComponent();
             lessonsDataGrid.ItemsSource = App.Subjects;
@@ -28,7 +28,7 @@ namespace ScheduleMaker.WPF
 
         private void commandCreate_Click(object sender, RoutedEventArgs e)
         {
-            WindowLessonsCreate window = new WindowLessonsCreate();
+            WindowSubjectsCreate window = new WindowSubjectsCreate();
             window.Show();
         }
 
@@ -36,7 +36,7 @@ namespace ScheduleMaker.WPF
         {
             if (lessonsDataGrid.SelectedItem != null)
             {
-                WindowLessonsUpdate window = new WindowLessonsUpdate(lessonsDataGrid.SelectedItem as Subject);
+                WindowSubjectsUpdate window = new WindowSubjectsUpdate(lessonsDataGrid.SelectedItem as Subject);
                 window.Show();
             }
         }
