@@ -221,5 +221,11 @@ namespace ScheduleMaker.WPF
             WindowClasses window = new WindowClasses();
             window.Show();
         }
+
+        private void lessonsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowLessons window = new WindowLessons();
+            window.Show();
+        }
     }
 }

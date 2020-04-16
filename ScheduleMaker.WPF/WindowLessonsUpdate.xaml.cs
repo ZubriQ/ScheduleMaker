@@ -16,17 +16,18 @@ using System.Windows.Shapes;
 namespace ScheduleMaker.WPF
 {
     /// <summary>
-    /// Логика взаимодействия для WindowClassesUpdate.xaml
+    /// Логика взаимодействия для WindowLessonsUpdate.xaml
     /// </summary>
-    public partial class WindowClassesUpdate : Window
+    public partial class WindowLessonsUpdate : Window
     {
-        Class Class;
-        public WindowClassesUpdate(Class @class)
+        Subject Subject;
+        public WindowLessonsUpdate(Subject subject)
         {
             InitializeComponent();
-            Class = @class;
-            nameTextBox.Text = @class.Name;
-            label1.Content = "Редактирование " + @class.Name + ".";
+            Subject = subject;
+            nameTextBox.Text = subject.Name;
+            difficultyTextBox.Text = subject.Difficulty.ToString();
+            label1.Content = "Редактирование " + subject.Name + ".";
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -36,7 +37,8 @@ namespace ScheduleMaker.WPF
 
         private void updateButton_Click(object sender, RoutedEventArgs e)
         {
-            Class.Name = nameTextBox.Text;
+            Subject.Name = nameTextBox.Text;
+            Subject.Difficulty = Convert.ToInt32(difficultyTextBox.Text);
             Close();
         }
     }

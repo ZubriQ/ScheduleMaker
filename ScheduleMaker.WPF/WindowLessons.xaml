@@ -1,0 +1,29 @@
+﻿<Window x:Class="ScheduleMaker.WPF.WindowLessons"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScheduleMaker.WPF"
+        mc:Ignorable="d"
+        Title="Управление уроками" Height="450" Width="400">
+    <Grid Background="#d6e6f2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Menu Padding="3" Background="SteelBlue">
+            <MenuItem x:Name="commandCreate" Header="Добавить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandCreate_Click"/>
+            <MenuItem x:Name="commandUpdate" Header="Изменить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandUpdate_Click"/>
+            <MenuItem x:Name="commandDelete" Header="Удалить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandDelete_Click"/>
+            <MenuItem x:Name="commandRefresh" Header="Обновить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandRefresh_Click"/>
+        </Menu>
+
+        <DataGrid x:Name="lessonsDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" Background="#f7fbfc">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Сложность предмета" Binding="{Binding Difficulty}" Width="145"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

@@ -25,7 +25,7 @@
             <MenuItem x:Name="classesMenuItem" Header="Классы" Margin="2,0,2,0" Background="#f7fbfc" Click="classesMenuItem_Click"/>
             <MenuItem x:Name="syllabiMenuItem" Header="Учебные планы" Margin="2,0,2,0" Background="#f7fbfc"/>
             <MenuItem Header="Справочники" Margin="2,0,2,0" Background="#f7fbfc">
-                <MenuItem x:Name="lessonsMenuItem" Header="Уроки"/>
+                <MenuItem x:Name="lessonsMenuItem" Header="Уроки" Click="lessonsMenuItem_Click"/>
                 <MenuItem x:Name="classroomsMenuItem" Header="Кабинеты"/>
             </MenuItem>
             <MenuItem x:Name="aboutMenuItem" Header="О программе" Margin="2,0,2,0" Background="#f7fbfc"/>

@@ -65,6 +65,15 @@
     <Compile Include="WindowClassesUpdate.xaml.cs">
       <DependentUpon>WindowClassesUpdate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowLessons.xaml.cs">
+      <DependentUpon>WindowLessons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowLessonsCreate.xaml.cs">
+      <DependentUpon>WindowLessonsCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowLessonsUpdate.xaml.cs">
+      <DependentUpon>WindowLessonsUpdate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowTeachers.xaml.cs">
       <DependentUpon>WindowTeachers.xaml</DependentUpon>
     </Compile>
@@ -101,6 +110,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WindowClassesUpdate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowLessons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowLessonsCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowLessonsUpdate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

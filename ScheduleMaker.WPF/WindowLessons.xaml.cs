@@ -16,38 +16,38 @@ using System.Windows.Shapes;
 namespace ScheduleMaker.WPF
 {
     /// <summary>
-    /// Логика взаимодействия для WindowClasses.xaml
+    /// Логика взаимодействия для WindowLessons.xaml
     /// </summary>
-    public partial class WindowClasses : Window
+    public partial class WindowLessons : Window
     {
-        public WindowClasses()
+        public WindowLessons()
         {
             InitializeComponent();
-            classesDataGrid.ItemsSource = App.Classes;
+            lessonsDataGrid.ItemsSource = App.Subjects;
         }
 
         private void commandCreate_Click(object sender, RoutedEventArgs e)
         {
-            WindowClassesCreate window = new WindowClassesCreate();
+            WindowLessonsCreate window = new WindowLessonsCreate();
             window.Show();
         }
 
         private void commandUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (classesDataGrid.SelectedItem != null)
+            if (lessonsDataGrid.SelectedItem != null)
             {
-                WindowClassesUpdate window = new WindowClassesUpdate(classesDataGrid.SelectedItem as Class);
+                WindowLessonsUpdate window = new WindowLessonsUpdate(lessonsDataGrid.SelectedItem as Subject);
                 window.Show();
             }
         }
 
         private void commandDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (classesDataGrid.SelectedItem != null)
+            if (lessonsDataGrid.SelectedItem != null)
             {
-                App.Classes.Remove(classesDataGrid.SelectedItem as Class);
-                RefreshTable();
+                App.Subjects.Remove(lessonsDataGrid.SelectedItem as Subject);
             }
+            RefreshTable();
         }
 
         private void commandRefresh_Click(object sender, RoutedEventArgs e)
@@ -57,8 +57,8 @@ namespace ScheduleMaker.WPF
 
         private void RefreshTable()
         {
-            classesDataGrid.ItemsSource = null;
-            classesDataGrid.ItemsSource = App.Classes;
+            lessonsDataGrid.ItemsSource = null;
+            lessonsDataGrid.ItemsSource = App.Subjects;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using ScheduleMaker.OP.School;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,17 +15,13 @@ using System.Windows.Shapes;
 namespace ScheduleMaker.WPF
 {
     /// <summary>
-    /// Логика взаимодействия для WindowClassesUpdate.xaml
+    /// Логика взаимодействия для WindowLessonsCreate.xaml
     /// </summary>
-    public partial class WindowClassesUpdate : Window
+    public partial class WindowLessonsCreate : Window
     {
-        Class Class;
-        public WindowClassesUpdate(Class @class)
+        public WindowLessonsCreate()
         {
             InitializeComponent();
-            Class = @class;
-            nameTextBox.Text = @class.Name;
-            label1.Content = "Редактирование " + @class.Name + ".";
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -34,9 +29,11 @@ namespace ScheduleMaker.WPF
             Close();
         }
 
-        private void updateButton_Click(object sender, RoutedEventArgs e)
+        private void createButton_Click(object sender, RoutedEventArgs e)
         {
-            Class.Name = nameTextBox.Text;
+            App.Subjects.Add(new OP.School.Subject(App.Subjects.Count,
+                                                   nameTextBox.Text,
+                                                   Convert.ToInt32(difficultyTextBox.Text)));
             Close();
         }
     }
