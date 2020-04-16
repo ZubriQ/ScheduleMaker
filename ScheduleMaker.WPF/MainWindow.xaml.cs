@@ -94,6 +94,7 @@ namespace ScheduleMaker.WPF
                 App.Teachers.Add(new Teacher(0, App.Subjects[0]));
                 App.Teachers.Add(new Teacher(1, App.Subjects[1]));
                 SchedulesItemsControl.ItemsSource = null;
+                App.Classes.Clear();
             }
             // Планы предметов в Учебных планах
             SubjectPlan[] subjects1 = new SubjectPlan[SubjectsCount];
@@ -109,15 +110,15 @@ namespace ScheduleMaker.WPF
             subjects4[0] = new SubjectPlan(App.Subjects[0], 14);
             subjects4[1] = new SubjectPlan(App.Subjects[1], 14);
             // Классы
-            Class class1 = new Class(0, "10А");
-            Class class2 = new Class(0, "11Б");
-            Class class3 = new Class(0, "11В");
-            Class class4 = new Class(0, "9Г");
+            App.Classes.Add(new Class(0, "10А"));
+            App.Classes.Add(new Class(1, "11Б"));
+            App.Classes.Add(new Class(2, "11В"));
+            App.Classes.Add(new Class(3, "9Г"));
             // Учебные планы
-            Syllabus syllabus1 = new Syllabus(0, class1, subjects1);
-            Syllabus syllabus2 = new Syllabus(1, class2, subjects2);
-            Syllabus syllabus3 = new Syllabus(2, class3, subjects3);
-            Syllabus syllabus4 = new Syllabus(3, class4, subjects4);
+            Syllabus syllabus1 = new Syllabus(0, App.Classes[0], subjects1);
+            Syllabus syllabus2 = new Syllabus(1, App.Classes[1], subjects2);
+            Syllabus syllabus3 = new Syllabus(2, App.Classes[2], subjects3);
+            Syllabus syllabus4 = new Syllabus(3, App.Classes[3], subjects4);
             App.Syllabi.Add(syllabus1);
             App.Syllabi.Add(syllabus2);
             App.Syllabi.Add(syllabus3);
@@ -212,6 +213,12 @@ namespace ScheduleMaker.WPF
         private void teachersMenuItem_Click(object sender, RoutedEventArgs e)
         {
             WindowTeachers window = new WindowTeachers();
+            window.Show();
+        }
+
+        private void classesMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowClasses window = new WindowClasses();
             window.Show();
         }
     }

@@ -11,40 +11,42 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Margin="5" Background="#d6e6f2">
-            <Label Content="Добавить нового учителя." HorizontalAlignment="Center"/>
-            <DockPanel Margin="5" Width="200">
-                <Label Content="Имя:" />
-                <TextBox x:Name="nameTextBox" VerticalContentAlignment="Center"/>
-            </DockPanel>
-            <DockPanel Margin="5" Width="200">
-                <Label Content="Фамилия:" />
-                <TextBox x:Name="secondNameTextBox" VerticalContentAlignment="Center" />
-            </DockPanel>
-            <DockPanel Margin="5" Width="200">
-                <Label Content="Отчество:" />
-                <TextBox x:Name="middleNameTextBox" VerticalContentAlignment="Center"/>
-            </DockPanel>
+        <Border Margin="5" BorderThickness="2" BorderBrush="LightGreen">
+            <StackPanel  Background="#d6e6f2">
+                <Label Content="Добавить нового учителя." HorizontalAlignment="Center"/>
+                <DockPanel Margin="5" Width="200">
+                    <Label Content="Имя:" />
+                    <TextBox x:Name="nameTextBox" VerticalContentAlignment="Center"/>
+                </DockPanel>
+                <DockPanel Margin="5" Width="200">
+                    <Label Content="Фамилия:" />
+                    <TextBox x:Name="secondNameTextBox" VerticalContentAlignment="Center" />
+                </DockPanel>
+                <DockPanel Margin="5" Width="200">
+                    <Label Content="Отчество:" />
+                    <TextBox x:Name="middleNameTextBox" VerticalContentAlignment="Center"/>
+                </DockPanel>
 
-            <Label Content="Выделите уроки, которые будут вестись учителем:" HorizontalAlignment="Center"/>
-            <ListBox x:Name="lessonsListBox" SelectionMode="Multiple" Margin="5" 
+                <Label Content="Выделите уроки, которые будут вестись учителем:" HorizontalAlignment="Center"/>
+                <ListBox x:Name="lessonsListBox" SelectionMode="Multiple" Margin="5" 
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" Padding="1"
                      Background="#f7fbfc">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Label Content="{Binding Name}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Label Content="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
 
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
-        </StackPanel>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </StackPanel>
+        </Border>
 
         <Grid HorizontalAlignment="Stretch" Grid.Row="1">
             <Grid.ColumnDefinitions>

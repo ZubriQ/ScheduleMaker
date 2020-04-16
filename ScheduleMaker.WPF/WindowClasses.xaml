@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleMaker.WPF"
         mc:Ignorable="d"
-        Title="Управление классами" Height="450" Width="800">
-    <Grid>
-        
+        Title="Управление классами" Height="450" Width="400">
+    <Grid Background="#d6e6f2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Menu Padding="3" Background="SteelBlue">
+            <MenuItem x:Name="commandCreate" Header="Добавить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandCreate_Click"/>
+            <MenuItem x:Name="commandUpdate" Header="Изменить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandUpdate_Click"/>
+            <MenuItem x:Name="commandDelete" Header="Удалить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandDelete_Click"/>
+            <MenuItem x:Name="commandRefresh" Header="Обновить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandRefresh_Click"/>
+        </Menu>
+
+        <DataGrid x:Name="classesDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" Background="#f7fbfc">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

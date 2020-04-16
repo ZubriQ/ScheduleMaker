@@ -9,9 +9,7 @@
 
         public int Id => id;
 
-        private string name { get; }
-
-        public string Name => name;
+        public string Name { get; set; }
 
         /// <summary>
         /// Школьный класс (группа школьников).
@@ -21,7 +19,7 @@
         public Class(int id, string name)
         {
             this.id = id;
-            this.name = name;
+            Name = name;
         }
     }
 }

@@ -16,26 +16,27 @@ using System.Windows.Shapes;
 namespace ScheduleMaker.WPF
 {
     /// <summary>
-    /// Логика взаимодействия для WindowTeachersCreate.xaml
+    /// Логика взаимодействия для WindowClassesUpdate.xaml
     /// </summary>
-    public partial class WindowTeachersCreate : Window
+    public partial class WindowClassesUpdate : Window
     {
-        public WindowTeachersCreate()
+        Class Class;
+        public WindowClassesUpdate(Class @class)
         {
             InitializeComponent();
-            lessonsListBox.ItemsSource = App.Subjects;
+            Class = @class;
+            label1.Content = "Редактирование " + @class.Name + ".";
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            this.Close();
         }
 
-        private void createButton_Click(object sender, RoutedEventArgs e)
+        private void updateButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: должно быть много предметов
-            App.Teachers.Add(new Teacher(App.Teachers.Count, lessonsListBox.SelectedItem as Subject));
-            Close();
+            Class.Name = nameTextBox.Text;
+            this.Close();
         }
     }
 }

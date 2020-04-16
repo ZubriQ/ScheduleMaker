@@ -19,10 +19,10 @@
 
         <Menu Grid.ColumnSpan="3" Padding="3" Background="SteelBlue">
             <MenuItem  Header="Учителя" Margin="2,0,2,0" Background="#f7fbfc">
-                <MenuItem x:Name="teachersMenuItem" Header="Просмотр учителей" Click="teachersMenuItem_Click"/>
+                <MenuItem x:Name="teachersMenuItem" Header="Управление учителями" Click="teachersMenuItem_Click"/>
                 <MenuItem x:Name="teachersSchedulesMenuItem" Header="Расписания учителей" Click="teachersSchedulesMenuItem_Click"/>
             </MenuItem>
-            <MenuItem x:Name="classesMenuItem" Header="Классы" Margin="2,0,2,0" Background="#f7fbfc"/>
+            <MenuItem x:Name="classesMenuItem" Header="Классы" Margin="2,0,2,0" Background="#f7fbfc" Click="classesMenuItem_Click"/>
             <MenuItem x:Name="syllabiMenuItem" Header="Учебные планы" Margin="2,0,2,0" Background="#f7fbfc"/>
             <MenuItem Header="Справочники" Margin="2,0,2,0" Background="#f7fbfc">
                 <MenuItem x:Name="lessonsMenuItem" Header="Уроки"/>

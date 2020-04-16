@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScheduleMaker.OP.School;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,39 @@ namespace ScheduleMaker.WPF
         public WindowClasses()
         {
             InitializeComponent();
+            classesDataGrid.ItemsSource = App.Classes;
+        }
+
+        private void commandCreate_Click(object sender, RoutedEventArgs e)
+        {
+            WindowClassesCreate window = new WindowClassesCreate();
+            window.Show();
+        }
+
+        private void commandUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (classesDataGrid.SelectedItem != null)
+            {
+                WindowClassesUpdate window = new WindowClassesUpdate(classesDataGrid.SelectedItem as Class);
+                window.Show();
+            }
+        }
+
+        private void commandDelete_Click(object sender, RoutedEventArgs e)
+        {
+            App.Classes.Remove(classesDataGrid.SelectedItem as Class);
+            RefreshTable();
+        }
+
+        private void commandRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshTable();
+        }
+
+        private void RefreshTable()
+        {
+            classesDataGrid.ItemsSource = null;
+            classesDataGrid.ItemsSource = App.Classes;
         }
     }
 }

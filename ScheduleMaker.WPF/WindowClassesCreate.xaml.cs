@@ -1,5 +1,4 @@
-﻿using ScheduleMaker.OP.School;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +15,13 @@ using System.Windows.Shapes;
 namespace ScheduleMaker.WPF
 {
     /// <summary>
-    /// Логика взаимодействия для WindowTeachersCreate.xaml
+    /// Логика взаимодействия для WindowClassesCreate.xaml
     /// </summary>
-    public partial class WindowTeachersCreate : Window
+    public partial class WindowClassesCreate : Window
     {
-        public WindowTeachersCreate()
+        public WindowClassesCreate()
         {
             InitializeComponent();
-            lessonsListBox.ItemsSource = App.Subjects;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -33,8 +31,7 @@ namespace ScheduleMaker.WPF
 
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: должно быть много предметов
-            App.Teachers.Add(new Teacher(App.Teachers.Count, lessonsListBox.SelectedItem as Subject));
+            App.Classes.Add(new OP.School.Class(App.Classes.Count, nameTextBox.Text));
             Close();
         }
     }
