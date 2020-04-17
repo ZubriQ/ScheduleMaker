@@ -97,18 +97,18 @@ namespace ScheduleMaker.WPF
                 App.Classes.Clear();
             }
             // Планы предметов в Учебных планах
-            SubjectPlan[] subjects1 = new SubjectPlan[SubjectsCount];
-            subjects1[0] = new SubjectPlan(App.Subjects[0], 10);
-            subjects1[1] = new SubjectPlan(App.Subjects[1], 10);
-            SubjectPlan[] subjects2 = new SubjectPlan[SubjectsCount];
-            subjects2[0] = new SubjectPlan(App.Subjects[0], 10);
-            subjects2[1] = new SubjectPlan(App.Subjects[1], 10);
-            SubjectPlan[] subjects3 = new SubjectPlan[SubjectsCount];
-            subjects3[0] = new SubjectPlan(App.Subjects[0], 10);
-            subjects3[1] = new SubjectPlan(App.Subjects[1], 10);
-            SubjectPlan[] subjects4 = new SubjectPlan[SubjectsCount];
-            subjects4[0] = new SubjectPlan(App.Subjects[0], 14);
-            subjects4[1] = new SubjectPlan(App.Subjects[1], 14);
+            List<SubjectPlan> subjects1 = new List<SubjectPlan>();
+            subjects1.Add(new SubjectPlan(App.Subjects[0], 10));
+            subjects1.Add(new SubjectPlan(App.Subjects[1], 10));
+            List<SubjectPlan> subjects2 = new List<SubjectPlan>();
+            subjects2.Add(new SubjectPlan(App.Subjects[0], 10));
+            subjects2.Add(new SubjectPlan(App.Subjects[1], 10));
+            List<SubjectPlan> subjects3 = new List<SubjectPlan>();
+            subjects3.Add(new SubjectPlan(App.Subjects[0], 10));
+            subjects3.Add( new SubjectPlan(App.Subjects[1], 10));
+            List<SubjectPlan> subjects4 = new List<SubjectPlan>();
+            subjects4.Add( new SubjectPlan(App.Subjects[0], 14));
+            subjects4.Add( new SubjectPlan(App.Subjects[1], 14));
             // Классы
             App.Classes.Add(new Class(0, "10А"));
             App.Classes.Add(new Class(1, "11Б"));

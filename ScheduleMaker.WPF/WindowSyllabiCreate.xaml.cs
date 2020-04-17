@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScheduleMaker.OP.School;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,33 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class WindowSyllabiCreate : Window
     {
+       
+        List<SubjectPlan> SubjectPlans = new List<SubjectPlan>();
+        List<Subject> Subjects = App.Subjects;
         public WindowSyllabiCreate()
         {
             InitializeComponent();
             classesComboBox.ItemsSource = App.Classes;
-            var subjects = App.Subjects;
-            subjectsListBox.ItemsSource = subjects;
+            subjectsListBox.ItemsSource = Subjects;
+            subjectPlansListBox.ItemsSource = SubjectPlans;
+        }
+
+        // Перетащить предмет налево
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LessonsCountTextBox.Text != null && subjectsListBox.SelectedItem != null)
+            {
+                SubjectPlans.Add(new SubjectPlan(subjectsListBox.SelectedItem
+                    as Subject, Convert.ToInt32(LessonsCountTextBox.Text)));
+                // не обновляется почему-то..
+                subjectPlansListBox.Items.Refresh();
+            }
+        }
+
+        // Перетащить предмет направо
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void createButton_Click(object sender, RoutedEventArgs e)
@@ -35,6 +57,14 @@ namespace ScheduleMaker.WPF
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void RefreshTables()
+        {
+            subjectsListBox.ItemsSource = null;
+            subjectsListBox.ItemsSource = Subjects;
+            subjectPlansListBox.ItemsSource = null;
+            subjectPlansListBox.ItemsSource = SubjectPlans;
         }
     }
 }

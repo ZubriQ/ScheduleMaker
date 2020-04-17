@@ -20,7 +20,7 @@ namespace ScheduleMaker.OP.School
         /// <summary>
         /// Уроки.
         /// </summary>
-        private SubjectPlan[] subjectPlans { get; }
+        private List<SubjectPlan> subjectPlans { get; }
 
         /// <summary>
         /// Учителя.
@@ -45,10 +45,10 @@ namespace ScheduleMaker.OP.School
             get
             {
                 string result = "";
-                for (int i = 0; i < subjectPlans.Length; i++)
+                for (int i = 0; i < subjectPlans.Count; i++)
                 {
                     result += subjectPlans[i].Subject.Name;
-                    if (i < subjectPlans.Length - 1)
+                    if (i < subjectPlans.Count - 1)
                     {
                         result += ", ";
                     }
@@ -64,7 +64,7 @@ namespace ScheduleMaker.OP.School
         /// <param name="class">Школьный класс.</param>
         /// <param name="subjects">Предметы.</param>
         /// <param name="teachers">Учителя, которые ведут данный Учебный план.</param>
-        public Syllabus(int id, Class @class, SubjectPlan[] subjects, List<Teacher> teachers)
+        public Syllabus(int id, Class @class, List<SubjectPlan> subjects, List<Teacher> teachers)
         {
             this.id = id;
             Class = @class;
@@ -81,7 +81,7 @@ namespace ScheduleMaker.OP.School
         /// <param name="id">Уникальный ключ.</param>
         /// <param name="className">Наименование школьного класса.</param>
         /// <param name="subjects">Предметы.</param>
-        public Syllabus(int id, Class @class, SubjectPlan[] subjects)
+        public Syllabus(int id, Class @class, List<SubjectPlan> subjects)
         {
             this.id = id;
             Class = @class;
@@ -98,7 +98,7 @@ namespace ScheduleMaker.OP.School
         private void initializeLessons()
         {
             int index = 0;
-            for (int i = 0; i < SubjectPlans.Length; i++)
+            for (int i = 0; i < SubjectPlans.Count; i++)
             {
                 for (int j = 0; j < SubjectPlans[i].Count; j++)
                 {
@@ -119,7 +119,7 @@ namespace ScheduleMaker.OP.School
         private int calculateLessonsCount()
         {
             int sum = 0;
-            for (int i = 0; i < SubjectPlans.Length; i++)
+            for (int i = 0; i < SubjectPlans.Count; i++)
             {
                 sum += SubjectPlans[i].Count;
             }
@@ -133,7 +133,7 @@ namespace ScheduleMaker.OP.School
 
         public int Id => id;
 
-        public SubjectPlan[] SubjectPlans => subjectPlans;
+        public List<SubjectPlan> SubjectPlans => subjectPlans;
 
         public List<Teacher> Teachers => teachers;
 
