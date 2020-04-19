@@ -20,11 +20,68 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class WindowSyllabiUpdate : Window
     {
+        List<SubjectPlan> SubjectPlans = new List<SubjectPlan>();
+        List<Subject> Subjects;
+
         Syllabus Syllabus;
         public WindowSyllabiUpdate(Syllabus syllabus)
         {
             InitializeComponent();
             Syllabus = syllabus;
+            
+            classesComboBox.ItemsSource = App.Classes;
+            classesComboBox.SelectedValue = Syllabus.Class;
+
+            Subjects = new List<Subject>(App.Subjects);
+            subjectsListBox.ItemsSource = Subjects;
+
+            SubjectPlans = Syllabus.SubjectPlans;
+            subjectPlansListBox.ItemsSource = SubjectPlans;
+
+            Label1.Content = $"Редактирование класса {Syllabus.Class.Name}.";
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LessonsCountTextBox.Text != "" && subjectsListBox.SelectedItem != null)
+            {
+                SubjectPlans.Add(new SubjectPlan(subjectsListBox.SelectedItem
+                    as Subject, Convert.ToInt32(LessonsCountTextBox.Text)));
+                Subjects.Remove(subjectsListBox.SelectedItem as Subject);
+                RefreshTables();
+                LessonsCountTextBox.Text = "";
+            }
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (subjectPlansListBox.SelectedItem != null)
+            {
+                SubjectPlans.Remove(subjectPlansListBox.SelectedItem as SubjectPlan);
+                Subjects.Add((subjectPlansListBox.SelectedItem as SubjectPlan).Subject);
+                RefreshTables();
+            }
+        }
+
+        private void updateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (classesComboBox.SelectedItem != null && subjectPlansListBox.Items.Count > 0)
+            {
+                Syllabus.SubjectPlans = SubjectPlans;
+                Syllabus.Class = classesComboBox.SelectedItem as Class;
+            }
+            
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void RefreshTables()
+        {
+            subjectPlansListBox.Items.Refresh();
+            subjectsListBox.Items.Refresh();
         }
     }
 }

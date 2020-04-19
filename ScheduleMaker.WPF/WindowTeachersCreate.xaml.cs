@@ -34,8 +34,11 @@ namespace ScheduleMaker.WPF
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
             // TODO: должно быть много предметов
-            App.Teachers.Add(new Teacher(App.Teachers.Count, lessonsListBox.SelectedItem as Subject));
-            Close();
+            if (lessonsListBox.SelectedItem != null)
+            {
+                App.Teachers.Add(new Teacher(App.Teachers.Count, lessonsListBox.SelectedItem as Subject));
+                Close();
+            }
         }
     }
 }

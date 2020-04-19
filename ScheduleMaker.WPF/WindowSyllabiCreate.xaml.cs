@@ -22,36 +22,48 @@ namespace ScheduleMaker.WPF
     {
        
         List<SubjectPlan> SubjectPlans = new List<SubjectPlan>();
-        List<Subject> Subjects = App.Subjects;
+        List<Subject> Subjects;
         public WindowSyllabiCreate()
         {
             InitializeComponent();
+            Subjects = new List<Subject>(App.Subjects);
             classesComboBox.ItemsSource = App.Classes;
             subjectsListBox.ItemsSource = Subjects;
             subjectPlansListBox.ItemsSource = SubjectPlans;
+            
         }
 
         // Перетащить предмет налево
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (LessonsCountTextBox.Text != null && subjectsListBox.SelectedItem != null)
+            if (LessonsCountTextBox.Text != "" && subjectsListBox.SelectedItem != null)
             {
                 SubjectPlans.Add(new SubjectPlan(subjectsListBox.SelectedItem
                     as Subject, Convert.ToInt32(LessonsCountTextBox.Text)));
-                // не обновляется почему-то..
-                subjectPlansListBox.Items.Refresh();
+                Subjects.Remove(subjectsListBox.SelectedItem as Subject);
+                RefreshTables();
+                LessonsCountTextBox.Text = "";
             }
         }
 
         // Перетащить предмет направо
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (subjectPlansListBox.SelectedItem != null)
+            {
+                SubjectPlans.Remove(subjectPlansListBox.SelectedItem as SubjectPlan);
+                Subjects.Add((subjectPlansListBox.SelectedItem as SubjectPlan).Subject);
+                RefreshTables();
+            }
         }
 
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (classesComboBox.SelectedItem != null && subjectPlansListBox.Items.Count > 0)
+            {
+                App.Syllabi.Add(new Syllabus(App.Syllabi.Count, classesComboBox.SelectedItem as Class, SubjectPlans));
+                Close();
+            }
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -61,10 +73,8 @@ namespace ScheduleMaker.WPF
 
         private void RefreshTables()
         {
-            subjectsListBox.ItemsSource = null;
-            subjectsListBox.ItemsSource = Subjects;
-            subjectPlansListBox.ItemsSource = null;
-            subjectPlansListBox.ItemsSource = SubjectPlans;
+            subjectPlansListBox.Items.Refresh();
+            subjectsListBox.Items.Refresh();
         }
     }
 }

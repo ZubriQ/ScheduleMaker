@@ -6,7 +6,85 @@
         xmlns:local="clr-namespace:ScheduleMaker.WPF"
         mc:Ignorable="d"
         Title="Управление учебными планами - Изменение" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Background="SteelBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Border Margin="5" BorderThickness="2" BorderBrush="Khaki">
+            <StackPanel  Background="#d6e6f2">
+                <Label x:Name="Label1" Content="Редактирование учебного плана." HorizontalAlignment="Center"/>
+                <DockPanel Margin="5" Width="200" HorizontalAlignment="Left">
+                    <Label Content="Класс:" />
+                    <ComboBox x:Name="classesComboBox" DisplayMemberPath="Name" VerticalContentAlignment="Center"/>
+                </DockPanel>
+                <Label Content="Добавление предметов в учебный план:" HorizontalAlignment="Center"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Учебный план." HorizontalAlignment="Center"/>
+                    <Label Content="Предметы." Grid.Column="2" HorizontalAlignment="Center"/>
+                    <ListBox x:Name="subjectPlansListBox" SelectionMode="Single" Margin="5,0,0,0" 
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Padding="1"
+                     Background="#f7fbfc" Grid.Row="1">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Label Content="{Binding Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+
+                    <StackPanel Grid.Column="1" Grid.Row="1" Margin="7">
+                        <Label Content="Уроков в неделю:" HorizontalContentAlignment="Center" FontSize="10"/>
+                        <TextBox x:Name="LessonsCountTextBox" Width="30"  Margin="3" MaxLength="2"
+                                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Button x:Name="AddButton" Content="&lt;&lt;" Width="30" Margin="3" Click="AddButton_Click"/>
+                        <Button x:Name="RemoveButton" Content="&gt;&gt;" Width="30" Margin="3" Click="RemoveButton_Click"/>
+                    </StackPanel>
+
+                    <ListBox x:Name="subjectsListBox" SelectionMode="Single" Margin="0,0,5,0" 
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Padding="1"
+                     Background="#f7fbfc" Grid.Column="2" Grid.Row="1">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Label Content="{Binding Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Grid HorizontalAlignment="Stretch" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="updateButton" Content="Изменить" Width="100" Margin="5" Background="#f7fbfc" Click="updateButton_Click"/>
+            <Button x:Name="cancelButton" Content="Отмена" Width="100" Grid.Column="1" Margin="5" Background="#f7fbfc" Click="cancelButton_Click"/>
+        </Grid>
     </Grid>
 </Window>

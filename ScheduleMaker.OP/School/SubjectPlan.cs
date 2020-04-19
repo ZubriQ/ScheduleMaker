@@ -27,6 +27,14 @@
             this.count = count;
         }
 
+        public string Name
+        {
+            get
+            {
+                return subject.Name + " (" + count + ")";
+            }
+        }
+
         public Subject Subject => subject;
 
         public int Count => count;

@@ -20,7 +20,7 @@ namespace ScheduleMaker.OP.School
         /// <summary>
         /// Уроки.
         /// </summary>
-        private List<SubjectPlan> subjectPlans { get; }
+        public List<SubjectPlan> SubjectPlans { get; set; }
 
         /// <summary>
         /// Учителя.
@@ -45,10 +45,10 @@ namespace ScheduleMaker.OP.School
             get
             {
                 string result = "";
-                for (int i = 0; i < subjectPlans.Count; i++)
+                for (int i = 0; i < SubjectPlans.Count; i++)
                 {
-                    result += subjectPlans[i].Subject.Name;
-                    if (i < subjectPlans.Count - 1)
+                    result += SubjectPlans[i].Name;
+                    if (i < SubjectPlans.Count - 1)
                     {
                         result += ", ";
                     }
@@ -68,7 +68,7 @@ namespace ScheduleMaker.OP.School
         {
             this.id = id;
             Class = @class;
-            this.subjectPlans = subjects;
+            SubjectPlans = subjects;
             this.teachers = teachers;
             this.lessonsCount = calculateLessonsCount();
             lessons = new Job[lessonsCount];
@@ -85,7 +85,7 @@ namespace ScheduleMaker.OP.School
         {
             this.id = id;
             Class = @class;
-            this.subjectPlans = subjects;
+            SubjectPlans = subjects;
             this.teachers = teachers;
             this.lessonsCount = calculateLessonsCount();
             lessons = new Job[lessonsCount];
@@ -132,8 +132,6 @@ namespace ScheduleMaker.OP.School
         }
 
         public int Id => id;
-
-        public List<SubjectPlan> SubjectPlans => subjectPlans;
 
         public List<Teacher> Teachers => teachers;
 

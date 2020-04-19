@@ -83,7 +83,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="createButton" Content="Создать учебный план" Width="160" Margin="5" Background="#f7fbfc" Click="createButton_Click"/>
+            <Button x:Name="createButton" Content="Добавить" Width="100" Margin="5" Background="#f7fbfc" Click="createButton_Click"/>
             <Button x:Name="cancelButton" Content="Отмена" Width="100" Grid.Column="1" Margin="5" Background="#f7fbfc" Click="cancelButton_Click"/>
         </Grid>
     </Grid>
