@@ -31,12 +31,18 @@ namespace ScheduleMaker.WPF
             Close();
         }
 
+        // Добавить нового учителя
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: должно быть много предметов
             if (lessonsListBox.SelectedItem != null)
             {
-                App.Teachers.Add(new Teacher(App.Teachers.Count, lessonsListBox.SelectedItem as Subject));
+                Subject[] subjects = new Subject[lessonsListBox.SelectedItems.Count];
+                var selectedItems = lessonsListBox.SelectedItems;
+                for (int i = 0; i < subjects.Length; i++)
+                {
+                    subjects[i] = selectedItems[i] as Subject;
+                }
+                App.Teachers.Add(new Teacher(App.Teachers.Count, subjects));
                 Close();
             }
         }

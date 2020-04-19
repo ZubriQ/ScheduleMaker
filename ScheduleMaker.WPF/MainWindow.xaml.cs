@@ -78,8 +78,13 @@ namespace ScheduleMaker.WPF
         /// </summary>
         private void InitializeTeachers()
         {
-            App.Teachers.Add(new Teacher(0, App.Subjects[0]));
-            App.Teachers.Add(new Teacher(1, App.Subjects[1]));
+            Subject[] subjects1 = new Subject[2];
+            subjects1[0] = App.Subjects[0];
+            subjects1[1] = App.Subjects[3];
+            Subject[] subjects2 = new Subject[1];
+            subjects2[0] = App.Subjects[1];
+            App.Teachers.Add(new Teacher(0, subjects1));
+            App.Teachers.Add(new Teacher(1, subjects2));
         }
         #endregion
 
@@ -90,9 +95,15 @@ namespace ScheduleMaker.WPF
             {
                 ClassSchedulesList.Clear();
                 App.Syllabi = new List<Syllabus>();
-                App.Teachers.Clear();
-                App.Teachers.Add(new Teacher(0, App.Subjects[0]));
-                App.Teachers.Add(new Teacher(1, App.Subjects[1]));
+                App.Teachers.Clear();/*
+                Subject[] subjects1 = new Subject[2];
+                subjects1[0] = App.Subjects[0];
+                subjects1[1] = App.Subjects[1];
+                Subject[] subjects2 = new Subject[2];
+                subjects2[0] = App.Subjects[0];
+                subjects2[1] = App.Subjects[1];
+                App.Teachers.Add(new Teacher(0, subjects1));
+                App.Teachers.Add(new Teacher(1, subjects2));*/
                 SchedulesItemsControl.ItemsSource = null;
                 App.Classes.Clear();
             }

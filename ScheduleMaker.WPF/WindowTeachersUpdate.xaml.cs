@@ -37,7 +37,7 @@ namespace ScheduleMaker.WPF
         private void updateButton_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Subject[]
-            Teacher.Update(lessonsListBox.SelectedItem as Subject);
+            Teacher.Update(lessonsListBox.SelectedItems as Subject[]);
             this.Close();
         }
     }

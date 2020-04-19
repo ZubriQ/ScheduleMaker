@@ -29,6 +29,8 @@ namespace ScheduleMaker.OP
         /// </summary>
         public int LessonsCount { get; set; }
 
+
+
         /// <summary>
         /// Конструктор Open Shop'a.
         /// </summary>
@@ -116,7 +118,7 @@ namespace ScheduleMaker.OP
         {
             for (int t = 0; t < Teachers.Length; t++)
             {
-                Console.WriteLine($"Учитель. id: {Teachers[t].Id}, предмет: {Teachers[t].Subject.Name}");
+                Console.WriteLine($"Учитель. id: {Teachers[t].Id}, предмет: {Teachers[t].AllSubjects}");
                 for (byte i = 0; i < 60; i++)
                 {
                     if (Teachers[t].Lessons[i] != null)

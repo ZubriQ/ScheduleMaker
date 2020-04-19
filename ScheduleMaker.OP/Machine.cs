@@ -13,9 +13,9 @@ namespace ScheduleMaker.OP
         private int id { get; }
 
         /// <summary>
-        /// Предмет, который ведет учитель.
+        /// Предметы, который ведет учитель.
         /// </summary>
-        private Subject subject { get; }
+        private Subject[] subject { get; }
 
         /// <summary>
         /// Список работ / расписание.
@@ -26,8 +26,8 @@ namespace ScheduleMaker.OP
         /// Конструктор учителя (машины).
         /// </summary>
         /// <param name="id">Уникальный ключ.</param>
-        /// <param name="subject">Предмет, который ведет учитель.</param>
-        public Machine(int id, Subject subject)
+        /// <param name="subject">Предметы, который ведет учитель.</param>
+        public Machine(int id, Subject[] subject)
         {
             this.id = id;
             this.subject = subject;
@@ -52,9 +52,29 @@ namespace ScheduleMaker.OP
             }
         }
 
+        /// <summary>
+        /// Возвращает список всех предметов
+        /// </summary>
+        public string AllSubjects
+        {
+            get
+            {
+                string result = "";
+                for (int i = 0; i < Subject.Length; i++)
+                {
+                    result += Subject[i].Name;
+                    if (i < Subject.Length - 1)
+                    {
+                        result += ", ";
+                    }
+                }
+                return result;
+            }
+        }
+
         public int Id => id;
 
-        public Subject Subject => subject;
+        public Subject[] Subject => subject;
 
         public Job[] Lessons => lessons;
     }
