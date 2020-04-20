@@ -8,9 +8,8 @@
         Title="Составитель Расписаний" Height="780" Width="1015">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="131*"/>
-            <ColumnDefinition Width="232*"/>
-            <ColumnDefinition Width="644*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -32,7 +31,7 @@
         </Menu>
 
         <StackPanel Background="#b9d7ea" Grid.Column="0" Margin="0,24,0,0" Grid.RowSpan="2">
-            <Button x:Name="scheduleButton" Content="Расписание" Margin="5" Click="scheduleButton_Click" Background="#f7fbfc"/>
+            <Button x:Name="scheduleButton" Content="Расписание" Margin="5" Click="scheduleButton_Click" Background="#f7fbfc" ToolTip="Составить расписания"/>
         </StackPanel>
 
         <ItemsControl x:Name="SchedulesItemsControl" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,24,0,0" Grid.RowSpan="2" Background="#f7fbfc">

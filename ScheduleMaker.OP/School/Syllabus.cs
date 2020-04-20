@@ -25,7 +25,7 @@ namespace ScheduleMaker.OP.School
         /// <summary>
         /// Учителя.
         /// </summary>
-        private List<Teacher> teachers { get; }
+        public List<Teacher> Teachers { get; set; }
 
         /// <summary>
         /// Уроки (работы).
@@ -69,24 +69,7 @@ namespace ScheduleMaker.OP.School
             this.id = id;
             Class = @class;
             SubjectPlans = subjects;
-            this.teachers = teachers;
-            this.lessonsCount = calculateLessonsCount();
-            lessons = new Job[lessonsCount];
-            initializeLessons();
-        }
-
-        /// <summary>
-        /// Тестовый конструктор
-        /// </summary>
-        /// <param name="id">Уникальный ключ.</param>
-        /// <param name="className">Наименование школьного класса.</param>
-        /// <param name="subjects">Предметы.</param>
-        public Syllabus(int id, Class @class, List<SubjectPlan> subjects)
-        {
-            this.id = id;
-            Class = @class;
-            SubjectPlans = subjects;
-            this.teachers = teachers;
+            Teachers = teachers;
             this.lessonsCount = calculateLessonsCount();
             lessons = new Job[lessonsCount];
             initializeLessons();
@@ -132,8 +115,6 @@ namespace ScheduleMaker.OP.School
         }
 
         public int Id => id;
-
-        public List<Teacher> Teachers => teachers;
 
         public Job[] Lessons => lessons;
 

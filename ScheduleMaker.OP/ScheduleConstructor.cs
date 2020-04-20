@@ -92,7 +92,7 @@ namespace ScheduleMaker.OP
         private void AddLesson(ScheduleData scheduleData, Job[] tempLessons, int indexOfJob)
         {
             // Найти учителя, который ведет предмет
-            int teacherId = scheduleData.Teachers.FirstOrDefault(x => x.Subject.Any(s => s.Id == tempLessons[indexOfJob].Subject.Id)).Id;
+            int teacherId = scheduleData.Syllabi[tempLessons[indexOfJob].SyllabusId].Teachers.FirstOrDefault(x => x.Subject.Any(s => s.Id == tempLessons[indexOfJob].Subject.Id)).Id;
             // Найти расписание нужного класса
             int scheduleId = SchedulesList.FirstOrDefault(x => x.SyllabusId == tempLessons[indexOfJob].SyllabusId).SyllabusId;
             // Добавить урок

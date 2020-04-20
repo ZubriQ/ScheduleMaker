@@ -33,6 +33,10 @@
                 }
                 return result;
             }
+            set
+            {
+
+            }
         }
 
         //private string teacherName

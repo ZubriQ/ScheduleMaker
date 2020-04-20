@@ -29,8 +29,8 @@ namespace ScheduleMaker.WPF
         /// </summary>
         public List<ClassSchedule> ClassSchedulesList = new List<ClassSchedule>();
 
-        // Параметры Open Shop и Учебного плана
-        public int SubjectsCount = 2;
+        // Тест
+        List<Teacher> teachers1 = new List<Teacher>();
 
         public MainWindow()
         {
@@ -44,6 +44,9 @@ namespace ScheduleMaker.WPF
         {
             InitializeTypesOfLessons();
             InitializeTeachers();
+
+            teachers1.Add(App.Teachers[0]);
+            teachers1.Add(App.Teachers[1]);
         }
 
         /// <summary>
@@ -80,7 +83,7 @@ namespace ScheduleMaker.WPF
         {
             Subject[] subjects1 = new Subject[2];
             subjects1[0] = App.Subjects[0];
-            subjects1[1] = App.Subjects[3];
+            subjects1[1] = App.Subjects[5];
             Subject[] subjects2 = new Subject[1];
             subjects2[0] = App.Subjects[1];
             App.Teachers.Add(new Teacher(0, subjects1));
@@ -95,47 +98,59 @@ namespace ScheduleMaker.WPF
             {
                 ClassSchedulesList.Clear();
                 App.Syllabi = new List<Syllabus>();
-                App.Teachers.Clear();/*
-                Subject[] subjects1 = new Subject[2];
-                subjects1[0] = App.Subjects[0];
-                subjects1[1] = App.Subjects[1];
-                Subject[] subjects2 = new Subject[2];
-                subjects2[0] = App.Subjects[0];
-                subjects2[1] = App.Subjects[1];
-                App.Teachers.Add(new Teacher(0, subjects1));
-                App.Teachers.Add(new Teacher(1, subjects2));*/
+                App.Teachers.Clear();
+                Subject[] subject1 = new Subject[2];
+                subject1[0] = App.Subjects[0];
+                subject1[1] = App.Subjects[5];
+                Subject[] subject2 = new Subject[2];
+                subject2[0] = App.Subjects[1];
+                App.Teachers.Add(new Teacher(0, subject1));
+                App.Teachers.Add(new Teacher(1, subject2));
                 SchedulesItemsControl.ItemsSource = null;
                 App.Classes.Clear();
             }
             // Планы предметов в Учебных планах
             List<SubjectPlan> subjects1 = new List<SubjectPlan>();
-            subjects1.Add(new SubjectPlan(App.Subjects[0], 10));
+            subjects1.Add(new SubjectPlan(App.Subjects[0], 5));
             subjects1.Add(new SubjectPlan(App.Subjects[1], 10));
+            subjects1.Add(new SubjectPlan(App.Subjects[5], 6));
             List<SubjectPlan> subjects2 = new List<SubjectPlan>();
-            subjects2.Add(new SubjectPlan(App.Subjects[0], 10));
+            subjects2.Add(new SubjectPlan(App.Subjects[0], 5));
             subjects2.Add(new SubjectPlan(App.Subjects[1], 10));
+            subjects2.Add(new SubjectPlan(App.Subjects[5], 6));
             List<SubjectPlan> subjects3 = new List<SubjectPlan>();
-            subjects3.Add(new SubjectPlan(App.Subjects[0], 10));
+            subjects3.Add(new SubjectPlan(App.Subjects[0], 5));
             subjects3.Add( new SubjectPlan(App.Subjects[1], 10));
+            subjects3.Add(new SubjectPlan(App.Subjects[5], 6));
             List<SubjectPlan> subjects4 = new List<SubjectPlan>();
-            subjects4.Add( new SubjectPlan(App.Subjects[0], 14));
+            subjects4.Add( new SubjectPlan(App.Subjects[0], 10));
             subjects4.Add( new SubjectPlan(App.Subjects[1], 14));
+            subjects4.Add(new SubjectPlan(App.Subjects[5], 5));
             // Классы
             App.Classes.Add(new Class(0, "10А"));
             App.Classes.Add(new Class(1, "11Б"));
             App.Classes.Add(new Class(2, "11В"));
             App.Classes.Add(new Class(3, "9Г"));
             // Учебные планы
-            Syllabus syllabus1 = new Syllabus(0, App.Classes[0], subjects1);
-            Syllabus syllabus2 = new Syllabus(1, App.Classes[1], subjects2);
-            Syllabus syllabus3 = new Syllabus(2, App.Classes[2], subjects3);
-            Syllabus syllabus4 = new Syllabus(3, App.Classes[3], subjects4);
+            /*
+            List<Teacher> teachers2 = new List<Teacher>();
+            teachers2.Add(App.Teachers[0]);
+            teachers2.Add(App.Teachers[1]);
+            List<Teacher> teachers3 = new List<Teacher>();
+            teachers3.Add(App.Teachers[0]);
+            teachers3.Add(App.Teachers[1]);
+            List<Teacher> teachers4 = new List<Teacher>();
+            teachers4.Add(App.Teachers[0]);
+            teachers4.Add(App.Teachers[1]);*/
+            Syllabus syllabus1 = new Syllabus(0, App.Classes[0], subjects1, teachers1);
+            Syllabus syllabus2 = new Syllabus(1, App.Classes[1], subjects2, teachers1);
+            Syllabus syllabus3 = new Syllabus(2, App.Classes[2], subjects3, teachers1);
+            Syllabus syllabus4 = new Syllabus(3, App.Classes[3], subjects4, teachers1);
             App.Syllabi.Add(syllabus1);
             App.Syllabi.Add(syllabus2);
             App.Syllabi.Add(syllabus3);
             App.Syllabi.Add(syllabus4);
             // Присвоение фитнесс функции
-            //OpenShopPSO = new OpenShopPSO(Teachers, Syllabi);
             App.OpenShopPSO.SetData(App.Teachers, App.Syllabi);
             App.OpenShopPSO.SetFunction(App.OpenShopPSO);
             // Создать расписания
