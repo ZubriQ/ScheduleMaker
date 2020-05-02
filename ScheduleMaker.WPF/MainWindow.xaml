@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleMaker.WPF"
         mc:Ignorable="d"
-        Title="Составитель Расписаний" Height="780" Width="1015">
+        Title="Составитель Расписаний" Height="650" Width="950">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -22,11 +22,14 @@
                 <MenuItem x:Name="teachersSchedulesMenuItem" Header="Расписания учителей" Click="teachersSchedulesMenuItem_Click"/>
             </MenuItem>
             <MenuItem x:Name="classesMenuItem" Header="Классы" Margin="2,0,2,0" Background="#f7fbfc" Click="classesMenuItem_Click"/>
-            <MenuItem x:Name="syllabiMenuItem" Header="Учебные планы" Margin="2,0,2,0" Background="#f7fbfc" Click="syllabiMenuItem_Click"/>
             <MenuItem Header="Справочники" Margin="2,0,2,0" Background="#f7fbfc">
                 <MenuItem x:Name="subjectsMenuItem" Header="Предметы" Click="subjectsMenuItem_Click"/>
                 <MenuItem x:Name="classroomsMenuItem" Header="Кабинеты"/>
             </MenuItem>
+            <Separator/>
+            <MenuItem x:Name="syllabiMenuItem" Header="Учебные планы" Margin="2,0,2,0" Background="#f7fbfc" Click="syllabiMenuItem_Click"/>
+            <MenuItem x:Name="studyLoadMenuItem" Header="Управление нагрузкой" Margin="2,0,2,0" Background="#f7fbfc" Click="studyLoadMenuItem_Click"/>
+            <Separator/>
             <MenuItem x:Name="aboutMenuItem" Header="О программе" Margin="2,0,2,0" Background="#f7fbfc"/>
         </Menu>
 

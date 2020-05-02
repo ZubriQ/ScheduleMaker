@@ -18,9 +18,9 @@ namespace ScheduleMaker.WPF
     /// <summary>
     /// Логика взаимодействия для WindowSyllabi.xaml
     /// </summary>
-    public partial class WindowSyllabi : Window
+    public partial class WindowStudyLoad : Window
     {
-        public WindowSyllabi()
+        public WindowStudyLoad()
         {
             InitializeComponent();
             syllabiDataGrid.ItemsSource = App.Syllabi;
@@ -28,7 +28,7 @@ namespace ScheduleMaker.WPF
 
         private void commandCreate_Click(object sender, RoutedEventArgs e)
         {
-            WindowSyllabiCreate window = new WindowSyllabiCreate();
+            WindowStudyLoadCreate window = new WindowStudyLoadCreate();
             window.Show();
         }
 
@@ -36,7 +36,7 @@ namespace ScheduleMaker.WPF
         {
             if (syllabiDataGrid.SelectedItem != null)
             {
-                WindowSyllabiUpdate window = new WindowSyllabiUpdate(syllabiDataGrid.SelectedItem as Syllabus);
+                WindowStudyLoadUpdate window = new WindowStudyLoadUpdate(syllabiDataGrid.SelectedItem as Syllabus);
                 window.Show();
             }
         }

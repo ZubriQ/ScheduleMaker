@@ -1,11 +1,11 @@
-﻿<Window x:Class="ScheduleMaker.WPF.WindowClassesCreate"
+﻿<Window x:Class="ScheduleMaker.WPF.WindowClassesQuickCreate"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleMaker.WPF"
         mc:Ignorable="d"
-        Title="Управление классами - Создание" Height="450" Width="400">
+        Title="Управление классами - Быстрое создание" Height="220" Width="400">
     <Grid Background="SteelBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -13,10 +13,14 @@
         </Grid.RowDefinitions>
         <Border Margin="5" BorderThickness="2" BorderBrush="LightGreen">
             <StackPanel  Background="#d6e6f2">
-                <Label Content="Добавление нового класса." HorizontalAlignment="Center"/>
+                <Label Content="Добавление новых классов." HorizontalAlignment="Center"/>
                 <DockPanel Margin="5" Width="200">
-                    <Label Content="Название:" />
-                    <TextBox x:Name="nameTextBox" VerticalContentAlignment="Center"/>
+                    <Label Content="Год классов:" />
+                    <TextBox x:Name="yearTextBox" VerticalContentAlignment="Center" MaxLength="2"/>
+                </DockPanel>
+                <DockPanel Margin="5" Width="200">
+                    <Label Content="Количество классов:" />
+                    <TextBox x:Name="countTextBox" VerticalContentAlignment="Center" MaxLength="2"/>
                 </DockPanel>
             </StackPanel>
         </Border>

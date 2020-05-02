@@ -29,9 +29,9 @@ namespace ScheduleMaker.OP.PSO
 
         public Machine[] Teachers => ScheduleData.Teachers;
 
-        public OpenShopPSO(List<Teacher> teachers, List<Syllabus> syllabi, ICalculator calculator)
+        public OpenShopPSO(List<Teacher> teachers, List<Syllabus> syllabi, List<Classroom> classrooms, ICalculator calculator)
         {
-            ScheduleData = new ScheduleData(teachers, syllabi);
+            ScheduleData = new ScheduleData(teachers, syllabi, classrooms);
             Parameter parameters = new Parameter(-300, 300, 40, ScheduleData.LessonsCount);
             PSOController = new PSOController(parameters, calculator);
         }
@@ -41,9 +41,9 @@ namespace ScheduleMaker.OP.PSO
         /// </summary>
         /// <param name="teachers">Учителя.</param>
         /// <param name="syllabi">Учебные планы.</param>
-        public OpenShopPSO(List<Teacher> teachers, List<Syllabus> syllabi)
+        public OpenShopPSO(List<Teacher> teachers, List<Syllabus> syllabi, List<Classroom> classrooms)
         {
-            ScheduleData = new ScheduleData(teachers, syllabi);
+            ScheduleData = new ScheduleData(teachers, syllabi, classrooms);
             ScheduleConstructor = new ScheduleConstructor();
             ScheduleEvaluator = new ScheduleEvaluator();
         }
@@ -64,9 +64,9 @@ namespace ScheduleMaker.OP.PSO
             PSOController = new PSOController(parameters, calculator);
         }
 
-        public void SetData(List<Teacher> teachers, List<Syllabus> syllabi)
+        public void SetData(List<Teacher> teachers, List<Syllabus> syllabi, List<Classroom> classrooms)
         {
-            ScheduleData = new ScheduleData(teachers, syllabi);
+            ScheduleData = new ScheduleData(teachers, syllabi, classrooms);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace ScheduleMaker.OP.PSO
         public double[] FindBestPriorities()
         {
             PSOController.InitializeParticleSwarm();
-            PSOController.FindGlobalMinimum(0.729, 1.49445, 1.49445, 600);
+            PSOController.FindGlobalMinimum(0.729, 1.49445, 1.49445, 350);
             return PSOController.GlobalBestParticle.BestKnownPosition;
         }
 

@@ -29,19 +29,23 @@ namespace ScheduleMaker.OP
         /// </summary>
         public int LessonsCount { get; set; }
 
-
+        /// <summary>
+        /// Кабинеты.
+        /// </summary>
+        public List<Classroom> Classrooms { get; set; }
 
         /// <summary>
         /// Конструктор Open Shop'a.
         /// </summary>
         /// <param name="teachers">Загрузка списка всех учителей в школе.</param>
-        public ScheduleData(List<Teacher> teachers, List<Syllabus> syllabi)
+        public ScheduleData(List<Teacher> teachers, List<Syllabus> syllabi, List<Classroom> classrooms)
         {
             Teachers = new Machine[teachers.Count];
             InitializeTeachers(teachers);
             Syllabi = syllabi;
             InitializeLessonsCount(syllabi);
             InitializeAllLessons();
+            Classrooms = classrooms;
         }
 
         /// <summary>

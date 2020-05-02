@@ -44,7 +44,7 @@ namespace ScheduleMaker.WPF
         {
             InitializeTypesOfLessons();
             InitializeTeachers();
-
+            InitializeClassrooms();
             teachers1.Add(App.Teachers[0]);
             teachers1.Add(App.Teachers[1]);
         }
@@ -89,6 +89,17 @@ namespace ScheduleMaker.WPF
             App.Teachers.Add(new Teacher(0, subjects1));
             App.Teachers.Add(new Teacher(1, subjects2));
         }
+
+        private void InitializeClassrooms()
+        {
+            Subject[] subjects1 = new Subject[2];
+            subjects1[0] = App.Subjects[0];
+            subjects1[1] = App.Subjects[5];
+            Subject[] subjects2 = new Subject[1];
+            subjects2[0] = App.Subjects[1];
+            App.Classrooms.Add(new Classroom(0, "математика и информатика", subjects1));
+            App.Classrooms.Add(new Classroom(1, "русский язык", subjects2));
+        }
         #endregion
 
         private void scheduleButton_Click(object sender, RoutedEventArgs e)
@@ -120,11 +131,11 @@ namespace ScheduleMaker.WPF
             subjects2.Add(new SubjectPlan(App.Subjects[5], 6));
             List<SubjectPlan> subjects3 = new List<SubjectPlan>();
             subjects3.Add(new SubjectPlan(App.Subjects[0], 5));
-            subjects3.Add( new SubjectPlan(App.Subjects[1], 10));
+            subjects3.Add(new SubjectPlan(App.Subjects[1], 10));
             subjects3.Add(new SubjectPlan(App.Subjects[5], 6));
             List<SubjectPlan> subjects4 = new List<SubjectPlan>();
-            subjects4.Add( new SubjectPlan(App.Subjects[0], 10));
-            subjects4.Add( new SubjectPlan(App.Subjects[1], 14));
+            subjects4.Add(new SubjectPlan(App.Subjects[0], 10));
+            subjects4.Add(new SubjectPlan(App.Subjects[1], 14));
             subjects4.Add(new SubjectPlan(App.Subjects[5], 5));
             // Классы
             App.Classes.Add(new Class(0, "10А"));
@@ -132,16 +143,6 @@ namespace ScheduleMaker.WPF
             App.Classes.Add(new Class(2, "11В"));
             App.Classes.Add(new Class(3, "9Г"));
             // Учебные планы
-            /*
-            List<Teacher> teachers2 = new List<Teacher>();
-            teachers2.Add(App.Teachers[0]);
-            teachers2.Add(App.Teachers[1]);
-            List<Teacher> teachers3 = new List<Teacher>();
-            teachers3.Add(App.Teachers[0]);
-            teachers3.Add(App.Teachers[1]);
-            List<Teacher> teachers4 = new List<Teacher>();
-            teachers4.Add(App.Teachers[0]);
-            teachers4.Add(App.Teachers[1]);*/
             Syllabus syllabus1 = new Syllabus(0, App.Classes[0], subjects1, teachers1);
             Syllabus syllabus2 = new Syllabus(1, App.Classes[1], subjects2, teachers1);
             Syllabus syllabus3 = new Syllabus(2, App.Classes[2], subjects3, teachers1);
@@ -151,10 +152,10 @@ namespace ScheduleMaker.WPF
             App.Syllabi.Add(syllabus3);
             App.Syllabi.Add(syllabus4);
             // Присвоение фитнесс функции
-            App.OpenShopPSO.SetData(App.Teachers, App.Syllabi);
+            App.OpenShopPSO.SetData(App.Teachers, App.Syllabi, App.Classrooms);
             App.OpenShopPSO.SetFunction(App.OpenShopPSO);
             // Создать расписания
-            ScheduleData scheduleData = new ScheduleData(App.Teachers, App.Syllabi);
+            ScheduleData scheduleData = new ScheduleData(App.Teachers, App.Syllabi, App.Classrooms);
             App.OpenShopPSO.ScheduleConstructor.MakeSchedules(scheduleData, App.OpenShopPSO.FindBestPriorities());
             // Проверка пробелов между уроками в расписании 
             int k = App.OpenShopPSO.ScheduleEvaluator.FindGapsInAllSchedules();
@@ -254,10 +255,15 @@ namespace ScheduleMaker.WPF
             window.Show();
         }
 
+        private void studyLoadMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowStudyLoad window = new WindowStudyLoad();
+            window.Show();
+        }
+
         private void syllabiMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            WindowSyllabi window = new WindowSyllabi();
-            window.Show();
+
         }
     }
 }

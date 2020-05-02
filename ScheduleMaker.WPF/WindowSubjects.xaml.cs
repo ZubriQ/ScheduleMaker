@@ -60,5 +60,10 @@ namespace ScheduleMaker.WPF
             lessonsDataGrid.ItemsSource = null;
             lessonsDataGrid.ItemsSource = App.Subjects;
         }
+
+        private void commandQuickCreate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

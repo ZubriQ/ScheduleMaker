@@ -18,7 +18,7 @@ namespace ScheduleMaker.WPF
     /// <summary>
     /// Логика взаимодействия для WindowSyllabiUpdate.xaml
     /// </summary>
-    public partial class WindowSyllabiUpdate : Window
+    public partial class WindowStudyLoadUpdate : Window
     {
         List<SubjectPlan> SubjectPlans = new List<SubjectPlan>();
         List<Subject> Subjects;
@@ -26,7 +26,7 @@ namespace ScheduleMaker.WPF
         List<Teacher> Teachers;
 
         Syllabus Syllabus;
-        public WindowSyllabiUpdate(Syllabus syllabus)
+        public WindowStudyLoadUpdate(Syllabus syllabus)
         {
             InitializeComponent();
             Syllabus = syllabus;

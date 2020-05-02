@@ -1,39 +1,43 @@
-﻿/*using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ScheduleMaker.OP.School
 {
+    /// <summary>
+    /// Школьный кабинет
+    /// </summary>
     public class Classroom
     {
         /// <summary>
-        /// Номер кабинета.
+        /// Уникальный ключ
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Номер или название кабинета
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Смена 1/2.
+        /// Смена 1/2
         /// </summary>
-        public int Shift { get; set; }
+        public byte Shift { get; set; } // пока не используется
 
         /// <summary>
-        /// Уроки.
+        /// Предметы, которые могут вестись в кабинете
         /// </summary>
-        public Dictionary<int, Job>[] Lessons { get; set; }
+        public Subject[] Subjects { get; set; }
 
-        public int[][] Processed { get; set; }
-
-        public Classroom(string name, int shift)
+        /// <summary>
+        /// Уроки
+        /// </summary>
+        public Job[] Lessons { get; set; }
+        public Classroom(int id, string name, Subject[] subjects)
         {
+            Id = id;
             Name = name;
-            Shift = shift;
-            // Инициализация для каждого дня (6) максимальное кол-во уроков (8)
-            Lessons = new Dictionary<int, Job>[6];
-            for (int i = 0; i < Lessons.Length; i++)
-            {
-                Lessons[i] = new Dictionary<int, Job>(8);
-            }
+            Shift = 1;
+            Lessons = new Job[60];
+            Subjects = subjects;
         }
-
-        public double PercentageOfFilled
     }
 }
-*/

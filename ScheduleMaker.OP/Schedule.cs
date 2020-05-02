@@ -1,6 +1,4 @@
 ﻿using ScheduleMaker.OP.School;
-using System;
-using System.Collections.Generic;
 
 namespace ScheduleMaker.OP
 {

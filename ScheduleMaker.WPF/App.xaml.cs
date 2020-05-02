@@ -39,5 +39,10 @@ namespace ScheduleMaker.WPF
         /// Школьные классы
         /// </summary>
         public static List<Class> Classes = new List<Class>();
+
+        /// <summary>
+        /// Кабинеты
+        /// </summary>
+        public static List<Classroom> Classrooms = new List<Classroom>();
     }
 }

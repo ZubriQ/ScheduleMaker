@@ -13,6 +13,7 @@
         </Grid.RowDefinitions>
 
         <Menu Padding="3" Background="SteelBlue">
+            <MenuItem x:Name="commandQuickCreate" Header="Быстрое добавление" Margin="2,0,2,0" Background="#f7fbfc" Click="commandQuickCreate_Click"/>
             <MenuItem x:Name="commandCreate" Header="Добавить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandCreate_Click"/>
             <MenuItem x:Name="commandUpdate" Header="Изменить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandUpdate_Click"/>
             <MenuItem x:Name="commandDelete" Header="Удалить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandDelete_Click"/>

@@ -18,13 +18,13 @@ namespace ScheduleMaker.WPF
     /// <summary>
     /// Логика взаимодействия для WindowSyllabiCreate.xaml
     /// </summary>
-    public partial class WindowSyllabiCreate : Window
+    public partial class WindowStudyLoadCreate : Window
     {
         List<SubjectPlan> SubjectPlans = new List<SubjectPlan>();
         List<Subject> Subjects;
         List<Teacher> TeacherPlans = new List<Teacher>();
         List<Teacher> Teachers;
-        public WindowSyllabiCreate()
+        public WindowStudyLoadCreate()
         {
             InitializeComponent();
             InitializeData();

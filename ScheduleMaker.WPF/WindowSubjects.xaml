@@ -22,7 +22,6 @@
         <DataGrid x:Name="lessonsDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" Background="#f7fbfc">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Сложность предмета" Binding="{Binding Difficulty}" Width="145"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

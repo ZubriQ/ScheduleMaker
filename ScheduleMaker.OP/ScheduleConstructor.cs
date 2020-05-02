@@ -39,6 +39,7 @@ namespace ScheduleMaker.OP
         public void MakeSchedules(ScheduleData scheduleData, double[] priorities)
         {
             ClearTeachersLessons(scheduleData);
+            ClearClassroomsLessons(scheduleData);
             Job[] tempLessons = new Job[scheduleData.LessonsCount];
             InitializeSchedules(scheduleData.Syllabi);
             CopyAndSortLessons(scheduleData, tempLessons, priorities);
@@ -84,6 +85,21 @@ namespace ScheduleMaker.OP
         }
 
         /// <summary>
+        /// Очистить уроки в кабинетах
+        /// </summary>
+        /// <param name="scheduleData">Кабинеты</param>
+        private void ClearClassroomsLessons(ScheduleData scheduleData)
+        {
+            for (int i = 0; i < scheduleData.Classrooms.Count; i++)
+            {
+                for (int j = 0; j < 60; j++)
+                {
+                    scheduleData.Classrooms[i].Lessons[j] = null;
+                }
+            }
+        }
+
+        /// <summary>
         /// Добавить урок.
         /// </summary>
         /// <param name="scheduleData">Данные об учителях.</param>
@@ -91,17 +107,19 @@ namespace ScheduleMaker.OP
         /// <param name="indexOfJob">Индекс текущего урока.</param>
         private void AddLesson(ScheduleData scheduleData, Job[] tempLessons, int indexOfJob)
         {
-            // Найти учителя, который ведет предмет
-            int teacherId = scheduleData.Syllabi[tempLessons[indexOfJob].SyllabusId].Teachers.FirstOrDefault(x => x.Subject.Any(s => s.Id == tempLessons[indexOfJob].Subject.Id)).Id;
-            // Найти расписание нужного класса
+            int teacherId = scheduleData.Syllabi[tempLessons[indexOfJob].SyllabusId].Teachers
+                                        .FirstOrDefault(x => x.Subject.Any(s => s.Id == tempLessons[indexOfJob].Subject.Id)).Id;
             int scheduleId = SchedulesList.FirstOrDefault(x => x.SyllabusId == tempLessons[indexOfJob].SyllabusId).SyllabusId;
-            // Добавить урок
+            // TODO: Выбирать менее занятый кабинет, так как один может быть переполнен
+            int classroomId = scheduleData.Classrooms.FirstOrDefault(x => x.Subjects.Any(s => s.Id == tempLessons[indexOfJob].Subject.Id)).Id;
             for (int i = 0; i < 60; i++)
             {
-                if (scheduleData.Teachers[teacherId].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null)
+                if (scheduleData.Teachers[teacherId].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null 
+                    && scheduleData.Classrooms[classroomId].Lessons[i] == null)
                 {
                     scheduleData.Teachers[teacherId].Lessons[i] = tempLessons[indexOfJob];
                     SchedulesList[scheduleId].Lessons[i] = tempLessons[indexOfJob];
+                    scheduleData.Classrooms[classroomId].Lessons[i] = tempLessons[indexOfJob];
                     break;
                 }
             }
