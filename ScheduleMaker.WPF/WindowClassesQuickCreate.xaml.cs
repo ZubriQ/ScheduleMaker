@@ -22,6 +22,7 @@ namespace ScheduleMaker.WPF
         public char[] Letters = new char[] { 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к', 'л',
                                              'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 
                                              'ы', 'ю', 'я', };
+
         public WindowClassesQuickCreate()
         {
             InitializeComponent();
@@ -29,12 +30,23 @@ namespace ScheduleMaker.WPF
 
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
-            int count = Convert.ToInt32(countTextBox.Text);
-            for (int i = 0; i < count; i++)
+            if (countTextBox.Text != "" && yearTextBox.Text != "")
             {
-                App.Classes.Add(new OP.School.Class(i, yearTextBox.Text + Letters[i]));
+                int count = Convert.ToInt32(countTextBox.Text);
+                for (int i = 0; i < count; i++)
+                {
+                    string className = yearTextBox.Text + Letters[i];
+                    // Проверяется: нет ли совпадений в БД
+                    if (!App.DB.Classes.Any(s => s.name == className))
+                    {
+                        Classes @class = new Classes();
+                        @class.name = className;
+                        App.DB.Classes.Add(@class);
+                    }
+                }
+                App.DB.SaveChanges();
+                Close();
             }
-            Close();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)

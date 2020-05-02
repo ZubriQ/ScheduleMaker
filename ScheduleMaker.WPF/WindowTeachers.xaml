@@ -21,7 +21,9 @@
 
         <DataGrid x:Name="teachersDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" Background="#f7fbfc">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Ф.И.О." Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding second_name}" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding first_name}" />
+                <DataGridTextColumn Header="Отчество" Binding="{Binding middle_name}" />
                 <DataGridTextColumn Header="Предметы, которые ведет учитель" Binding="{Binding AllSubjects}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>

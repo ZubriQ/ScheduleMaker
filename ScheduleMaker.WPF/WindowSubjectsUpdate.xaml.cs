@@ -20,14 +20,13 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class WindowSubjectsUpdate : Window
     {
-        Subject Subject;
-        public WindowSubjectsUpdate(Subject subject)
+        Subjects Subject;
+        public WindowSubjectsUpdate(Subjects subject)
         {
             InitializeComponent();
             Subject = subject;
-            nameTextBox.Text = subject.Name;
-            difficultyTextBox.Text = subject.Difficulty.ToString();
-            label1.Content = "Редактирование " + subject.Name + ".";
+            DataContext = Subject;
+            label1.Content = "Редактирование " + subject.name + ".";
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -37,9 +36,11 @@ namespace ScheduleMaker.WPF
 
         private void updateButton_Click(object sender, RoutedEventArgs e)
         {
-            Subject.Name = nameTextBox.Text;
-            Subject.Difficulty = Convert.ToInt32(difficultyTextBox.Text);
-            Close();
+            if (nameTextBox.Text != "")
+            {
+                App.DB.SaveChanges();
+                Close();
+            } 
         }
     }
 }

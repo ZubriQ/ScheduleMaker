@@ -19,9 +19,13 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class WindowSubjectsCreate : Window
     {
+        Subjects Subject;
         public WindowSubjectsCreate()
         {
             InitializeComponent();
+            Subject = new Subjects();
+            Subject.difficulty = 5;
+            DataContext = Subject;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -31,10 +35,12 @@ namespace ScheduleMaker.WPF
 
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Subjects.Add(new OP.School.Subject(App.Subjects.Count,
-                                                   nameTextBox.Text,
-                                                   Convert.ToInt32(difficultyTextBox.Text)));
-            Close();
+            if (nameTextBox.Text != "")
+            {
+                App.DB.Subjects.Add(Subject);
+                App.DB.SaveChanges();
+                Close();
+            }
         }
     }
 }

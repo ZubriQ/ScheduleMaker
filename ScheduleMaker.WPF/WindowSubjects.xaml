@@ -19,9 +19,10 @@
             <MenuItem x:Name="commandRefresh" Header="Обновить" Margin="2,0,2,0" Background="#f7fbfc" Click="commandRefresh_Click"/>
         </Menu>
 
-        <DataGrid x:Name="lessonsDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" Background="#f7fbfc">
+        <DataGrid x:Name="lessonsDataGrid" Grid.Row="1" AutoGenerateColumns="False" 
+                  IsReadOnly="True" Margin="5" Background="#f7fbfc" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding name}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

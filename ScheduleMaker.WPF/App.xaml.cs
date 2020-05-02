@@ -16,33 +16,22 @@ namespace ScheduleMaker.WPF
     public partial class App : Application
     {
         /// <summary>
-        /// Список учебных планов
+        /// База данных SQL Server
         /// </summary>
-        public static List<Syllabus> Syllabi = new List<Syllabus>();
+        public static ScheduleMakerEntities DB = new ScheduleMakerEntities();
 
         /// <summary>
-        /// Список всех учителей в школе
-        /// </summary>
-        public static List<Teacher> Teachers = new List<Teacher>();
-
-        /// <summary>
-        /// Список предметов в школе
-        /// </summary>
-        public static List<Subject> Subjects = new List<Subject>();
-
-        /// <summary>
-        /// Алгоритм
+        /// Алгоритм для составления расписаний
         /// </summary>
         public static OpenShopPSO OpenShopPSO = new OpenShopPSO();
 
         /// <summary>
-        /// Школьные классы
+        /// Старое
         /// </summary>
+        public static List<Syllabus> Syllabi = new List<Syllabus>();
+        public static List<Teacher> Teachers = new List<Teacher>();
+        public static List<Subject> Subjects = new List<Subject>();
         public static List<Class> Classes = new List<Class>();
-
-        /// <summary>
-        /// Кабинеты
-        /// </summary>
         public static List<Classroom> Classrooms = new List<Classroom>();
     }
 }

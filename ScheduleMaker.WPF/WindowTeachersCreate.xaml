@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleMaker.WPF"
         mc:Ignorable="d"
-        Title="Управление учителями - Добавление нового учителя" Height="450" Width="400">
+        Title="Управление учителями - Добавление нового учителя" Height="550" Width="500">
     <Grid Background="SteelBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -16,35 +16,53 @@
                 <Label Content="Добавить нового учителя." HorizontalAlignment="Center"/>
                 <DockPanel Margin="5" Width="200">
                     <Label Content="Имя:" />
-                    <TextBox x:Name="nameTextBox" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="nameTextBox" VerticalContentAlignment="Center" Text="{Binding first_name}"/>
                 </DockPanel>
                 <DockPanel Margin="5" Width="200">
                     <Label Content="Фамилия:" />
-                    <TextBox x:Name="secondNameTextBox" VerticalContentAlignment="Center" />
+                    <TextBox x:Name="secondNameTextBox" VerticalContentAlignment="Center" Text="{Binding second_name}"/>
                 </DockPanel>
                 <DockPanel Margin="5" Width="200">
                     <Label Content="Отчество:" />
-                    <TextBox x:Name="middleNameTextBox" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="middleNameTextBox" VerticalContentAlignment="Center" Text="{Binding middle_name}"/>
                 </DockPanel>
 
-                <Label Content="Выделите уроки, которые будут вестись учителем:" HorizontalAlignment="Center"/>
-                <ListBox x:Name="lessonsListBox" SelectionMode="Multiple" Margin="5" 
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" Padding="1"
-                     Background="#f7fbfc">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <Label Content="{Binding Name}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
+                <Label Content="Выберите уроки, которые будут вестись учителем:" HorizontalAlignment="Center"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Предметы, которые ведет учитель" HorizontalAlignment="Center"/>
+                    <Label Content="Предметы." Grid.Column="2" HorizontalAlignment="Center"/>
+                    <DataGrid x:Name="DataGrid1" SelectionMode="Single" Margin="5,0,0,0" Padding="1"
+                              VerticalScrollBarVisibility="Visible" Background="#f7fbfc" Grid.Row="1"
+                              AutoGenerateColumns="False" Height="250" MaxHeight="250" IsReadOnly="True"
+                              ItemsSource="{Binding Subjects}" HorizontalScrollBarVisibility="Disabled">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding name}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Margin="7" VerticalAlignment="Center">
+                        <Button x:Name="AddElementButton" Content="&lt;&lt;" Width="30" Margin="3" Click="AddElementButton_Click"/>
+                        <Button x:Name="RemoveElementButton" Content="&gt;&gt;" Width="30" Margin="3" Click="RemoveElementButton_Click"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="DataGrid2" SelectionMode="Single" Margin="0,0,5,0" 
+                              VerticalScrollBarVisibility="Visible" Padding="1" AutoGenerateColumns="False"
+                              Background="#f7fbfc" Grid.Column="2" Grid.Row="1" Height="250" MaxHeight="250" IsReadOnly="True"
+                              HorizontalScrollBarVisibility="Disabled">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding name}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </StackPanel>
         </Border>
 

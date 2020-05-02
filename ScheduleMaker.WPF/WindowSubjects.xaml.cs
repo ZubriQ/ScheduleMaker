@@ -23,7 +23,7 @@ namespace ScheduleMaker.WPF
         public WindowSubjects()
         {
             InitializeComponent();
-            lessonsDataGrid.ItemsSource = App.Subjects;
+            lessonsDataGrid.ItemsSource = App.DB.Subjects.ToArray();
         }
 
         private void commandCreate_Click(object sender, RoutedEventArgs e)
@@ -36,7 +36,7 @@ namespace ScheduleMaker.WPF
         {
             if (lessonsDataGrid.SelectedItem != null)
             {
-                WindowSubjectsUpdate window = new WindowSubjectsUpdate(lessonsDataGrid.SelectedItem as Subject);
+                WindowSubjectsUpdate window = new WindowSubjectsUpdate(lessonsDataGrid.SelectedItem as Subjects);
                 window.Show();
             }
         }
@@ -45,7 +45,8 @@ namespace ScheduleMaker.WPF
         {
             if (lessonsDataGrid.SelectedItem != null)
             {
-                App.Subjects.Remove(lessonsDataGrid.SelectedItem as Subject);
+                App.DB.Subjects.Remove(lessonsDataGrid.SelectedItem as Subjects);
+                App.DB.SaveChanges();
             }
             RefreshTable();
         }
@@ -58,12 +59,7 @@ namespace ScheduleMaker.WPF
         private void RefreshTable()
         {
             lessonsDataGrid.ItemsSource = null;
-            lessonsDataGrid.ItemsSource = App.Subjects;
-        }
-
-        private void commandQuickCreate_Click(object sender, RoutedEventArgs e)
-        {
-
+            lessonsDataGrid.ItemsSource = App.DB.Subjects.ToArray();
         }
     }
 }

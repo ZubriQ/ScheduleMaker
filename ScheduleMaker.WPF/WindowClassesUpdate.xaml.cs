@@ -20,13 +20,13 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class WindowClassesUpdate : Window
     {
-        Class Class;
-        public WindowClassesUpdate(Class @class)
+        Classes Class;
+        public WindowClassesUpdate(Classes @class)
         {
             InitializeComponent();
             Class = @class;
-            nameTextBox.Text = @class.Name;
-            label1.Content = "Редактирование " + @class.Name + ".";
+            DataContext = Class;
+            label1.Content = "Редактирование " + @class.name + ".";
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -36,7 +36,7 @@ namespace ScheduleMaker.WPF
 
         private void updateButton_Click(object sender, RoutedEventArgs e)
         {
-            Class.Name = nameTextBox.Text;
+            App.DB.SaveChanges();
             Close();
         }
     }

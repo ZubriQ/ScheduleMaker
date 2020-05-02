@@ -20,25 +20,70 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class WindowTeachersUpdate : Window
     {
-        Teacher Teacher;
-        public WindowTeachersUpdate(Teacher teacher)
+        Teachers Teacher;
+        List<Subjects> Subjects;
+        public WindowTeachersUpdate(Teachers teacher)
         {
             InitializeComponent();
             Teacher = teacher;
-            lessonsListBox.ItemsSource = App.Subjects;
-            label1.Content = "Редактирование " + teacher.Id + ".";
+            DataContext = Teacher;
+            // Загрузить предметы в правую таблицу
+            InitializeSubjects();
+
+            label1.Content = "Редактирование " + teacher.second_name + " " + teacher.first_name + " " + teacher.middle_name + ".";
+        }
+
+        private void InitializeSubjects()
+        {
+            var subjects = Teacher.Subjects.ToList();
+            Subjects = App.DB.Subjects.ToList();
+            for (int i = 0; i < subjects.Count; i++)
+            {
+                Subjects.Remove(subjects[i]);
+            }
+            DataGrid2.ItemsSource = Subjects;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void updateButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Subject[]
-            Teacher.Update(lessonsListBox.SelectedItems as Subject[]);
-            this.Close();
+            if (DataGrid1.Items.Count > 0)
+            {
+                App.DB.SaveChanges();
+                Close();
+            }   
+        }
+
+        private void AddElementButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid2.SelectedItem != null)
+            {
+                Teacher.Subjects.Add(DataGrid2.SelectedItem as Subjects);
+                Subjects.Remove(DataGrid2.SelectedItem as Subjects);
+                RefreshTables();
+            }
+        }
+
+        private void RemoveElementButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid1.SelectedItem != null)
+            {
+                Teacher.Subjects.Remove(DataGrid1.SelectedItem as Subjects);
+                Subjects.Add(DataGrid1.SelectedItem as Subjects);
+                RefreshTables();
+            }
+        }
+
+        private void RefreshTables()
+        {
+            DataGrid2.ItemsSource = null;
+            DataGrid2.ItemsSource = Subjects;
+            DataGrid1.ItemsSource = null;
+            DataGrid1.ItemsSource = Teacher.Subjects;
         }
     }
 }

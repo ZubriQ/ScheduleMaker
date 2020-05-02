@@ -20,10 +20,15 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class WindowTeachersCreate : Window
     {
+        Teachers Teacher;
+        List<Subjects> Subjects;
         public WindowTeachersCreate()
         {
             InitializeComponent();
-            lessonsListBox.ItemsSource = App.Subjects;
+            Teacher = new Teachers();
+            DataContext = Teacher;
+            Subjects = new List<Subjects>(App.DB.Subjects.ToList());
+            DataGrid2.ItemsSource = Subjects;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -34,17 +39,40 @@ namespace ScheduleMaker.WPF
         // Добавить нового учителя
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
-            if (lessonsListBox.SelectedItem != null)
+            if (DataGrid1.Items.Count > 0 && nameTextBox.Text != "" && secondNameTextBox.Text != "")
             {
-                Subject[] subjects = new Subject[lessonsListBox.SelectedItems.Count];
-                var selectedItems = lessonsListBox.SelectedItems;
-                for (int i = 0; i < subjects.Length; i++)
-                {
-                    subjects[i] = selectedItems[i] as Subject;
-                }
-                App.Teachers.Add(new Teacher(App.Teachers.Count, subjects));
+                App.DB.Teachers.Add(Teacher);
+                App.DB.SaveChanges();
                 Close();
             }
+        }
+
+        private void AddElementButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid2.SelectedItem != null)
+            {
+                Teacher.Subjects.Add(DataGrid2.SelectedItem as Subjects);
+                Subjects.Remove(DataGrid2.SelectedItem as Subjects);
+                RefreshTables();
+            }
+        }
+
+        private void RemoveElementButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid1.SelectedItem != null)
+            {
+                Teacher.Subjects.Remove(DataGrid1.SelectedItem as Subjects);
+                Subjects.Add(DataGrid1.SelectedItem as Subjects);
+                RefreshTables();
+            }
+        }
+
+        private void RefreshTables()
+        {
+            DataGrid2.ItemsSource = null;
+            DataGrid2.ItemsSource = Subjects;
+            DataGrid1.ItemsSource = null;
+            DataGrid1.ItemsSource = Teacher.Subjects;
         }
     }
 }

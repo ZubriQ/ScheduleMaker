@@ -16,7 +16,7 @@
                 <Label Content="Добавление нового класса." HorizontalAlignment="Center"/>
                 <DockPanel Margin="5" Width="200">
                     <Label Content="Название:" />
-                    <TextBox x:Name="nameTextBox" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="nameTextBox" VerticalContentAlignment="Center" Text="{Binding name}"/>
                 </DockPanel>
             </StackPanel>
         </Border>

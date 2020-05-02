@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="272eeee455944d7fbccf95cf30c47435" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="ScheduleMakerModel.Classes" Width="1.5" PointX="5.25" PointY="4.75" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Classrooms" Width="1.5" PointX="0.75" PointY="5" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.CreatorsOfSyllabi" Width="1.5" PointX="5.25" PointY="2.25" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Lessons" Width="1.5" PointX="7.5" PointY="7.875" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.StudyLoad" Width="1.5" PointX="5.25" PointY="8" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Subjects" Width="1.5" PointX="3" PointY="8.875" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Syllabi" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Teachers" Width="1.5" PointX="5.25" PointY="11.75" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Class" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Classroom" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Creators_Syllabus" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Discipline" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Teacher" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_SyllabusDiscipline_Discipline" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_SyllabusDiscipline_Syllabus" />
+        <AssociationConnector Association="ScheduleMakerModel.ClassroomsSubjects" />
+        <AssociationConnector Association="ScheduleMakerModel.Specialization" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

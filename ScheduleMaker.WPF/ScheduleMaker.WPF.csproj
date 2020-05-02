@@ -35,8 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,7 +64,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes.cs">
+      <DependentUpon>ScheduleMakerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classrooms.cs">
+      <DependentUpon>ScheduleMakerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CreatorsOfSyllabi.cs">
+      <DependentUpon>ScheduleMakerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Lessons.cs">
+      <DependentUpon>ScheduleMakerModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\TeacherSchedule.cs" />
+    <Compile Include="ScheduleMakerModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleMakerModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleMakerModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleMakerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleMakerModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScheduleMakerModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="StudyLoad.cs">
+      <DependentUpon>ScheduleMakerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Subjects.cs">
+      <DependentUpon>ScheduleMakerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Syllabi.cs">
+      <DependentUpon>ScheduleMakerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Teachers.cs">
+      <DependentUpon>ScheduleMakerModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="WindowClasses.xaml.cs">
       <DependentUpon>WindowClasses.xaml</DependentUpon>
     </Compile>
@@ -188,9 +237,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <EntityDeploy Include="ScheduleMakerModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ScheduleMakerModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ScheduleMakerModel.edmx.diagram">
+      <DependentUpon>ScheduleMakerModel.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +263,20 @@
       <Name>ScheduleMaker.OP</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ScheduleMakerModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ScheduleMakerModel.edmx</DependentUpon>
+      <LastGenOutput>ScheduleMakerModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ScheduleMakerModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ScheduleMakerModel.edmx</DependentUpon>
+      <LastGenOutput>ScheduleMakerModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

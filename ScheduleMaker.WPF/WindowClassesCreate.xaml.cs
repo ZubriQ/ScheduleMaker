@@ -19,9 +19,12 @@ namespace ScheduleMaker.WPF
     /// </summary>
     public partial class WindowClassesCreate : Window
     {
+        Classes Class;
         public WindowClassesCreate()
         {
             InitializeComponent();
+            Class = new Classes();
+            DataContext = Class;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -31,8 +34,12 @@ namespace ScheduleMaker.WPF
 
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Classes.Add(new OP.School.Class(App.Classes.Count, nameTextBox.Text));
-            Close();
+            if (nameTextBox.Text != "")
+            {
+                App.DB.Classes.Add(Class);
+                App.DB.SaveChanges();
+                Close();
+            }
         }
     }
 }

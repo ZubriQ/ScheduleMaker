@@ -263,7 +263,7 @@ namespace ScheduleMaker.WPF
 
         private void syllabiMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
     }
 }
