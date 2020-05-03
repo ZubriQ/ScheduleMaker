@@ -1,5 +1,4 @@
-﻿using ScheduleMaker.OP.School;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,17 +17,17 @@ namespace ScheduleMaker.WPF
     /// <summary>
     /// Логика взаимодействия для WindowSyllabi.xaml
     /// </summary>
-    public partial class WindowStudyLoad : Window
+    public partial class WindowSyllabi : Window
     {
-        public WindowStudyLoad()
+        public WindowSyllabi()
         {
             InitializeComponent();
-            syllabiDataGrid.ItemsSource = App.Syllabi;
+            syllabiDataGrid.ItemsSource = App.DB.Syllabi.OrderBy(s => s.year).ToArray();
         }
 
         private void commandCreate_Click(object sender, RoutedEventArgs e)
         {
-            WindowStudyLoadCreate window = new WindowStudyLoadCreate();
+            WindowSyllabiCreate window = new WindowSyllabiCreate();
             window.Show();
         }
 
@@ -36,7 +35,7 @@ namespace ScheduleMaker.WPF
         {
             if (syllabiDataGrid.SelectedItem != null)
             {
-                WindowStudyLoadUpdate window = new WindowStudyLoadUpdate(syllabiDataGrid.SelectedItem as Syllabus);
+                WindowSyllabiUpdate window = new WindowSyllabiUpdate(syllabiDataGrid.SelectedItem as Syllabi);
                 window.Show();
             }
         }
@@ -45,9 +44,10 @@ namespace ScheduleMaker.WPF
         {
             if (syllabiDataGrid.SelectedItem != null)
             {
-                App.Syllabi.Remove(syllabiDataGrid.SelectedItem as Syllabus);
+                App.DB.Syllabi.Remove(syllabiDataGrid.SelectedItem as Syllabi);
+                App.DB.SaveChanges();
+                RefreshTable();
             }
-            RefreshTable();
         }
 
         private void commandRefresh_Click(object sender, RoutedEventArgs e)
@@ -58,7 +58,7 @@ namespace ScheduleMaker.WPF
         private void RefreshTable()
         {
             syllabiDataGrid.ItemsSource = null;
-            syllabiDataGrid.ItemsSource = App.Syllabi;
+            syllabiDataGrid.ItemsSource = App.DB.Syllabi.OrderBy(s => s.year).ToArray();
         }
     }
 }

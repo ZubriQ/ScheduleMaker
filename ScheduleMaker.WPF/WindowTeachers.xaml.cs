@@ -25,7 +25,7 @@ namespace ScheduleMaker.WPF
         public WindowTeachers()
         {
             InitializeComponent();
-            teachersDataGrid.ItemsSource = App.DB.Teachers.ToArray();
+            teachersDataGrid.ItemsSource = App.DB.Teachers.OrderBy(t => t.second_name).ToArray();
         }
 
         private void commandCreate_Click(object sender, RoutedEventArgs e)
@@ -60,7 +60,7 @@ namespace ScheduleMaker.WPF
         private void RefreshTable()
         {
             teachersDataGrid.ItemsSource = null;
-            teachersDataGrid.ItemsSource = App.DB.Teachers.ToArray();
+            teachersDataGrid.ItemsSource = App.DB.Teachers.OrderBy(t => t.second_name).ToArray();
         }
     }
 }

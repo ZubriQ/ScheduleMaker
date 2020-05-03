@@ -27,8 +27,10 @@
                 <MenuItem x:Name="classroomsMenuItem" Header="Кабинеты"/>
             </MenuItem>
             <Separator/>
-            <MenuItem x:Name="syllabiMenuItem" Header="Учебные планы" Margin="2,0,2,0" Background="#f7fbfc" Click="syllabiMenuItem_Click"/>
-            <MenuItem x:Name="studyLoadMenuItem" Header="Управление нагрузкой" Margin="2,0,2,0" Background="#f7fbfc" Click="studyLoadMenuItem_Click"/>
+            <MenuItem Header="Учебные планы" Margin="2,0,2,0" Background="#f7fbfc">
+                <MenuItem x:Name="syllabiMenuItem" Header="Управление учебными планами" Margin="2,0,2,0" Background="#f7fbfc" Click="syllabiMenuItem_Click"/>
+                <MenuItem x:Name="syllabiSetLoadMenuItem" Header="Добавить нагрузку" Margin="2,0,2,0" Background="#f7fbfc" Click="syllabiSetLoadMenuItem_Click"/>
+            </MenuItem>
             <Separator/>
             <MenuItem x:Name="aboutMenuItem" Header="О программе" Margin="2,0,2,0" Background="#f7fbfc"/>
         </Menu>

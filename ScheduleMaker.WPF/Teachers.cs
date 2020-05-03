@@ -18,6 +18,7 @@ namespace ScheduleMaker.WPF
         public Teachers()
         {
             this.Lessons = new HashSet<Lessons>();
+            this.Classes = new HashSet<Classes>();
             this.Subjects = new HashSet<Subjects>();
         }
     
@@ -29,6 +30,8 @@ namespace ScheduleMaker.WPF
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Lessons> Lessons { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Classes> Classes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Subjects> Subjects { get; set; }
     }

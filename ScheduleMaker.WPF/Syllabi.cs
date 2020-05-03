@@ -17,15 +17,18 @@ namespace ScheduleMaker.WPF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Syllabi()
         {
+            this.Classes = new HashSet<Classes>();
             this.StudyLoad = new HashSet<StudyLoad>();
         }
     
         public int syllabus_id { get; set; }
         public string description { get; set; }
-        public int year { get; set; }
+        public string year { get; set; }
         public Nullable<System.DateTime> date_of_creation { get; set; }
+        public string creators { get; set; }
     
-        public virtual CreatorsOfSyllabi CreatorsOfSyllabi { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Classes> Classes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StudyLoad> StudyLoad { get; set; }
     }

@@ -23,7 +23,7 @@ namespace ScheduleMaker.WPF
         public WindowClasses()
         {
             InitializeComponent();
-            classesDataGrid.ItemsSource = App.DB.Classes.ToArray();
+            classesDataGrid.ItemsSource = App.DB.Classes.OrderBy(s => s.name).ToArray();
         }
 
         private void commandCreate_Click(object sender, RoutedEventArgs e)
@@ -59,13 +59,37 @@ namespace ScheduleMaker.WPF
         private void RefreshTable()
         {
             classesDataGrid.ItemsSource = null;
-            classesDataGrid.ItemsSource = App.DB.Classes.ToArray();
+            classesDataGrid.ItemsSource = App.DB.Classes.OrderBy(s => s.name).ToArray();
         }
 
         private void commandQuickCreate_Click(object sender, RoutedEventArgs e)
         {
             WindowClassesQuickCreate window = new WindowClassesQuickCreate();
             window.Show();
+        }
+
+        private void commandEditLoad_Click(object sender, RoutedEventArgs e)
+        {
+            if (classesDataGrid.SelectedItem != null)
+            {
+                WindowSyllabiSetLoad window = new WindowSyllabiSetLoad(classesDataGrid.SelectedItem as Classes);
+                window.Show();
+            }
+        }
+
+        private void commandDeleteLoad_Click(object sender, RoutedEventArgs e)
+        {
+            if (classesDataGrid.SelectedItem != null)
+            {
+                var @class = classesDataGrid.SelectedItem as Classes;
+                foreach (var t in @class.Teachers.Where(t => t is Teachers).ToList())
+                {
+                    @class.Teachers.Remove(t);
+                }
+                @class.syllabus_id = null;
+                App.DB.SaveChanges();
+                RefreshTable();
+            }
         }
     }
 }

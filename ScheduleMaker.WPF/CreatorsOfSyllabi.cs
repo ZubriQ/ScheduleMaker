@@ -16,7 +16,5 @@ namespace ScheduleMaker.WPF
     {
         public int syllabus_id { get; set; }
         public string creators { get; set; }
-    
-        public virtual Syllabi Syllabi { get; set; }
     }
 }

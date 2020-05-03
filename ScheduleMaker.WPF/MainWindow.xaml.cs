@@ -263,7 +263,13 @@ namespace ScheduleMaker.WPF
 
         private void syllabiMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            
+            WindowSyllabi window = new WindowSyllabi();
+            window.Show();
+        }
+        private void syllabiSetLoadMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowSyllabiSetLoad window = new WindowSyllabiSetLoad();
+            window.Show();
         }
     }
 }
