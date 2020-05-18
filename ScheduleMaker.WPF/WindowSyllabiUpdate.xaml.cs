@@ -72,6 +72,7 @@ namespace ScheduleMaker.WPF
                     Subjects = DataGrid2.SelectedItem as Subjects
                 };
                 StudyLoads.Add(studyLoad);
+                App.DB.StudyLoad.Add(studyLoad);
                 Subjects.Remove(DataGrid2.SelectedItem as Subjects);
 
                 LessonsCountTextBox.Text = "";
@@ -90,6 +91,7 @@ namespace ScheduleMaker.WPF
                 StudyLoads.Remove(DataGrid1.SelectedItem as StudyLoad);
                 SubjectsCountLabel.Content = DataGrid1.Items.Count;
                 StudyLoadCount -= (DataGrid1.SelectedItem as StudyLoad).lessons_count;
+                App.DB.StudyLoad.Remove(DataGrid1.SelectedItem as StudyLoad);
                 RefreshTables();
             }
         }

@@ -107,17 +107,19 @@ namespace ScheduleMaker.OS
         /// <param name="indexOfJob">Индекс текущего урока.</param>
         private void AddLesson(ScheduleData scheduleData, Job[] tempLessons, int indexOfJob)
         {
-            int teacherId = scheduleData.Syllabi[tempLessons[indexOfJob].SyllabusId].Teachers
-                                        .FirstOrDefault(x => x.Subject.Any(s => s.Id == tempLessons[indexOfJob].Subject.Id)).Id;
-            int scheduleId = SchedulesList.FirstOrDefault(x => x.SyllabusId == tempLessons[indexOfJob].SyllabusId).SyllabusId;
+            var teacherId = scheduleData.Syllabi[tempLessons[indexOfJob].SyllabusId].Teachers
+                                        .First(x => x.Subject.Any(s => s.Id == tempLessons[indexOfJob].Subject.Id)).Id;
+            var teacher = scheduleData.Teachers.First(x => x.Id == teacherId);
+            var teacherIndex = Array.IndexOf(scheduleData.Teachers, teacher);
+            int scheduleId = SchedulesList.First(x => x.SyllabusId == tempLessons[indexOfJob].SyllabusId).SyllabusId;
             // TODO: Выбирать менее занятый кабинет, так как один может быть переполнен
-            int classroomId = scheduleData.Classrooms.FirstOrDefault(x => x.Subjects.Any(s => s.Id == tempLessons[indexOfJob].Subject.Id)).Id;
+            int classroomId = scheduleData.Classrooms.First(x => x.Subjects.Any(s => s.Id == tempLessons[indexOfJob].Subject.Id)).Id;
             for (int i = 0; i < 60; i++)
             {
-                if (scheduleData.Teachers[teacherId].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null 
+                if (scheduleData.Teachers[teacherIndex].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null 
                     && scheduleData.Classrooms[classroomId].Lessons[i] == null)
                 {
-                    scheduleData.Teachers[teacherId].Lessons[i] = tempLessons[indexOfJob];
+                    scheduleData.Teachers[teacherIndex].Lessons[i] = tempLessons[indexOfJob];
                     SchedulesList[scheduleId].Lessons[i] = tempLessons[indexOfJob];
                     scheduleData.Classrooms[classroomId].Lessons[i] = tempLessons[indexOfJob];
                     break;
