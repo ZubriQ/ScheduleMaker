@@ -214,21 +214,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ScheduleMaker.ADO\ScheduleMaker.ADO.csproj">
       <Project>{e0f4464c-f80a-4ff8-acb4-89816f270b27}</Project>
       <Name>ScheduleMaker.ADO</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScheduleMaker.GA\ScheduleMaker.GA.csproj">
-      <Project>{81504F5D-6C7D-42D8-B5FC-70FD55B78D57}</Project>
+      <Project>{81504f5d-6c7d-42d8-b5fc-70fd55b78d57}</Project>
       <Name>ScheduleMaker.GA</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScheduleMaker.OS\ScheduleMaker.OS.csproj">
       <Project>{d636ff39-636e-47e5-aab7-28184d8b8935}</Project>
       <Name>ScheduleMaker.OS</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

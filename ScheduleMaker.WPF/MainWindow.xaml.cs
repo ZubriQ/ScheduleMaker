@@ -62,17 +62,17 @@ namespace ScheduleMaker.WPF
                 {
                     var subj = App.DB.Subjects.Single(x => x.subject_id == s.subject_id);
                     Subject subject = new Subject(s.subject_id, subj.name, Convert.ToInt32(subj.difficulty));
-                    SubjectPlan subjectPlan = new SubjectPlan(subject, s.lessons_count);
+                    subjectPlans.Add(new SubjectPlan(subject, s.lessons_count));
                 }
                 // Добавление плана для класса
-                Syllabus syllabus = new Syllabus(i, @class, subjectPlans, teachers);
+                syllabi.Add(new Syllabus(i, @class, subjectPlans, teachers));
             }
 
             App.OpenShopPSO.SetData(App.DB.Teachers.ToList(), App.DB.Classrooms.ToList(), syllabi);
             App.OpenShopPSO.SetFunction(App.OpenShopPSO);
-            //ScheduleData scheduleData = new ScheduleData(App.DB.Teachers, App.DB.Syllabi, App.DB.Classrooms);
+            ScheduleData scheduleData = App.OpenShopPSO.ConvertData(App.DB.Teachers.ToList(), App.DB.Classrooms.ToList(), syllabi);
             App.OpenShopPSO.ScheduleConstructor.MakeSchedules(
-                App.OpenShopPSO.ScheduleData, App.OpenShopPSO.FindBestPriorities());
+                scheduleData, App.OpenShopPSO.FindBestPriorities());
 
             // Создание расписания для классов
             for (int i = 0; i < syllabi.Count; i++)

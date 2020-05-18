@@ -61,6 +61,20 @@ namespace ScheduleMaker.OS.PSO
         }
 
         /// <summary>
+        /// Конвертация под данные алгоритма и назначение данных
+        /// </summary>
+        /// <param name="teachers">Учителя</param>
+        /// <param name="classrooms">Кабинеты</param>
+        /// <param name="syllabi">Учебные планы</param>
+        public ScheduleData ConvertData(List<Teachers> teachers, List<Classrooms> classrooms, List<Syllabus> syllabi)
+        {
+            ScheduleData = new ScheduleData(ConvertTeachers(teachers),
+                                            ConvertClassrooms(classrooms),
+                                            syllabi);
+            return ScheduleData;
+        }
+
+        /// <summary>
         /// Конвертация учителей БД в учителей алгоритма
         /// </summary>
         /// <param name="teachers">Учителя (БД)</param>

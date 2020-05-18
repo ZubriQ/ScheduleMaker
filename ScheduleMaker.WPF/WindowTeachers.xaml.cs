@@ -58,8 +58,9 @@ namespace ScheduleMaker.WPF
 
         private void RefreshTable()
         {
-            teachersDataGrid.ItemsSource = null;
-            teachersDataGrid.ItemsSource = App.DB.Teachers.OrderBy(t => t.second_name).ToArray();
+            teachersDataGrid.Items.Refresh();
+            //teachersDataGrid.ItemsSource = null;
+            //teachersDataGrid.ItemsSource = App.DB.Teachers.OrderBy(t => t.second_name).ToArray();
         }
     }
 }
