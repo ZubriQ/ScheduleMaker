@@ -7,14 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ScheduleMaker.WPF
+namespace ScheduleMaker.ADO
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class CreatorsOfSyllabi
+    public partial class StudyLoad
     {
+        public int subject_id { get; set; }
         public int syllabus_id { get; set; }
-        public string creators { get; set; }
+        public int quarter { get; set; }
+        public int lessons_count { get; set; }
+    
+        public virtual Subjects Subjects { get; set; }
+        public virtual Syllabi Syllabi { get; set; }
     }
 }

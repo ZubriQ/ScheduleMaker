@@ -1,4 +1,4 @@
-﻿using ScheduleMaker.OP.School;
+﻿using ScheduleMaker.ADO;
 using System;
 using System.Collections.Generic;
 using System.Linq;

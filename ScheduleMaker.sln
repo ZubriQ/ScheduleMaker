@@ -25,6 +25,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleMaker.OP", "Schedul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMaker.WPF", "ScheduleMaker.WPF\ScheduleMaker.WPF.csproj", "{E14C7B4A-C0A2-4C6E-A95D-103A4226B0FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMaker.ADO", "ScheduleMaker.ADO\ScheduleMaker.ADO.csproj", "{E0F4464C-F80A-4FF8-ACB4-89816F270B27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMaker.OS", "ScheduleMaker.OS\ScheduleMaker.OS.csproj", "{D636FF39-636E-47E5-AAB7-28184D8B8935}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{E14C7B4A-C0A2-4C6E-A95D-103A4226B0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E14C7B4A-C0A2-4C6E-A95D-103A4226B0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E14C7B4A-C0A2-4C6E-A95D-103A4226B0FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0F4464C-F80A-4FF8-ACB4-89816F270B27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0F4464C-F80A-4FF8-ACB4-89816F270B27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0F4464C-F80A-4FF8-ACB4-89816F270B27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0F4464C-F80A-4FF8-ACB4-89816F270B27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D636FF39-636E-47E5-AAB7-28184D8B8935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D636FF39-636E-47E5-AAB7-28184D8B8935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D636FF39-636E-47E5-AAB7-28184D8B8935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D636FF39-636E-47E5-AAB7-28184D8B8935}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,4 @@
-﻿using ScheduleMaker.OP;
-using ScheduleMaker.OP.School;
+﻿using ScheduleMaker.ADO;
 using ScheduleMaker.WPF.Model;
 using System;
 using System.Collections.Generic;

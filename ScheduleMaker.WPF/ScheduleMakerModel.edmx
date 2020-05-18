@@ -29,13 +29,6 @@
           <Property Name="classroom_id" Type="int" Nullable="false" />
           <Property Name="subject_id" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="CreatorsOfSyllabi">
-          <Key>
-            <PropertyRef Name="syllabus_id" />
-          </Key>
-          <Property Name="syllabus_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="creators" Type="text" />
-        </EntityType>
         <EntityType Name="Lessons">
           <Key>
             <PropertyRef Name="syllabus_id" />
@@ -267,7 +260,6 @@
           <EntitySet Name="Classes" EntityType="Self.Classes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Classrooms" EntityType="Self.Classrooms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClassroomsSubjects" EntityType="Self.ClassroomsSubjects" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CreatorsOfSyllabi" EntityType="Self.CreatorsOfSyllabi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lessons" EntityType="Self.Lessons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Load" EntityType="Self.Load" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specialization" EntityType="Self.Specialization" Schema="dbo" store:Type="Tables" />
@@ -335,7 +327,6 @@
         <EntityContainer Name="ScheduleMakerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Classes" EntityType="ScheduleMakerModel.Classes" />
           <EntitySet Name="Classrooms" EntityType="ScheduleMakerModel.Classrooms" />
-          <EntitySet Name="CreatorsOfSyllabi" EntityType="ScheduleMakerModel.CreatorsOfSyllabi" />
           <EntitySet Name="Lessons" EntityType="ScheduleMakerModel.Lessons" />
           <EntitySet Name="StudyLoad" EntityType="ScheduleMakerModel.StudyLoad" />
           <EntitySet Name="Subjects" EntityType="ScheduleMakerModel.Subjects" />
@@ -402,13 +393,6 @@
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Lessons" Relationship="ScheduleMakerModel.FK_Lesson_Classroom" FromRole="Classrooms" ToRole="Lessons" />
           <NavigationProperty Name="Subjects" Relationship="ScheduleMakerModel.ClassroomsSubjects" FromRole="Classrooms" ToRole="Subjects" />
-        </EntityType>
-        <EntityType Name="CreatorsOfSyllabi">
-          <Key>
-            <PropertyRef Name="syllabus_id" />
-          </Key>
-          <Property Name="syllabus_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="creators" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Lessons">
           <Key>
@@ -597,14 +581,6 @@
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CreatorsOfSyllabi">
-            <EntityTypeMapping TypeName="ScheduleMakerModel.CreatorsOfSyllabi">
-              <MappingFragment StoreEntitySet="CreatorsOfSyllabi">
-                <ScalarProperty Name="creators" ColumnName="creators" />
-                <ScalarProperty Name="syllabus_id" ColumnName="syllabus_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -38,10 +38,23 @@ namespace ScheduleMaker.OP
         /// Конструктор Open Shop'a.
         /// </summary>
         /// <param name="teachers">Загрузка списка всех учителей в школе.</param>
-        public ScheduleData(List<Teacher> teachers, List<Syllabus> syllabi, List<Classroom> classrooms)
+        public ScheduleData(List<Teacher> teachers, List<Classroom> classrooms, List<Syllabus> syllabi)
         {
             Teachers = new Machine[teachers.Count];
             InitializeTeachers(teachers);
+            Syllabi = syllabi;
+            InitializeLessonsCount(syllabi);
+            InitializeAllLessons();
+            Classrooms = classrooms;
+        }
+
+        /// <summary>
+        /// Конструктор Open Shop'a.
+        /// </summary>
+        /// <param name="teachers">Загрузка списка всех учителей в школе.</param>
+        public ScheduleData(Machine[] teachers, List<Classroom> classrooms, List<Syllabus> syllabi)
+        {
+            Teachers = teachers;
             Syllabi = syllabi;
             InitializeLessonsCount(syllabi);
             InitializeAllLessons();

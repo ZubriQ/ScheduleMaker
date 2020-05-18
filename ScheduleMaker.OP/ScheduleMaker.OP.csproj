@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ScheduleMaker.ADO\ScheduleMaker.ADO.csproj" />
     <ProjectReference Include="..\ScheduleMaker.GA\ScheduleMaker.GA.csproj" />
     <ProjectReference Include="..\ScheduleMaker.PSO\ScheduleMaker.PSO.csproj" />
   </ItemGroup>

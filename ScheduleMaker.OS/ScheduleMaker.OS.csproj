@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D636FF39-636E-47E5-AAB7-28184D8B8935}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScheduleMaker.OS</RootNamespace>
+    <AssemblyName>ScheduleMaker.OS</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Job.cs" />
+    <Compile Include="Machine.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PSO\OpenShopPSO.cs" />
+    <Compile Include="Schedule.cs" />
+    <Compile Include="ScheduleConstructor.cs" />
+    <Compile Include="ScheduleData.cs" />
+    <Compile Include="ScheduleEvaluator.cs" />
+    <Compile Include="School\Class.cs" />
+    <Compile Include="School\Classroom.cs" />
+    <Compile Include="School\Subject.cs" />
+    <Compile Include="School\SubjectPlan.cs" />
+    <Compile Include="School\Syllabus.cs" />
+    <Compile Include="School\Teacher.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScheduleMaker.ADO\ScheduleMaker.ADO.csproj">
+      <Project>{e0f4464c-f80a-4ff8-acb4-89816f270b27}</Project>
+      <Name>ScheduleMaker.ADO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScheduleMaker.GA\ScheduleMaker.GA.csproj">
+      <Project>{81504f5d-6c7d-42d8-b5fc-70fd55b78d57}</Project>
+      <Name>ScheduleMaker.GA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScheduleMaker.PSO\ScheduleMaker.PSO.csproj">
+      <Project>{26b162d2-ce5a-47de-8395-211d55cf0490}</Project>
+      <Name>ScheduleMaker.PSO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

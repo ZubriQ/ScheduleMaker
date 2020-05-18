@@ -9,7 +9,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="197*"/>
+            <ColumnDefinition Width="19*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -22,10 +23,8 @@
                 <MenuItem x:Name="teachersSchedulesMenuItem" Header="Расписания учителей" Click="teachersSchedulesMenuItem_Click"/>
             </MenuItem>
             <MenuItem x:Name="classesMenuItem" Header="Классы" Margin="2,0,2,0" Background="#f7fbfc" Click="classesMenuItem_Click"/>
-            <MenuItem Header="Справочники" Margin="2,0,2,0" Background="#f7fbfc">
-                <MenuItem x:Name="subjectsMenuItem" Header="Предметы" Click="subjectsMenuItem_Click"/>
-                <MenuItem x:Name="classroomsMenuItem" Header="Кабинеты"/>
-            </MenuItem>
+            <MenuItem x:Name="classroomsMenuItem" Header="Кабинеты" Margin="2,0,2,0" Background="#f7fbfc"/>
+            <MenuItem x:Name="subjectsMenuItem" Header="Предметы" Margin="2,0,2,0" Click="subjectsMenuItem_Click" Background="#f7fbfc"/>
             <Separator/>
             <MenuItem Header="Учебные планы" Margin="2,0,2,0" Background="#f7fbfc">
                 <MenuItem x:Name="syllabiMenuItem" Header="Управление учебными планами" Margin="2,0,2,0" Background="#f7fbfc" Click="syllabiMenuItem_Click"/>
@@ -35,11 +34,12 @@
             <MenuItem x:Name="aboutMenuItem" Header="О программе" Margin="2,0,2,0" Background="#f7fbfc"/>
         </Menu>
 
-        <StackPanel Background="#b9d7ea" Grid.Column="0" Margin="0,24,0,0" Grid.RowSpan="2">
-            <Button x:Name="scheduleButton" Content="Расписание" Margin="5" Click="scheduleButton_Click" Background="#f7fbfc" ToolTip="Составить расписания"/>
+        <StackPanel Background="#b9d7ea" Grid.Column="0" Grid.Row="1">
+            <Button x:Name="scheduleButton" Content="Расписание" Margin="5" Click="scheduleButton_Click" Background="#f7fbfc" ToolTip="Составить расписание"/>
+            <Button x:Name="saveScheduleButton" Content="Сохранить" Margin="5" Click="saveScheduleButton_Click" Background="#f7fbfc" ToolTip="Сохранить расписание"/>
         </StackPanel>
 
-        <ItemsControl x:Name="SchedulesItemsControl" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,24,0,0" Grid.RowSpan="2" Background="#f7fbfc">
+        <ItemsControl x:Name="SchedulesItemsControl" Grid.Column="1" Grid.ColumnSpan="2" Background="#f7fbfc" Grid.Row="1">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Margin="5">

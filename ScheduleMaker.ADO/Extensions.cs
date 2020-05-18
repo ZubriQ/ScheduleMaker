@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace ScheduleMaker.WPF
+namespace ScheduleMaker.ADO
 {
     public partial class Teachers
     {
@@ -64,6 +64,19 @@ namespace ScheduleMaker.WPF
                     i++;
                 }
                 return result.ToString();
+            }
+        }
+
+        public int LessonsCount
+        {
+            get
+            {
+                int lessonsCount = 0;
+                foreach (var s in StudyLoad)
+                {
+                    lessonsCount += s.lessons_count;
+                }
+                return lessonsCount;
             }
         }
 

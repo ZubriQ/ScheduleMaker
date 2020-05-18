@@ -27,7 +27,6 @@ namespace ScheduleMaker.WPF
     
         public virtual DbSet<Classes> Classes { get; set; }
         public virtual DbSet<Classrooms> Classrooms { get; set; }
-        public virtual DbSet<CreatorsOfSyllabi> CreatorsOfSyllabi { get; set; }
         public virtual DbSet<Lessons> Lessons { get; set; }
         public virtual DbSet<StudyLoad> StudyLoad { get; set; }
         public virtual DbSet<Subjects> Subjects { get; set; }

@@ -1,4 +1,4 @@
-﻿using ScheduleMaker.OP;
+﻿using ScheduleMaker.OS;
 using ScheduleMaker.WPF.Model;
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace ScheduleMaker.WPF
                 teacherSchedules.Add(teacherSchedule);
             }
         }
-
+        
         public void AddLesson(Machine[] teachers, List<Day> newSchedule, ref int indexOfLesson, int teacherId)
         {
             // Номер урока
