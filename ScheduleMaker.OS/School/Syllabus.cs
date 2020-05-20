@@ -25,7 +25,7 @@ namespace ScheduleMaker.OS.School
         /// <summary>
         /// Учителя.
         /// </summary>
-        public List<Teacher> Teachers { get; set; }
+        public List<Machine> Teachers { get; set; }
 
         /// <summary>
         /// Уроки (работы).
@@ -64,7 +64,7 @@ namespace ScheduleMaker.OS.School
         /// <param name="class">Школьный класс.</param>
         /// <param name="subjects">Предметы.</param>
         /// <param name="teachers">Учителя, которые ведут данный Учебный план.</param>
-        public Syllabus(int id, Class @class, List<SubjectPlan> subjects, List<Teacher> teachers)
+        public Syllabus(int id, Class @class, List<SubjectPlan> subjects, List<Machine> teachers)
         {
             this.id = id;
             Class = @class;

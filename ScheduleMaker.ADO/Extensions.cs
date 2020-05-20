@@ -134,4 +134,26 @@ namespace ScheduleMaker.ADO
             }
         }
     }
+
+    public partial class Classrooms
+    {
+        public string AllSubjects
+        {
+            get
+            {
+                string result = "";
+                byte i = 0;
+                foreach (var s in Subjects)
+                {
+                    result += s.name;
+                    if (i < Subjects.Count - 1)
+                    {
+                        result += ", ";
+                    }
+                    i++;
+                }
+                return (result == "") ? "Предметы еще не назначены." : result;
+            }
+        }
+    }
 }

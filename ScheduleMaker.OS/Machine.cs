@@ -15,7 +15,7 @@ namespace ScheduleMaker.OS
         /// <summary>
         /// Предметы, который ведет учитель.
         /// </summary>
-        private Subject[] subject { get; }
+        public Subject[] Subject { get; set; }
 
         /// <summary>
         /// Список работ / расписание.
@@ -30,7 +30,8 @@ namespace ScheduleMaker.OS
         public Machine(int id, Subject[] subject)
         {
             this.id = id;
-            this.subject = subject;
+            Subject = subject;
+            // TODO: не инициализировать в Syllabus, т.к. не используются там
             lessons = new Job[60];
         }
 
@@ -73,8 +74,6 @@ namespace ScheduleMaker.OS
         }
 
         public int Id => id;
-
-        public Subject[] Subject => subject;
 
         public Job[] Lessons => lessons;
     }

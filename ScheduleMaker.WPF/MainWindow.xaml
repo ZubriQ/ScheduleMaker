@@ -9,44 +9,82 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="197*"/>
-            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="34"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
 
+        <DockPanel Background="AliceBlue" Margin="5" Grid.Column="1" Grid.Row="1" >
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="10" x:Name="OutputLabel"/>
+        </DockPanel>
         <Menu Grid.ColumnSpan="3" Padding="3" Background="SteelBlue">
             <MenuItem  Header="Учителя" Margin="2,0,2,0" Background="#f7fbfc">
-                <MenuItem x:Name="teachersMenuItem" Header="Управление учителями" Click="teachersMenuItem_Click"/>
-                <MenuItem x:Name="teachersSchedulesMenuItem" Header="Расписания учителей" Click="teachersSchedulesMenuItem_Click"/>
+                <MenuItem x:Name="teachersMenuItem" Header="Управление учителями"
+                          Click="teachersMenuItem_Click"/>
+                <MenuItem x:Name="teachersSchedulesMenuItem" Header="Расписания учителей"
+                          Click="teachersSchedulesMenuItem_Click"/>
             </MenuItem>
-            <MenuItem x:Name="classesMenuItem" Header="Классы" Margin="2,0,2,0" Background="#f7fbfc" Click="classesMenuItem_Click"/>
-            <MenuItem x:Name="classroomsMenuItem" Header="Кабинеты" Margin="2,0,2,0" Background="#f7fbfc"/>
-            <MenuItem x:Name="subjectsMenuItem" Header="Предметы" Margin="2,0,2,0" Click="subjectsMenuItem_Click" Background="#f7fbfc"/>
+            <MenuItem x:Name="classesMenuItem" Header="Классы" Margin="2,0,2,0"
+                      Background="#f7fbfc" Click="classesMenuItem_Click"/>
+            <MenuItem x:Name="classroomsMenuItem" Header="Кабинеты" Margin="2,0,2,0"
+                      Background="#f7fbfc" Click="classroomsMenuItem_Click"/>
+            <MenuItem x:Name="subjectsMenuItem" Header="Предметы" Margin="2,0,2,0"
+                      Click="subjectsMenuItem_Click" Background="#f7fbfc"/>
             <Separator/>
             <MenuItem Header="Учебные планы" Margin="2,0,2,0" Background="#f7fbfc">
-                <MenuItem x:Name="syllabiMenuItem" Header="Управление учебными планами" Margin="2,0,2,0" Background="#f7fbfc" Click="syllabiMenuItem_Click"/>
-                <MenuItem x:Name="syllabiSetLoadMenuItem" Header="Добавить нагрузку" Margin="2,0,2,0" Background="#f7fbfc" Click="syllabiSetLoadMenuItem_Click"/>
+                <MenuItem x:Name="syllabiMenuItem" Header="Управление учебными планами" Margin="2,0,2,0"
+                          Background="#f7fbfc" Click="syllabiMenuItem_Click"/>
+                <MenuItem x:Name="syllabiSetLoadMenuItem" Header="Добавить нагрузку" Margin="2,0,2,0"
+                          Background="#f7fbfc" Click="syllabiSetLoadMenuItem_Click"/>
             </MenuItem>
             <Separator/>
             <MenuItem x:Name="aboutMenuItem" Header="О программе" Margin="2,0,2,0" Background="#f7fbfc"/>
         </Menu>
 
-        <StackPanel Background="#b9d7ea" Grid.Column="0" Grid.Row="1">
-            <Button x:Name="scheduleButton" Content="Расписание" Margin="5" Click="scheduleButton_Click" Background="#f7fbfc" ToolTip="Составить расписание"/>
-            <Button x:Name="saveScheduleButton" Content="Сохранить" Margin="5" Click="saveScheduleButton_Click" Background="#f7fbfc" ToolTip="Сохранить расписание"/>
+        <StackPanel Background="#b9d7ea" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+            <Button x:Name="MakeSheduleButton" Background="White" BorderBrush="SteelBlue"
+                    ToolTip="Составить расписание" Margin="5,5,5,0" Click="MakeSheduleButton_Click">
+                <Viewbox>
+                    <Canvas Width="24" Height="24" Margin="2">
+                        <Path Data="M18,14H20V17H23V19H20V22H18V19H15V17H18V14M4,3H18A2,2
+                              0 0,1 20,5V12.08C18.45,11.82 16.92,12.18 15.68,13H12V17H13.08C12.97,17.68
+                              12.97,18.35 13.08,19H4A2,2 0 0,1 2,17V5A2,2 0 0,1
+                              4,3M4,7V11H10V7H4M12,7V11H18V7H12M4,13V17H10V13H4Z" Fill="SteelBlue" />
+                    </Canvas>
+                </Viewbox>
+            </Button>
+            <Button x:Name="SaveScheduleButton" Background="White" BorderBrush="SteelBlue"
+                    ToolTip="Сохранить созданное расписание в БД" Margin="5,5,5,0"
+                    Click="SaveScheduleButton_Click">
+                <Viewbox>
+                    <Canvas Width="24" Height="24" Margin="2">
+                        <Path Data="M12,3C8.59,3 5.69,4.07 4.54,5.57L9.79,10.82C10.5,10.93
+                              11.22,11 12,11C16.42,11 20,9.21 20,7C20,4.79 16.42,3
+                              12,3M3.92,7.08L2.5,8.5L5,11H0V13H5L2.5,15.5L3.92,16.92L8.84,12M20,9C20,11.21
+                              16.42,13 12,13C11.34,13 10.7,12.95 10.09,12.87L7.62,15.34C8.88,15.75
+                              10.38,16 12,16C16.42,16 20,14.21 20,12M20,14C20,16.21 16.42,18 12,18C9.72,18
+                              7.67,17.5 6.21,16.75L4.53,18.43C5.68,19.93 8.59,21 12,21C16.42,21
+                              20,19.21 20,17" Fill="SteelBlue" />
+                    </Canvas>
+                </Viewbox>
+            </Button>
         </StackPanel>
 
-        <ItemsControl x:Name="SchedulesItemsControl" Grid.Column="1" Grid.ColumnSpan="2" Background="#f7fbfc" Grid.Row="1">
+        <ItemsControl x:Name="SchedulesItemsControl" Grid.Column="1"
+                      Background="#f7fbfc" Grid.Row="2">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Margin="5">
                         <!--Название Класса-->
-                        <TextBlock Text="{Binding ClassName}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="28" Height="28"/>
+                        <TextBlock Text="{Binding ClassName}" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" Width="28" Height="28"/>
                         <!--Расписание Класса-->
-                        <ItemsControl ItemsSource="{Binding Schedule}" Grid.Column="1" Background="AntiqueWhite">
+                        <ItemsControl ItemsSource="{Binding Schedule}" Grid.Column="1"
+                                      Background="AntiqueWhite">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <DockPanel>
@@ -62,7 +100,8 @@
                                             <ItemsControl ItemsSource="{Binding Lessons}" >
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding Name}" Margin="2,3,3,2" />
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   Margin="2,3,3,2" />
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                                 <ItemsControl.ItemsPanel>

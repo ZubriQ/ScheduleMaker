@@ -54,7 +54,6 @@
     <Compile Include="School\Subject.cs" />
     <Compile Include="School\SubjectPlan.cs" />
     <Compile Include="School\Syllabus.cs" />
-    <Compile Include="School\Teacher.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScheduleMaker.ADO\ScheduleMaker.ADO.csproj">

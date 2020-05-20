@@ -38,20 +38,6 @@ namespace ScheduleMaker.OS
         /// Конструктор Open Shop'a.
         /// </summary>
         /// <param name="teachers">Загрузка списка всех учителей в школе.</param>
-        public ScheduleData(List<Teacher> teachers, List<Classroom> classrooms, List<Syllabus> syllabi)
-        {
-            Teachers = new Machine[teachers.Count];
-            InitializeTeachers(teachers);
-            Syllabi = syllabi;
-            InitializeLessonsCount(syllabi);
-            InitializeAllLessons();
-            Classrooms = classrooms;
-        }
-
-        /// <summary>
-        /// Конструктор Open Shop'a.
-        /// </summary>
-        /// <param name="teachers">Загрузка списка всех учителей в школе.</param>
         public ScheduleData(Machine[] teachers, List<Classroom> classrooms, List<Syllabus> syllabi)
         {
             Teachers = teachers;
@@ -59,18 +45,6 @@ namespace ScheduleMaker.OS
             InitializeLessonsCount(syllabi);
             InitializeAllLessons();
             Classrooms = classrooms;
-        }
-
-        /// <summary>
-        /// Преобразование учителей в машины.
-        /// </summary>
-        /// <param name="teachers">Учителя.</param>
-        private void InitializeTeachers(List<Teacher> teachers)
-        {
-            for (int i = 0; i < this.Teachers.Length; i++)
-            {
-                this.Teachers[i] = new Machine(i, teachers[i].Subject);
-            }
         }
 
         /// <summary>

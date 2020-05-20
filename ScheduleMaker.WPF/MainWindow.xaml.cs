@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,60 +35,119 @@ namespace ScheduleMaker.WPF
             InitializeComponent();
         }
 
-        private void scheduleButton_Click(object sender, RoutedEventArgs e)
+        // Создать расписание
+        private async void MakeSheduleButton_Click(object sender, RoutedEventArgs e)
         {
-            // Конвертация учебной нагрузки
+            OutputLabel.Content = "Идет конвертация данных из БД. Пожалуйста, подождите...";
+            DeleteOldSchedules();
+            // Конвертация учебной нагрузки в классы Алгоритма
             List<Syllabus> syllabi = new List<Syllabus>();
             List<Classes> classes = App.DB.Classes.Where(c => c.syllabus_id != null).ToList();
-            for (int i = 0; i < classes.Count; i++)
+            await Task.Run(() =>
             {
-                Class @class = new Class(classes[i].class_id, classes[i].name);
-                // Учителя, которые ведут нагрузку
-                List<Teacher> teachers = new List<Teacher>();
-                foreach (var t in classes[i].Teachers)
-                {
-                    Subject[] subjects = new Subject[t.Subjects.Count];
-                    int j = 0;
-                    foreach (var s in t.Subjects)
-                    {
-                        Subject subject = new Subject(s.subject_id, s.name, Convert.ToInt32(s.difficulty));
-                        subjects[j] = subject;
-                        j++;
-                    }
-                    teachers.Add(new Teacher(t.teacher_id, subjects));
-                }
-                // Нагрузка
-                List<SubjectPlan> subjectPlans = new List<SubjectPlan>();
-                foreach (var s in classes[i].Syllabi.StudyLoad)
-                {
-                    var subj = App.DB.Subjects.Single(x => x.subject_id == s.subject_id);
-                    Subject subject = new Subject(s.subject_id, subj.name, Convert.ToInt32(subj.difficulty));
-                    subjectPlans.Add(new SubjectPlan(subject, s.lessons_count));
-                }
-                // Добавление плана для класса
-                syllabi.Add(new Syllabus(i, @class, subjectPlans, teachers));
-            }
-
-            App.OpenShopPSO.SetData(App.DB.Teachers.ToList(), App.DB.Classrooms.ToList(), syllabi);
-            App.OpenShopPSO.SetFunction(App.OpenShopPSO);
-            ScheduleData scheduleData = App.OpenShopPSO.ConvertData(App.DB.Teachers.ToList(), App.DB.Classrooms.ToList(), syllabi);
-            App.OpenShopPSO.ScheduleConstructor.MakeSchedules(
-                scheduleData, App.OpenShopPSO.FindBestPriorities());
-
-            // Создание расписания для классов
-            for (int i = 0; i < syllabi.Count; i++)
+                InitializeSyllabi(syllabi, classes);
+            });
+            // Внести данные и создать расписание на основе данных
+            OutputLabel.Content = "Создается расписание. Пожалуйста, подождите...";
+            await Task.Run(() =>
             {
-                Schedule schedule = App.OpenShopPSO.ScheduleConstructor.SchedulesList[i];
-                //SchedulesList.Add(schedule);
-                ClassSchedule classSchedule = new ClassSchedule(schedule.Class.Name, DecodeClassSchedule(schedule));
-                ClassSchedulesList.Add(classSchedule);
-            }
-
+                FindPerfectSchedule(syllabi);
+            });
+            // Создание расписаний для классов
+            DecodeSchedules(syllabi.Count);
             // Источник
             SchedulesItemsControl.ItemsSource = ClassSchedulesList;
+            // TODO: Добавить оценку полученного расписания?
+            OutputLabel.Content = "Расписание успешно создано.";
         }
 
-        #region Decode schedules
+        /// <summary>
+        /// Инициализация данных для алгоритма
+        /// </summary>
+        /// <param name="syllabi">Учебные планы</param>
+        /// <param name="classes">Классы</param>
+        private void InitializeSyllabi(List<Syllabus> syllabi, List<Classes> classes)
+        {
+            for (int i = 0; i < classes.Count; i++)
+            {
+                Classes @class = classes[i];
+                Class newClass = new Class(@class.class_id, classes[i].name);
+                // Учителя, которые ведут нагрузку
+                List<Machine> teachers = new List<Machine>();
+                MakeTeachers(@class, teachers);
+                // Создание нагрузки
+                List<SubjectPlan> subjectPlans = new List<SubjectPlan>();
+                MakeSubjectPlans(@class, subjectPlans);
+                // Добавление плана для класса
+                syllabi.Add(new Syllabus(i, newClass, subjectPlans, teachers));
+            }
+        }
+
+        private void MakeTeachers(Classes @class, List<Machine> teachers)
+        {
+            foreach (var t in @class.Teachers)
+            {
+                Subject[] subjects = new Subject[t.Subjects.Count];
+                int j = 0;
+                foreach (var s in t.Subjects)
+                {
+                    Subject subject = new Subject(s.subject_id, s.name, Convert.ToInt32(s.difficulty));
+                    subjects[j] = subject;
+                    j++;
+                }
+                teachers.Add(new Machine(t.teacher_id, subjects));
+            }
+        }
+
+        private void MakeSubjectPlans(Classes @class, List<SubjectPlan> subjectPlans)
+        {
+            foreach (var s in @class.Syllabi.StudyLoad)
+            {
+                var subj = App.DB.Subjects.Single(x => x.subject_id == s.subject_id);
+                Subject subject = new Subject(s.subject_id, subj.name, Convert.ToInt32(subj.difficulty));
+                subjectPlans.Add(new SubjectPlan(subject, s.lessons_count));
+            }
+        }
+
+        private void FindPerfectSchedule(List<Syllabus> syllabi)
+        {
+            App.OpenShopPSO.SetData(App.DB.Teachers.ToList(), App.DB.Classrooms.ToList(), syllabi);
+            App.OpenShopPSO.SetFunction(App.OpenShopPSO);
+            App.OpenShopPSO.ScheduleConstructor.MakeSchedules(
+                App.OpenShopPSO.ScheduleData, App.OpenShopPSO.FindBestPriorities());
+        }
+
+        private void DecodeSchedules(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Schedule schedule = App.OpenShopPSO.ScheduleConstructor.SchedulesList[i];
+                ClassSchedule classSchedule = new ClassSchedule(schedule.Class.Name, 
+                                                                DecodeClassSchedule(schedule));
+                ClassSchedulesList.Add(classSchedule);
+            }
+        }
+
+        // Сохранить расписание
+        private void SaveScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Удаление старых временных расписаний, если таковые имеются
+        /// </summary>
+        private void DeleteOldSchedules()
+        {
+            if (ClassSchedulesList.Count > 0)
+            {
+                App.OpenShopPSO = new OS.PSO.OpenShopPSO();
+                ClassSchedulesList.Clear();
+                SchedulesItemsControl.ItemsSource = null;
+            }
+        }
+
+        #region Decode of schedules
         /// <summary>
         /// Создание расписания для класса.
         /// </summary>
@@ -99,12 +159,12 @@ namespace ScheduleMaker.WPF
             List<Day> newSchedule = new List<Day>();
             for (int i = 0; i < 6; i++)
             {
-                Lesson[] lessons = new Lesson[10];
+                Lesson[] lessons = new Lesson[8];
                 newSchedule.Add(new Day(i + 1, lessons));
             }
             // Добавление уроков в расписание
             int indexOfLesson = 0;
-            while (indexOfLesson < 60)
+            while (indexOfLesson < 48)
             {
                 AddLesson(schedule, newSchedule, ref indexOfLesson);
             }
@@ -120,7 +180,7 @@ namespace ScheduleMaker.WPF
         public void AddLesson(Schedule oldSchedule, List<Day> newSchedule, ref int indexOfLesson)
         {
             // Номер урока
-            for (int column = 0; column < 10; column++)
+            for (int column = 0; column < 8; column++)
             {
                 // день
                 for (int row = 0; row < 6; row++)
@@ -140,6 +200,7 @@ namespace ScheduleMaker.WPF
         }
         #endregion
 
+        #region Windows' opening
         // Расписание учителей
         private void teachersSchedulesMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -185,10 +246,12 @@ namespace ScheduleMaker.WPF
             window.Show();
         }
 
-        // Сохранить расписание
-        private void saveScheduleButton_Click(object sender, RoutedEventArgs e)
+        // Кабинеты
+        private void classroomsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowClassrooms window = new WindowClassrooms();
+            window.Show();
         }
+        #endregion
     }
 }

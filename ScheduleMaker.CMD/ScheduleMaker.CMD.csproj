@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ScheduleMaker.GA\ScheduleMaker.GA.csproj" />
-    <ProjectReference Include="..\ScheduleMaker.OP\ScheduleMaker.OP.csproj" />
     <ProjectReference Include="..\ScheduleMaker.PSO\ScheduleMaker.PSO.csproj" />
   </ItemGroup>
 
