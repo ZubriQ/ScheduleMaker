@@ -114,7 +114,7 @@ namespace ScheduleMaker.OS
         {
             // TODO: сделать словать план, предмет, учитель Dictionary< int, Dictionary<int, Teacher> >
             var teacherId = scheduleData.Syllabi[lesson.SyllabusId].Teachers
-                                        .Single(x => x.Subject.Any(s => s.Id == lesson.Subject.Id)).Id;
+                                        .Single(x => x.Subjects.Any(s => s.Id == lesson.Subject.Id)).Id;
             var teacher = scheduleData.Teachers.Single(x => x.Id == teacherId);
             var teacherIndex = Array.IndexOf(scheduleData.Teachers, teacher);
             int scheduleId = SchedulesList.Single(x => x.SyllabusId == lesson.SyllabusId).SyllabusId;
@@ -122,7 +122,7 @@ namespace ScheduleMaker.OS
             int classroomId = scheduleData.Classrooms.First(x => x.Subjects.Any(s => s.Id == lesson.Subject.Id)).Id;
             for (int i = 0; i < 60; i++)
             {
-                if (scheduleData.Teachers[teacherIndex].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null 
+                if (scheduleData.Teachers[teacherIndex].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null
                     && scheduleData.Classrooms[classroomId].Lessons[i] == null)
                 {
                     scheduleData.Teachers[teacherIndex].Lessons[i] = lesson;
@@ -132,5 +132,40 @@ namespace ScheduleMaker.OS
                 }
             }
         }
+
+        /*
+        //для словаря Dictionary< int, Dictionary<int, Teacher> >
+        private void ClearTeachersLessons(ScheduleData scheduleData)
+        {
+            for (int i = 0; i < scheduleData.Plan.Count; i++)
+            {
+                foreach (var s in scheduleData.Plan[i])
+                {
+                    for (int j = 0; j < 60; j++)
+                    {
+
+                        scheduleData.Plan[i][s.Key].Lessons[j] = null;
+                    }
+                }
+            }
+        }
+
+        private void AddLesson(ScheduleData scheduleData, Job lesson)
+        {
+            int scheduleId = SchedulesList.First(x => x.SyllabusId == lesson.SyllabusId).SyllabusId;
+            int classroomId = scheduleData.Classrooms.First(x => x.Subjects.Any(s => s.Id == lesson.Subject.Id)).Id;
+
+            for (int i = 0; i < 52; i++)
+            {
+                if (scheduleData.Plan[lesson.SyllabusId][lesson.Subject.Id].Lessons[i] == null && SchedulesList[scheduleId].Lessons[i] == null
+                    && scheduleData.Classrooms[classroomId].Lessons[i] == null)
+                {
+                    scheduleData.Plan[lesson.SyllabusId][lesson.Subject.Id].Lessons[i] = lesson;
+                    SchedulesList[scheduleId].Lessons[i] = lesson;
+                    scheduleData.Classrooms[classroomId].Lessons[i] = lesson;
+                    break;
+                }
+            }
+        }*/
     }
 }

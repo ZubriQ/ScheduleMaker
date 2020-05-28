@@ -8,6 +8,11 @@
         public int Id { get; set; }
 
         /// <summary>
+        /// Наименование дня (Пн. Вт. и т.д.)
+        /// </summary>
+        public string DayName { get; set; }
+
+        /// <summary>
         /// Уроки дня.
         /// </summary>
         public Lesson[] Lessons { get; set; }
@@ -17,9 +22,10 @@
         /// </summary>
         /// <param name="id">Номер дня.</param>
         /// <param name="lessons">Уроки.</param>
-        public Day(int id, Lesson[] lessons)
+        public Day(int id, string dayName, Lesson[] lessons)
         {
             Id = id;
+            DayName = dayName;
             Lessons = lessons;
         }
     }

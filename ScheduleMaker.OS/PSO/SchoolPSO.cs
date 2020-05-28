@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace ScheduleMaker.OS.PSO
 {
-    public class OpenShopPSO : ICalculator
+    public class SchoolPSO : ICalculator
     {
         /// <summary>
         /// Данные для создания расписаний.
@@ -18,7 +18,7 @@ namespace ScheduleMaker.OS.PSO
         /// Констурктор расписаний.
         /// </summary>
         public ScheduleConstructor ScheduleConstructor;
-
+        
         /// <summary>
         /// Оценщик расписаний.
         /// </summary>
@@ -31,7 +31,12 @@ namespace ScheduleMaker.OS.PSO
 
         public Machine[] Teachers => ScheduleData.Teachers;
 
-        public OpenShopPSO() 
+        /// <summary>
+        /// Оценочный балл
+        /// </summary>
+        public double EstimationScore = Double.MaxValue;
+
+        public SchoolPSO() 
         {
             ScheduleConstructor = new ScheduleConstructor();
             ScheduleEvaluator = new ScheduleEvaluator();
@@ -61,24 +66,10 @@ namespace ScheduleMaker.OS.PSO
         }
 
         /// <summary>
-        /// Конвертация под данные алгоритма и назначение данных
-        /// </summary>
-        /// <param name="teachers">Учителя</param>
-        /// <param name="classrooms">Кабинеты</param>
-        /// <param name="syllabi">Учебные планы</param>
-        public ScheduleData ConvertData(List<Teachers> teachers, List<Classrooms> classrooms, List<Syllabus> syllabi)
-        {
-            ScheduleData = new ScheduleData(ConvertTeachers(teachers),
-                                            ConvertClassrooms(classrooms),
-                                            syllabi);
-            return ScheduleData;
-        }
-
-        /// <summary>
         /// Конвертация учителей БД в учителей алгоритма
         /// </summary>
         /// <param name="teachers">Учителя (БД)</param>
-        /// <returns>Учителя (Open Shop)</returns>
+        /// <returns>Учителя (SchoolShop)</returns>
         private Machine[] ConvertTeachers(List<Teachers> teachers)
         {
             Machine[] machines = new Machine[teachers.Count];
@@ -102,7 +93,7 @@ namespace ScheduleMaker.OS.PSO
         /// Конверация кабинетов БД в кабинеты алгоритма
         /// </summary>
         /// <param name="classrooms">Кабинеты (БД)</param>
-        /// <returns>Кабинеты (Open Shop)</returns>
+        /// <returns>Кабинеты (SchoolShop)</returns>
         private List<Classroom> ConvertClassrooms(List<Classrooms> classrooms)
         {
             List<Classroom> classroomsList = new List<Classroom>();
@@ -113,11 +104,13 @@ namespace ScheduleMaker.OS.PSO
                 int i = 0;
                 foreach (var s in classrooms[c].Subjects)
                 {
-                    Subject subject = new Subject(s.subject_id, s.name, Convert.ToInt32(s.difficulty));
+                    Subject subject = new Subject(s.subject_id, s.name, 
+                                                  Convert.ToInt32(s.difficulty));
                     subjects[i] = subject;
                     i++;
                 }
-                classroomsList.Add(new Classroom(classrooms[c].classroom_id, classrooms[c].name, subjects));
+                classroomsList.Add(new Classroom(classrooms[c].classroom_id, 
+                                                 classrooms[c].name, subjects));
             }
             return classroomsList;
         }
@@ -129,14 +122,15 @@ namespace ScheduleMaker.OS.PSO
         public double[] FindBestPriorities()
         {
             PSOController.InitializeParticleSwarm();
-            PSOController.FindGlobalMinimum(0.729, 1.49445, 1.49445, 350);
+            PSOController.FindGlobalMinimum(0.555, 0.9, 0.9, 350);
+            EstimationScore = PSOController.GlobalBestParticle.Fitness;
             return PSOController.GlobalBestParticle.BestKnownPosition;
         }
 
         public double Fitness(double[] values)
         {
             ScheduleConstructor.MakeSchedules(ScheduleData, values);
-            int gapsCount = ScheduleEvaluator.EstimateSchedule(ScheduleConstructor.SchedulesList);
+            double gapsCount = ScheduleEvaluator.EstimateSchedule(ScheduleConstructor.SchedulesList);
             return gapsCount;
         }
     }

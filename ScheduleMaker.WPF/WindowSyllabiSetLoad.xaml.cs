@@ -33,6 +33,7 @@ namespace ScheduleMaker.WPF
             InitializeComponent();
             InitializeInitialData();
             ClassComboBox.SelectedValue = @class;
+            SyllabusComboBox.SelectedValue = @class.Syllabi;
             if (@class.Teachers.Count > 0)
             {
                 TeachersLoad.AddRange(@class.Teachers);
@@ -76,7 +77,7 @@ namespace ScheduleMaker.WPF
             }
         }
 
-        private void createButton_Click(object sender, RoutedEventArgs e)
+        private void acceptButton_Click(object sender, RoutedEventArgs e)
         {
             if (ClassComboBox.SelectedItem != null && SyllabusComboBox.SelectedItem
                 != null && TeachersLoad.Count > 0)
@@ -87,6 +88,7 @@ namespace ScheduleMaker.WPF
                 {
                     @class.Teachers.Add(TeachersLoad[i]);
                 }
+                @class.Teachers = TeachersLoad;
                 App.DB.SaveChanges();
                 Close();
             }

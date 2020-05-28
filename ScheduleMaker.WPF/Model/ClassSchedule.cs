@@ -24,5 +24,15 @@ namespace ScheduleMaker.WPF.Model
             Schedule = schedule;
             ClassName = className;
         }
+
+        public ClassSchedule(string className)
+        {
+            ClassName = className;
+        }
+
+        public void SetSchedule(List<Day> schedule)
+        {
+            Schedule = schedule;
+        }
     }
 }

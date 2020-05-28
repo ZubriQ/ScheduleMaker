@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище ScheduleMakerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище ScheduleMakerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Classes">
           <Key>
             <PropertyRef Name="class_id" />
@@ -31,18 +31,18 @@
         </EntityType>
         <EntityType Name="Lessons">
           <Key>
-            <PropertyRef Name="syllabus_id" />
             <PropertyRef Name="quarter" />
             <PropertyRef Name="day_of_week" />
             <PropertyRef Name="number_of_lesson" />
+            <PropertyRef Name="class_id" />
           </Key>
-          <Property Name="syllabus_id" Type="int" Nullable="false" />
+          <Property Name="syllabus_id" Type="int" />
           <Property Name="quarter" Type="int" Nullable="false" />
           <Property Name="day_of_week" Type="int" Nullable="false" />
           <Property Name="number_of_lesson" Type="int" Nullable="false" />
           <Property Name="subject_id" Type="int" Nullable="false" />
-          <Property Name="classroom_id" Type="int" Nullable="false" />
-          <Property Name="teacher_id" Type="int" Nullable="false" />
+          <Property Name="classroom_id" Type="int" />
+          <Property Name="teacher_id" Type="int" />
           <Property Name="class_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Load">
@@ -149,7 +149,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lesson_Classroom">
-          <End Role="Classrooms" Type="Self.Classrooms" Multiplicity="1" />
+          <End Role="Classrooms" Type="Self.Classrooms" Multiplicity="0..1" />
           <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Classrooms">
@@ -173,7 +173,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lesson_Teacher">
-          <End Role="Teachers" Type="Self.Teachers" Multiplicity="1" />
+          <End Role="Teachers" Type="Self.Teachers" Multiplicity="0..1" />
           <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Teachers">
@@ -320,51 +320,99 @@
             <End Role="Specialization" EntitySet="Specialization" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ScheduleMakerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ScheduleMakerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Classes" EntityType="ScheduleMakerModel.Classes" />
+          <EntitySet Name="Classrooms" EntityType="ScheduleMakerModel.Classrooms" />
+          <EntitySet Name="Lessons" EntityType="ScheduleMakerModel.Lessons" />
+          <EntitySet Name="StudyLoad" EntityType="ScheduleMakerModel.StudyLoad" />
+          <EntitySet Name="Subjects" EntityType="ScheduleMakerModel.Subjects" />
+          <EntitySet Name="Syllabi" EntityType="ScheduleMakerModel.Syllabi" />
+          <EntitySet Name="Teachers" EntityType="ScheduleMakerModel.Teachers" />
+          <AssociationSet Name="FK_Classes_Syllabi" Association="ScheduleMakerModel.FK_Classes_Syllabi">
+            <End Role="Syllabi" EntitySet="Syllabi" />
+            <End Role="Classes" EntitySet="Classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_Class" Association="ScheduleMakerModel.FK_Lesson_Class">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_Classroom" Association="ScheduleMakerModel.FK_Lesson_Classroom">
+            <End Role="Classrooms" EntitySet="Classrooms" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_Discipline" Association="ScheduleMakerModel.FK_Lesson_Discipline">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lesson_Teacher" Association="ScheduleMakerModel.FK_Lesson_Teacher">
+            <End Role="Teachers" EntitySet="Teachers" />
+            <End Role="Lessons" EntitySet="Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SyllabusDiscipline_Discipline" Association="ScheduleMakerModel.FK_SyllabusDiscipline_Discipline">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="StudyLoad" EntitySet="StudyLoad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SyllabusDiscipline_Syllabus" Association="ScheduleMakerModel.FK_SyllabusDiscipline_Syllabus">
+            <End Role="Syllabi" EntitySet="Syllabi" />
+            <End Role="StudyLoad" EntitySet="StudyLoad" />
+          </AssociationSet>
+          <AssociationSet Name="ClassroomsSubjects" Association="ScheduleMakerModel.ClassroomsSubjects">
+            <End Role="Classrooms" EntitySet="Classrooms" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="Load" Association="ScheduleMakerModel.Load">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Teachers" EntitySet="Teachers" />
+          </AssociationSet>
+          <AssociationSet Name="Specialization" Association="ScheduleMakerModel.Specialization">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Teachers" EntitySet="Teachers" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Classes">
           <Key>
             <PropertyRef Name="class_id" />
           </Key>
           <Property Name="class_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="syllabus_id" Type="Int32" />
-          <NavigationProperty Name="Syllabi" Relationship="Self.FK_Classes_Syllabi" FromRole="Classes" ToRole="Syllabi" />
-          <NavigationProperty Name="Lessons" Relationship="Self.FK_Lesson_Class" FromRole="Classes" ToRole="Lessons" />
-          <NavigationProperty Name="Teachers" Relationship="Self.Load" FromRole="Classes" ToRole="Teachers" />
+          <NavigationProperty Name="Syllabi" Relationship="ScheduleMakerModel.FK_Classes_Syllabi" FromRole="Classes" ToRole="Syllabi" />
+          <NavigationProperty Name="Lessons" Relationship="ScheduleMakerModel.FK_Lesson_Class" FromRole="Classes" ToRole="Lessons" />
+          <NavigationProperty Name="Teachers" Relationship="ScheduleMakerModel.Load" FromRole="Classes" ToRole="Teachers" />
         </EntityType>
         <EntityType Name="Classrooms">
           <Key>
             <PropertyRef Name="classroom_id" />
           </Key>
           <Property Name="classroom_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Lessons" Relationship="Self.FK_Lesson_Classroom" FromRole="Classrooms" ToRole="Lessons" />
-          <NavigationProperty Name="Subjects" Relationship="Self.ClassroomsSubjects" FromRole="Classrooms" ToRole="Subjects" />
+          <NavigationProperty Name="Lessons" Relationship="ScheduleMakerModel.FK_Lesson_Classroom" FromRole="Classrooms" ToRole="Lessons" />
+          <NavigationProperty Name="Subjects" Relationship="ScheduleMakerModel.ClassroomsSubjects" FromRole="Classrooms" ToRole="Subjects" />
         </EntityType>
         <EntityType Name="Lessons">
           <Key>
-            <PropertyRef Name="syllabus_id" />
             <PropertyRef Name="quarter" />
             <PropertyRef Name="day_of_week" />
             <PropertyRef Name="number_of_lesson" />
+            <PropertyRef Name="class_id" />
           </Key>
-          <Property Name="syllabus_id" Type="Int32" Nullable="false" />
+          <Property Name="syllabus_id" Type="Int32" />
           <Property Name="quarter" Type="Int32" Nullable="false" />
           <Property Name="day_of_week" Type="Int32" Nullable="false" />
           <Property Name="number_of_lesson" Type="Int32" Nullable="false" />
           <Property Name="subject_id" Type="Int32" Nullable="false" />
-          <Property Name="classroom_id" Type="Int32" Nullable="false" />
-          <Property Name="teacher_id" Type="Int32" Nullable="false" />
+          <Property Name="classroom_id" Type="Int32" />
+          <Property Name="teacher_id" Type="Int32" />
           <Property Name="class_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Classes" Relationship="Self.FK_Lesson_Class" FromRole="Lessons" ToRole="Classes" />
-          <NavigationProperty Name="Classrooms" Relationship="Self.FK_Lesson_Classroom" FromRole="Lessons" ToRole="Classrooms" />
-          <NavigationProperty Name="Subjects" Relationship="Self.FK_Lesson_Discipline" FromRole="Lessons" ToRole="Subjects" />
-          <NavigationProperty Name="Teachers" Relationship="Self.FK_Lesson_Teacher" FromRole="Lessons" ToRole="Teachers" />
+          <NavigationProperty Name="Classes" Relationship="ScheduleMakerModel.FK_Lesson_Class" FromRole="Lessons" ToRole="Classes" />
+          <NavigationProperty Name="Classrooms" Relationship="ScheduleMakerModel.FK_Lesson_Classroom" FromRole="Lessons" ToRole="Classrooms" />
+          <NavigationProperty Name="Subjects" Relationship="ScheduleMakerModel.FK_Lesson_Discipline" FromRole="Lessons" ToRole="Subjects" />
+          <NavigationProperty Name="Teachers" Relationship="ScheduleMakerModel.FK_Lesson_Teacher" FromRole="Lessons" ToRole="Teachers" />
         </EntityType>
         <EntityType Name="StudyLoad">
           <Key>
@@ -376,49 +424,49 @@
           <Property Name="syllabus_id" Type="Int32" Nullable="false" />
           <Property Name="quarter" Type="Int32" Nullable="false" />
           <Property Name="lessons_count" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Subjects" Relationship="Self.FK_SyllabusDiscipline_Discipline" FromRole="StudyLoad" ToRole="Subjects" />
-          <NavigationProperty Name="Syllabi" Relationship="Self.FK_SyllabusDiscipline_Syllabus" FromRole="StudyLoad" ToRole="Syllabi" />
+          <NavigationProperty Name="Subjects" Relationship="ScheduleMakerModel.FK_SyllabusDiscipline_Discipline" FromRole="StudyLoad" ToRole="Subjects" />
+          <NavigationProperty Name="Syllabi" Relationship="ScheduleMakerModel.FK_SyllabusDiscipline_Syllabus" FromRole="StudyLoad" ToRole="Syllabi" />
         </EntityType>
         <EntityType Name="Subjects">
           <Key>
             <PropertyRef Name="subject_id" />
           </Key>
           <Property Name="subject_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="difficulty" Type="Int32" />
-          <NavigationProperty Name="Lessons" Relationship="Self.FK_Lesson_Discipline" FromRole="Subjects" ToRole="Lessons" />
-          <NavigationProperty Name="StudyLoad" Relationship="Self.FK_SyllabusDiscipline_Discipline" FromRole="Subjects" ToRole="StudyLoad" />
-          <NavigationProperty Name="Classrooms" Relationship="Self.ClassroomsSubjects" FromRole="Subjects" ToRole="Classrooms" />
-          <NavigationProperty Name="Teachers" Relationship="Self.Specialization" FromRole="Subjects" ToRole="Teachers" />
+          <NavigationProperty Name="Lessons" Relationship="ScheduleMakerModel.FK_Lesson_Discipline" FromRole="Subjects" ToRole="Lessons" />
+          <NavigationProperty Name="StudyLoad" Relationship="ScheduleMakerModel.FK_SyllabusDiscipline_Discipline" FromRole="Subjects" ToRole="StudyLoad" />
+          <NavigationProperty Name="Classrooms" Relationship="ScheduleMakerModel.ClassroomsSubjects" FromRole="Subjects" ToRole="Classrooms" />
+          <NavigationProperty Name="Teachers" Relationship="ScheduleMakerModel.Specialization" FromRole="Subjects" ToRole="Teachers" />
         </EntityType>
         <EntityType Name="Syllabi">
           <Key>
             <PropertyRef Name="syllabus_id" />
           </Key>
           <Property Name="syllabus_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="year" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="year" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="date_of_creation" Type="DateTime" Precision="0" />
           <Property Name="creators" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Classes" Relationship="Self.FK_Classes_Syllabi" FromRole="Syllabi" ToRole="Classes" />
-          <NavigationProperty Name="StudyLoad" Relationship="Self.FK_SyllabusDiscipline_Syllabus" FromRole="Syllabi" ToRole="StudyLoad" />
+          <NavigationProperty Name="Classes" Relationship="ScheduleMakerModel.FK_Classes_Syllabi" FromRole="Syllabi" ToRole="Classes" />
+          <NavigationProperty Name="StudyLoad" Relationship="ScheduleMakerModel.FK_SyllabusDiscipline_Syllabus" FromRole="Syllabi" ToRole="StudyLoad" />
         </EntityType>
         <EntityType Name="Teachers">
           <Key>
             <PropertyRef Name="teacher_id" />
           </Key>
           <Property Name="teacher_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="second_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="first_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="second_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="middle_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="is_part_time" Type="Boolean" />
-          <NavigationProperty Name="Lessons" Relationship="Self.FK_Lesson_Teacher" FromRole="Teachers" ToRole="Lessons" />
-          <NavigationProperty Name="Classes" Relationship="Self.Load" FromRole="Teachers" ToRole="Classes" />
-          <NavigationProperty Name="Subjects" Relationship="Self.Specialization" FromRole="Teachers" ToRole="Subjects" />
+          <NavigationProperty Name="Lessons" Relationship="ScheduleMakerModel.FK_Lesson_Teacher" FromRole="Teachers" ToRole="Lessons" />
+          <NavigationProperty Name="Classes" Relationship="ScheduleMakerModel.Load" FromRole="Teachers" ToRole="Classes" />
+          <NavigationProperty Name="Subjects" Relationship="ScheduleMakerModel.Specialization" FromRole="Teachers" ToRole="Subjects" />
         </EntityType>
         <Association Name="FK_Classes_Syllabi">
-          <End Role="Syllabi" Type="Self.Syllabi" Multiplicity="0..1" />
-          <End Role="Classes" Type="Self.Classes" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Syllabi" Role="Syllabi" Multiplicity="0..1" />
+          <End Type="ScheduleMakerModel.Classes" Role="Classes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Syllabi">
               <PropertyRef Name="syllabus_id" />
@@ -429,8 +477,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lesson_Class">
-          <End Role="Classes" Type="Self.Classes" Multiplicity="1" />
-          <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Classes" Role="Classes" Multiplicity="1" />
+          <End Type="ScheduleMakerModel.Lessons" Role="Lessons" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Classes">
               <PropertyRef Name="class_id" />
@@ -441,8 +489,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lesson_Classroom">
-          <End Role="Classrooms" Type="Self.Classrooms" Multiplicity="1" />
-          <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Classrooms" Role="Classrooms" Multiplicity="0..1" />
+          <End Type="ScheduleMakerModel.Lessons" Role="Lessons" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Classrooms">
               <PropertyRef Name="classroom_id" />
@@ -453,8 +501,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lesson_Discipline">
-          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
-          <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Subjects" Role="Subjects" Multiplicity="1" />
+          <End Type="ScheduleMakerModel.Lessons" Role="Lessons" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Subjects">
               <PropertyRef Name="subject_id" />
@@ -465,8 +513,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Lesson_Teacher">
-          <End Role="Teachers" Type="Self.Teachers" Multiplicity="1" />
-          <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Teachers" Role="Teachers" Multiplicity="0..1" />
+          <End Type="ScheduleMakerModel.Lessons" Role="Lessons" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Teachers">
               <PropertyRef Name="teacher_id" />
@@ -477,8 +525,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SyllabusDiscipline_Discipline">
-          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
-          <End Role="StudyLoad" Type="Self.StudyLoad" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Subjects" Role="Subjects" Multiplicity="1" />
+          <End Type="ScheduleMakerModel.StudyLoad" Role="StudyLoad" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Subjects">
               <PropertyRef Name="subject_id" />
@@ -489,8 +537,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SyllabusDiscipline_Syllabus">
-          <End Role="Syllabi" Type="Self.Syllabi" Multiplicity="1" />
-          <End Role="StudyLoad" Type="Self.StudyLoad" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Syllabi" Role="Syllabi" Multiplicity="1" />
+          <End Type="ScheduleMakerModel.StudyLoad" Role="StudyLoad" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Syllabi">
               <PropertyRef Name="syllabus_id" />
@@ -501,67 +549,18 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="ClassroomsSubjects">
-          <End Role="Classrooms" Type="Self.Classrooms" Multiplicity="*" />
-          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Classrooms" Role="Classrooms" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Subjects" Role="Subjects" Multiplicity="*" />
         </Association>
         <Association Name="Load">
-          <End Role="Classes" Type="Self.Classes" Multiplicity="*" />
-          <End Role="Teachers" Type="Self.Teachers" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Classes" Role="Classes" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Teachers" Role="Teachers" Multiplicity="*" />
         </Association>
         <Association Name="Specialization">
-          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
-          <End Role="Teachers" Type="Self.Teachers" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Subjects" Role="Subjects" Multiplicity="*" />
+          <End Type="ScheduleMakerModel.Teachers" Role="Teachers" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="ScheduleMakerEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Classes" EntityType="Self.Classes" />
-          <EntitySet Name="Classrooms" EntityType="Self.Classrooms" />
-          <EntitySet Name="Lessons" EntityType="Self.Lessons" />
-          <EntitySet Name="StudyLoad" EntityType="Self.StudyLoad" />
-          <EntitySet Name="Subjects" EntityType="Self.Subjects" />
-          <EntitySet Name="Syllabi" EntityType="Self.Syllabi" />
-          <EntitySet Name="Teachers" EntityType="Self.Teachers" />
-          <AssociationSet Name="FK_Classes_Syllabi" Association="Self.FK_Classes_Syllabi">
-            <End Role="Syllabi" EntitySet="Syllabi" />
-            <End Role="Classes" EntitySet="Classes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lesson_Class" Association="Self.FK_Lesson_Class">
-            <End Role="Classes" EntitySet="Classes" />
-            <End Role="Lessons" EntitySet="Lessons" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lesson_Classroom" Association="Self.FK_Lesson_Classroom">
-            <End Role="Classrooms" EntitySet="Classrooms" />
-            <End Role="Lessons" EntitySet="Lessons" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lesson_Discipline" Association="Self.FK_Lesson_Discipline">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="Lessons" EntitySet="Lessons" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lesson_Teacher" Association="Self.FK_Lesson_Teacher">
-            <End Role="Teachers" EntitySet="Teachers" />
-            <End Role="Lessons" EntitySet="Lessons" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SyllabusDiscipline_Discipline" Association="Self.FK_SyllabusDiscipline_Discipline">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="StudyLoad" EntitySet="StudyLoad" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SyllabusDiscipline_Syllabus" Association="Self.FK_SyllabusDiscipline_Syllabus">
-            <End Role="Syllabi" EntitySet="Syllabi" />
-            <End Role="StudyLoad" EntitySet="StudyLoad" />
-          </AssociationSet>
-          <AssociationSet Name="ClassroomsSubjects" Association="Self.ClassroomsSubjects">
-            <End Role="Classrooms" EntitySet="Classrooms" />
-            <End Role="Subjects" EntitySet="Subjects" />
-          </AssociationSet>
-          <AssociationSet Name="Load" Association="Self.Load">
-            <End Role="Classes" EntitySet="Classes" />
-            <End Role="Teachers" EntitySet="Teachers" />
-          </AssociationSet>
-          <AssociationSet Name="Specialization" Association="Self.Specialization">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="Teachers" EntitySet="Teachers" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -570,98 +569,98 @@
           <EntitySetMapping Name="Classes">
             <EntityTypeMapping TypeName="ScheduleMakerModel.Classes">
               <MappingFragment StoreEntitySet="Classes">
-                <ScalarProperty Name="class_id" ColumnName="class_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="syllabus_id" ColumnName="syllabus_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Classrooms">
             <EntityTypeMapping TypeName="ScheduleMakerModel.Classrooms">
               <MappingFragment StoreEntitySet="Classrooms">
-                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Lessons">
             <EntityTypeMapping TypeName="ScheduleMakerModel.Lessons">
               <MappingFragment StoreEntitySet="Lessons">
-                <ScalarProperty Name="syllabus_id" ColumnName="syllabus_id" />
-                <ScalarProperty Name="quarter" ColumnName="quarter" />
-                <ScalarProperty Name="day_of_week" ColumnName="day_of_week" />
-                <ScalarProperty Name="number_of_lesson" ColumnName="number_of_lesson" />
-                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
-                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
-                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
                 <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+                <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+                <ScalarProperty Name="number_of_lesson" ColumnName="number_of_lesson" />
+                <ScalarProperty Name="day_of_week" ColumnName="day_of_week" />
+                <ScalarProperty Name="quarter" ColumnName="quarter" />
+                <ScalarProperty Name="syllabus_id" ColumnName="syllabus_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="StudyLoad">
             <EntityTypeMapping TypeName="ScheduleMakerModel.StudyLoad">
               <MappingFragment StoreEntitySet="StudyLoad">
-                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
-                <ScalarProperty Name="syllabus_id" ColumnName="syllabus_id" />
-                <ScalarProperty Name="quarter" ColumnName="quarter" />
                 <ScalarProperty Name="lessons_count" ColumnName="lessons_count" />
+                <ScalarProperty Name="quarter" ColumnName="quarter" />
+                <ScalarProperty Name="syllabus_id" ColumnName="syllabus_id" />
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Subjects">
             <EntityTypeMapping TypeName="ScheduleMakerModel.Subjects">
               <MappingFragment StoreEntitySet="Subjects">
-                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="difficulty" ColumnName="difficulty" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Syllabi">
             <EntityTypeMapping TypeName="ScheduleMakerModel.Syllabi">
               <MappingFragment StoreEntitySet="Syllabi">
-                <ScalarProperty Name="syllabus_id" ColumnName="syllabus_id" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="year" ColumnName="year" />
-                <ScalarProperty Name="date_of_creation" ColumnName="date_of_creation" />
                 <ScalarProperty Name="creators" ColumnName="creators" />
+                <ScalarProperty Name="date_of_creation" ColumnName="date_of_creation" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="syllabus_id" ColumnName="syllabus_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Teachers">
             <EntityTypeMapping TypeName="ScheduleMakerModel.Teachers">
               <MappingFragment StoreEntitySet="Teachers">
-                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="second_name" ColumnName="second_name" />
-                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
                 <ScalarProperty Name="is_part_time" ColumnName="is_part_time" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="second_name" ColumnName="second_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="ClassroomsSubjects" TypeName="ScheduleMakerModel.ClassroomsSubjects" StoreEntitySet="ClassroomsSubjects">
+            <EndProperty Name="Subjects">
+              <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+            </EndProperty>
             <EndProperty Name="Classrooms">
               <ScalarProperty Name="classroom_id" ColumnName="classroom_id" />
             </EndProperty>
-            <EndProperty Name="Subjects">
-              <ScalarProperty Name="subject_id" ColumnName="subject_id" />
-            </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="Load" TypeName="ScheduleMakerModel.Load" StoreEntitySet="Load">
+            <EndProperty Name="Teachers">
+              <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+            </EndProperty>
             <EndProperty Name="Classes">
               <ScalarProperty Name="class_id" ColumnName="class_id" />
             </EndProperty>
-            <EndProperty Name="Teachers">
-              <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
-            </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="Specialization" TypeName="ScheduleMakerModel.Specialization" StoreEntitySet="Specialization">
-            <EndProperty Name="Subjects">
-              <ScalarProperty Name="subject_id" ColumnName="subject_id" />
-            </EndProperty>
             <EndProperty Name="Teachers">
               <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+            </EndProperty>
+            <EndProperty Name="Subjects">
+              <ScalarProperty Name="subject_id" ColumnName="subject_id" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

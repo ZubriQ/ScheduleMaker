@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{5A450E4C-20A3-4A51-9AD4-4BA2FEE7E821}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\Documents\scriptData.sql = ..\..\..\Documents\scriptData.sql
-		Scripts\scriptDataAndScheme.sql = Scripts\scriptDataAndScheme.sql
 		..\..\..\Documents\scriptScheme.sql = ..\..\..\Documents\scriptScheme.sql
 	EndProjectSection
 EndProject

@@ -4,24 +4,24 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9e3afb42a67c4076a60ab35390e2f87a" Name="Diagram1">
-        <EntityTypeShape EntityType="ScheduleMakerModel.Classes" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ScheduleMakerModel.Classrooms" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ScheduleMakerModel.Lessons" Width="1.5" PointX="5.25" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ScheduleMakerModel.StudyLoad" Width="1.5" PointX="5.25" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ScheduleMakerModel.Subjects" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="ScheduleMakerModel.Syllabi" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ScheduleMakerModel.Teachers" Width="1.5" PointX="8.25" PointY="8.875" IsExpanded="true" />
-        <AssociationConnector Association="ScheduleMakerModel.FK_Classes_Syllabi" ManuallyRouted="false" />
-        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Class" ManuallyRouted="false" />
-        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Classroom" ManuallyRouted="false" />
-        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Discipline" ManuallyRouted="false" />
-        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Teacher" ManuallyRouted="false" />
-        <AssociationConnector Association="ScheduleMakerModel.FK_SyllabusDiscipline_Discipline" ManuallyRouted="false" />
-        <AssociationConnector Association="ScheduleMakerModel.FK_SyllabusDiscipline_Syllabus" ManuallyRouted="false" />
-        <AssociationConnector Association="ScheduleMakerModel.ClassroomsSubjects" ManuallyRouted="false" />
-        <AssociationConnector Association="ScheduleMakerModel.Load" ManuallyRouted="false" />
-        <AssociationConnector Association="ScheduleMakerModel.Specialization" ManuallyRouted="false" />
+      <Diagram DiagramId="9e3afb42a67c4076a60ab35390e2f87a" Name="Diagram1" ZoomLevel="95">
+        <EntityTypeShape EntityType="ScheduleMakerModel.Classes" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Classrooms" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Lessons" Width="1.5" PointX="5.25" PointY="6.5" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.StudyLoad" Width="1.5" PointX="8.25" PointY="9.125" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Subjects" Width="1.5" PointX="3" PointY="9" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Syllabi" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="ScheduleMakerModel.Teachers" Width="1.5" PointX="5.25" PointY="10.875" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Classes_Syllabi" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Class" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Classroom" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Discipline" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_Lesson_Teacher" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_SyllabusDiscipline_Discipline" />
+        <AssociationConnector Association="ScheduleMakerModel.FK_SyllabusDiscipline_Syllabus" />
+        <AssociationConnector Association="ScheduleMakerModel.ClassroomsSubjects" />
+        <AssociationConnector Association="ScheduleMakerModel.Load" />
+        <AssociationConnector Association="ScheduleMakerModel.Specialization" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

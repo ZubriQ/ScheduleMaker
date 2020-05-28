@@ -14,13 +14,13 @@ namespace ScheduleMaker.ADO
     
     public partial class Lessons
     {
-        public int syllabus_id { get; set; }
+        public Nullable<int> syllabus_id { get; set; }
         public int quarter { get; set; }
         public int day_of_week { get; set; }
         public int number_of_lesson { get; set; }
         public int subject_id { get; set; }
-        public int classroom_id { get; set; }
-        public int teacher_id { get; set; }
+        public Nullable<int> classroom_id { get; set; }
+        public Nullable<int> teacher_id { get; set; }
         public int class_id { get; set; }
     
         public virtual Classes Classes { get; set; }

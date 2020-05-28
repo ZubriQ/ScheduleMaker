@@ -15,24 +15,24 @@ namespace ScheduleMaker.OS
         /// <summary>
         /// Предметы, который ведет учитель.
         /// </summary>
-        public Subject[] Subject { get; set; }
+        public Subject[] Subjects { get; set; }
 
         /// <summary>
         /// Список работ / расписание.
         /// </summary>
-        private Job[] lessons { get; }
+        public Job[] Lessons { get; set; }
 
         /// <summary>
         /// Конструктор учителя (машины).
         /// </summary>
         /// <param name="id">Уникальный ключ.</param>
         /// <param name="subject">Предметы, который ведет учитель.</param>
-        public Machine(int id, Subject[] subject)
+        public Machine(int id, Subject[] subjects)
         {
             this.id = id;
-            Subject = subject;
+            Subjects = subjects;
             // TODO: не инициализировать в Syllabus, т.к. не используются там
-            lessons = new Job[60];
+            Lessons = new Job[60];
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace ScheduleMaker.OS
         {
             for (int i = 0; i < 60; i++)
             {
-                lessons[i] = null;
+                Lessons[i] = null;
             }
         }
 
@@ -61,10 +61,10 @@ namespace ScheduleMaker.OS
             get
             {
                 string result = "";
-                for (int i = 0; i < Subject.Length; i++)
+                for (int i = 0; i < Subjects.Length; i++)
                 {
-                    result += Subject[i].Name;
-                    if (i < Subject.Length - 1)
+                    result += Subjects[i].Name;
+                    if (i < Subjects.Length - 1)
                     {
                         result += ", ";
                     }
@@ -74,7 +74,5 @@ namespace ScheduleMaker.OS
         }
 
         public int Id => id;
-
-        public Job[] Lessons => lessons;
     }
 }

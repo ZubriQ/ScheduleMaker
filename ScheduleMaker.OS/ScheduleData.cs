@@ -34,6 +34,8 @@ namespace ScheduleMaker.OS
         /// </summary>
         public List<Classroom> Classrooms { get; set; }
 
+        //public Dictionary<int, Dictionary<int, Machine>> Plan;
+
         /// <summary>
         /// Конструктор Open Shop'a.
         /// </summary>
@@ -45,13 +47,30 @@ namespace ScheduleMaker.OS
             InitializeLessonsCount(syllabi);
             InitializeAllLessons();
             Classrooms = classrooms;
+            //InitializeDictionary();
         }
+        /*
+        private void InitializeDictionary()
+        {
+            Plan = new Dictionary<int, Dictionary<int, Machine>>();
+            foreach (var syllabus in Syllabi)
+            {
+                var Teachers = new Dictionary<int, Machine>();
+                for (int i = 0; i < syllabus.SubjectPlans.Count; i++)
+                {
+                    int subjectId = syllabus.SubjectPlans[i].Subject.Id;
+                    var teacher = syllabus.Teachers.First(t => t.Subject.Any(s => s.Id == subjectId));
+                    Teachers.Add(subjectId, teacher);
+                }
+                Plan.Add(syllabus.Id, Teachers);
+            }
+        }*/
 
         /// <summary>
         /// Подсчитывает сумму всех уроков в учебных планах.
         /// </summary>
         /// <param name="syllabi">Учебные планы.</param>
-        public void InitializeLessonsCount(List<Syllabus> syllabi)
+        private void InitializeLessonsCount(List<Syllabus> syllabi)
         {
             LessonsCount = 0;
             for (int i = 0; i < syllabi.Count; i++)

@@ -23,6 +23,16 @@ namespace ScheduleMaker.WPF
         /// <summary>
         /// Алгоритм для составления расписаний
         /// </summary>
-        public static OpenShopPSO OpenShopPSO = new OpenShopPSO();
+        public static SchoolPSO OpenShopPSO = new SchoolPSO();
+
+        public static Dictionary<int, string> DayNames = new Dictionary<int, string>
+        {
+            {1, "Пн.\t" },
+            {2, "Вт.\t" },
+            {3, "Ср.\t" },
+            {4, "Чт.\t" },
+            {5, "Пт.\t" },
+            {6, "Сб.\t" }
+        };
     }
 }

@@ -1,4 +1,5 @@
-﻿using ScheduleMaker.OS.School;
+﻿using ScheduleMaker.ADO;
+using ScheduleMaker.OS.School;
 
 namespace ScheduleMaker.OS
 {
@@ -20,7 +21,10 @@ namespace ScheduleMaker.OS
         /// <summary>
         /// Школьный класс.
         /// </summary>
-        public Class Class { get; }
+        public Class Class { get; set; }
+
+        public Machine[] Teacher { get; set; } // пока что неиспользуется
+        public Classroom[] Classroom { get; set; } // пока что неиспользуется
 
         /// <summary>
         /// Уроки.
@@ -39,7 +43,11 @@ namespace ScheduleMaker.OS
             this.syllabusId = syllabusId;
             this.Class = @class;
             this.lessons = new Job[60];
+            this.Teacher = new Machine[60];
+            this.Classroom = new Classroom[60];
         }
+
+
 
         public void ClearLessons()
         {

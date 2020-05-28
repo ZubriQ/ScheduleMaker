@@ -19,7 +19,7 @@
 
         <DockPanel Background="AliceBlue" Margin="5" Grid.Column="1" Grid.Row="1" >
             <Label HorizontalAlignment="Center" VerticalAlignment="Center"
-                   FontSize="10" x:Name="OutputLabel"/>
+                   FontSize="10" x:Name="OutputLabel" Foreground="DimGray"/>
         </DockPanel>
         <Menu Grid.ColumnSpan="3" Padding="3" Background="SteelBlue">
             <MenuItem  Header="Учителя" Margin="2,0,2,0" Background="#f7fbfc">
@@ -72,6 +72,38 @@
                     </Canvas>
                 </Viewbox>
             </Button>
+            <Button x:Name="ShowDBSchedulesButton" Background="White" BorderBrush="SteelBlue"
+                    ToolTip="Показать уже созданное расписание в БД" Margin="5,5,5,0"
+                    Click="ShowDBSchedulesButton_Click">
+                <Viewbox>
+                    <Canvas Width="24" Height="24" Margin="2">
+                        <Path Data="M12,3C7.58,3 4,4.79 4,7C4,9.21 7.58,11 12,11C12.5,11 13,10.97
+                              13.5,10.92V9.5H16.39L15.39,8.5L18.9,5C17.5,3.8
+                              14.94,3 12,3M18.92,7.08L17.5,8.5L20,11H15V13H20L17.5,15.5L18.92,16.92L23.84,12M4,9V12C4,14.21
+                              7.58,16 12,16C13.17,16 14.26,15.85 15.25,15.63L16.38,14.5H13.5V12.92C13,12.97 12.5,13
+                              12,13C7.58,13 4,11.21 4,9M4,14V17C4,19.21
+                              7.58,21 12,21C14.94,21 17.5,20.2 18.9,19L17,17.1C15.61,17.66 13.9,18 12,18C7.58,18 4,16.21 4,14Z"
+                              Fill="SteelBlue" />
+                    </Canvas>
+                </Viewbox>
+            </Button>
+            <Button x:Name="ImportSchedulesToExcelButton" Background="White" BorderBrush="SteelBlue"
+                    ToolTip="Импортировать текущее расписание в Excel" Margin="5,5,5,0"
+                    Click="ImportSchedulesToExcelButton_Click">
+                <Viewbox>
+                    <Canvas Width="24" Height="24" Margin="2">
+                        <Path Data="M21.17 3.25Q21.5 3.25 21.76 3.5 22 3.74 22 4.08V19.92Q22 20.26 21.76 20.5
+                              21.5 20.75 21.17 20.75H7.83Q7.5 20.75 7.24 20.5 7 20.26 7 19.92V17H2.83Q2.5 17
+                              2.24 16.76 2 16.5 2 16.17V7.83Q2 7.5 2.24 7.24 2.5 7 2.83 7H7V4.08Q7 3.74 7.24
+                              3.5 7.5 3.25 7.83 3.25M7 13.06L8.18 15.28H9.97L8 12.06L9.93 8.89H8.22L7.13 10.9L7.09 
+                              10.96L7.06 11.03Q6.8 10.5 6.5 9.96 6.25 9.43 5.97 8.89H4.16L6.05 12.08L4
+                              15.28H5.78M13.88 19.5V17H8.25V19.5M13.88 15.75V12.63H12V15.75M13.88 11.38V8.25H12V11.38M13.88
+                              7V4.5H8.25V7M20.75 19.5V17H15.13V19.5M20.75 15.75V12.63H15.13V15.75M20.75 11.38V8.25H15.13V11.38M20.75
+                              7V4.5H15.13V7Z"
+                              Fill="SteelBlue" />
+                    </Canvas>
+                </Viewbox>
+            </Button>
         </StackPanel>
 
         <ItemsControl x:Name="SchedulesItemsControl" Grid.Column="1"
@@ -92,7 +124,7 @@
                                         <StackPanel>
                                             <TextBlock Margin="2,3,3,2">
                                 <Run Text="{Binding Id}"/>
-                                <Run Text="День "/>
+                                <Run Text="{Binding DayName}"/>
                                             </TextBlock>
                                         </StackPanel>
                                         <!--Уроки-->

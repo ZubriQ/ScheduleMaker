@@ -30,16 +30,28 @@ namespace ScheduleMaker.WPF
         /// </summary>
         public List<ClassSchedule> ClassSchedulesList = new List<ClassSchedule>();
 
+        /// <summary>
+        /// Расписание БД
+        /// </summary>
+        List<Lessons> Lessons = new List<Lessons>();
+
         public MainWindow()
         {
             InitializeComponent();
+            SaveScheduleButton.IsEnabled = false;
+            ImportSchedulesToExcelButton.IsEnabled = false;
         }
 
+        #region make schedule
         // Создать расписание
         private async void MakeSheduleButton_Click(object sender, RoutedEventArgs e)
         {
+            ImportSchedulesToExcelButton.IsEnabled = false;
+            MakeSheduleButton.IsEnabled = false;
             OutputLabel.Content = "Идет конвертация данных из БД. Пожалуйста, подождите...";
-            DeleteOldSchedules();
+            DeleteWPFSchedules();
+            DeleteDBSchedules();
+            Lessons.Clear();
             // Конвертация учебной нагрузки в классы Алгоритма
             List<Syllabus> syllabi = new List<Syllabus>();
             List<Classes> classes = App.DB.Classes.Where(c => c.syllabus_id != null).ToList();
@@ -57,8 +69,13 @@ namespace ScheduleMaker.WPF
             DecodeSchedules(syllabi.Count);
             // Источник
             SchedulesItemsControl.ItemsSource = ClassSchedulesList;
-            // TODO: Добавить оценку полученного расписания?
-            OutputLabel.Content = "Расписание успешно создано.";
+
+            OutputLabel.Content = $"Расписание успешно создано. " +
+                $"(оценка созданного расписания:{App.OpenShopPSO.EstimationScore})";
+            SaveScheduleButton.IsEnabled = true;
+            ShowDBSchedulesButton.IsEnabled = true;
+            ImportSchedulesToExcelButton.IsEnabled = true;
+            MakeSheduleButton.IsEnabled = true;
         }
 
         /// <summary>
@@ -99,6 +116,7 @@ namespace ScheduleMaker.WPF
             }
         }
 
+        // Сделать учебные планы
         private void MakeSubjectPlans(Classes @class, List<SubjectPlan> subjectPlans)
         {
             foreach (var s in @class.Syllabi.StudyLoad)
@@ -109,6 +127,7 @@ namespace ScheduleMaker.WPF
             }
         }
 
+        // Создать расписание
         private void FindPerfectSchedule(List<Syllabus> syllabi)
         {
             App.OpenShopPSO.SetData(App.DB.Teachers.ToList(), App.DB.Classrooms.ToList(), syllabi);
@@ -121,33 +140,30 @@ namespace ScheduleMaker.WPF
         {
             for (int i = 0; i < count; i++)
             {
-                Schedule schedule = App.OpenShopPSO.ScheduleConstructor.SchedulesList[i];
+                var schedule = App.OpenShopPSO.ScheduleConstructor.SchedulesList[i];
+                // ---- Сохранения расписания в БД
+                for (int j = 0; j < 48; j++)
+                {
+                    if (schedule.Lessons[j] != null)
+                    {
+                        Lessons lesson = new Lessons();
+                        lesson.class_id = schedule.Class.Id;
+                        lesson.day_of_week = j % 6;
+                        lesson.number_of_lesson = j;
+                        lesson.quarter = 1;
+                        lesson.subject_id = schedule.Lessons[j].Subject.Id;
+                        Lessons.Add(lesson);
+                    }
+                }
+                // ---- Создание расписания для просмотра
                 ClassSchedule classSchedule = new ClassSchedule(schedule.Class.Name, 
                                                                 DecodeClassSchedule(schedule));
                 ClassSchedulesList.Add(classSchedule);
             }
         }
+        #endregion
 
-        // Сохранить расписание
-        private void SaveScheduleButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// Удаление старых временных расписаний, если таковые имеются
-        /// </summary>
-        private void DeleteOldSchedules()
-        {
-            if (ClassSchedulesList.Count > 0)
-            {
-                App.OpenShopPSO = new OS.PSO.OpenShopPSO();
-                ClassSchedulesList.Clear();
-                SchedulesItemsControl.ItemsSource = null;
-            }
-        }
-
-        #region Decode of schedules
+        #region decoding of schedules
         /// <summary>
         /// Создание расписания для класса.
         /// </summary>
@@ -160,7 +176,7 @@ namespace ScheduleMaker.WPF
             for (int i = 0; i < 6; i++)
             {
                 Lesson[] lessons = new Lesson[8];
-                newSchedule.Add(new Day(i + 1, lessons));
+                newSchedule.Add(new Day(i + 1, App.DayNames[i + 1], lessons));
             }
             // Добавление уроков в расписание
             int indexOfLesson = 0;
@@ -253,5 +269,139 @@ namespace ScheduleMaker.WPF
             window.Show();
         }
         #endregion
+
+        #region export schedule from DB to WPF
+        private void ShowDBSchedulesButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteWPFSchedules();
+            // Декодирование расписания из БД
+            DecodeDBSchedule();
+            // Источник
+            SchedulesItemsControl.ItemsSource = null;
+            SchedulesItemsControl.ItemsSource = ClassSchedulesList;
+            OutputLabel.Content = "Расписание успешно загружено.";
+            SaveScheduleButton.IsEnabled = false;
+            ShowDBSchedulesButton.IsEnabled = false;
+            ImportSchedulesToExcelButton.IsEnabled = true;
+        }
+
+        private void DecodeDBSchedule()
+        {
+            var classes = App.DB.Classes.Where(s => s.Lessons.Any(x => x.class_id == s.class_id));
+            List<Classes> Classes = new List<Classes>();
+            Classes.AddRange(classes);
+            for (int c = 0; c < Classes.Count; c++)
+            {
+                ClassSchedule schedule = new ClassSchedule(Classes[c].name);
+                // Инициализация 6 недель
+                List<Day> newSchedule = new List<Day>();
+                InitializeWeeks(ref newSchedule);
+                // Добавление уроков в расписание
+                var Lessons = App.DB.Lessons.AsEnumerable().Where(l => l.class_id
+                                                                       == Classes[c].class_id);
+                AddLessons(newSchedule, Lessons);
+                // Добавление в список расписаний
+                schedule.SetSchedule(newSchedule);
+                ClassSchedulesList.Add(schedule);
+            }
+        }
+
+        public void InitializeWeeks(ref List<Day> schedule)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                Lesson[] lessons = new Lesson[8];
+                schedule.Add(new Day(i + 1, App.DayNames[i + 1], lessons));
+            }
+        }
+
+        public void AddLessons(List<Day> newSchedule, IEnumerable<Lessons> lessons)
+        {
+            int indexOfLesson = 0;
+            while (indexOfLesson < 48)
+            {
+                // Номер урока
+                for (int column = 0; column < 8; column++)
+                {
+                    // день
+                    for (int row = 0; row < 6; row++)
+                    {
+                        var les = lessons.FirstOrDefault(s => s.number_of_lesson == indexOfLesson);
+                        if (les != null)
+                        {
+                            var subject = App.DB.Subjects.Single(k => k.subject_id == les.subject_id);
+                            newSchedule[row].Lessons[column] = new Lesson($"{column + 1}. " +
+                                $"{subject.name}");
+                        }
+                        else
+                        {
+                            newSchedule[row].Lessons[column] = new Lesson($"{column + 1}. ----");
+                        }
+                        indexOfLesson++;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        // Сохранить расписание
+        private void SaveScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OutputLabel.Content = "Сохранение расписания...";
+                DeleteDBSchedules();
+                App.DB.Lessons.AddRange(Lessons);
+                App.DB.SaveChanges();
+                OutputLabel.Content = "Расписание успешно сохранено.";
+            }
+            catch (Exception ex)
+            {
+                OutputLabel.Content = ex.Message;
+                DeleteWPFSchedules();
+                DeleteDBSchedules();
+                Lessons.Clear();
+            }
+            SaveScheduleButton.IsEnabled = false;
+        }
+
+        // Импортировать расписание в таблицы Excel
+        private async void ImportSchedulesToExcelButton_Click(object sender, RoutedEventArgs e)
+        {
+            OutputLabel.Content = "Подождите, пока расписание импортируется в Excel.";
+            ImportSchedulesToExcelButton.IsEnabled = false;
+            try
+            {
+                await Task.Run(() =>
+                {
+                    ScheduleImporter scheduleImporter = new ScheduleImporter(ClassSchedulesList);
+                    scheduleImporter.Import();
+                });
+                OutputLabel.Content = "Расписание успешно импортировано в Excel.";
+            }
+            catch (Exception ex)
+            {
+                OutputLabel.Content = ex.Message;
+            }
+            ImportSchedulesToExcelButton.IsEnabled = true;
+        }
+
+        /// <summary>
+        /// Удаление старых временных расписаний, если таковые имеются
+        /// </summary>
+        private void DeleteWPFSchedules()
+        {
+            if (ClassSchedulesList.Count > 0)
+            {
+                App.OpenShopPSO = new OS.PSO.SchoolPSO();
+                ClassSchedulesList.Clear();
+                SchedulesItemsControl.ItemsSource = null;
+            }
+        }
+
+        private void DeleteDBSchedules()
+        {
+            App.DB.Lessons.RemoveRange(App.DB.Lessons);
+        }
     }
 }

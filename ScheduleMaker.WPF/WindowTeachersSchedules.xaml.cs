@@ -39,7 +39,7 @@ namespace ScheduleMaker.WPF
                 for (int i = 0; i < 6; i++)
                 {
                     Lesson[] lessons = new Lesson[10];
-                    newSchedule.Add(new Day(i + 1, lessons));
+                    newSchedule.Add(new Day(i + 1, App.DayNames[i + 1], lessons));
                 }
                 // Добавление уроков в расписание
                 int indexOfLesson = 0;
