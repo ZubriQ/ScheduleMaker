@@ -46,8 +46,7 @@ namespace ScheduleMaker.WPF
         // Создать расписание
         private async void MakeSheduleButton_Click(object sender, RoutedEventArgs e)
         {
-            ImportSchedulesToExcelButton.IsEnabled = false;
-            MakeSheduleButton.IsEnabled = false;
+            DisablingButtons();
             OutputLabel.Content = "Идет конвертация данных из БД. Пожалуйста, подождите...";
             DeleteWPFSchedules();
             DeleteDBSchedules();
@@ -72,10 +71,7 @@ namespace ScheduleMaker.WPF
 
             OutputLabel.Content = $"Расписание успешно создано. " +
                 $"(оценка созданного расписания:{App.OpenShopPSO.EstimationScore})";
-            SaveScheduleButton.IsEnabled = true;
-            ShowDBSchedulesButton.IsEnabled = true;
-            ImportSchedulesToExcelButton.IsEnabled = true;
-            MakeSheduleButton.IsEnabled = true;
+            EnablingButtons();
         }
 
         /// <summary>
@@ -402,6 +398,22 @@ namespace ScheduleMaker.WPF
         private void DeleteDBSchedules()
         {
             App.DB.Lessons.RemoveRange(App.DB.Lessons);
+        }
+
+        private void DisablingButtons()
+        {
+            ImportSchedulesToExcelButton.IsEnabled = false;
+            MakeSheduleButton.IsEnabled = false;
+            SaveScheduleButton.IsEnabled = false;
+            ShowDBSchedulesButton.IsEnabled = false;
+        }
+
+        private void EnablingButtons()
+        {
+            SaveScheduleButton.IsEnabled = true;
+            ShowDBSchedulesButton.IsEnabled = true;
+            ImportSchedulesToExcelButton.IsEnabled = true;
+            MakeSheduleButton.IsEnabled = true;
         }
     }
 }

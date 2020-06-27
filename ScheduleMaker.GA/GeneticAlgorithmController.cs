@@ -191,7 +191,7 @@ namespace ScheduleMaker.GA
             GetTheBestChromosome(population[0]);
 
             // Инверсировать гены если одинаковые значения Fitness
-            InverseGenes(ref population);
+            //InverseGenes(ref population);
         }
 
         /// <summary>

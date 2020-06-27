@@ -10,14 +10,14 @@ namespace ScheduleMaker.WPF
         Application Excel;
         Workbook WorkBook;
         Worksheet WorkSheet;
-        Range CellRange;
 
         List<ClassSchedule> SchedulesList;
         public ScheduleImporter(List<ClassSchedule> classSchedules)
         {
             if (classSchedules.Count == 0)
             {
-                throw new Exception("Отсутствуют расписания. Сначала создайте или загрузите их из БД.");
+                throw new Exception("Отсутствуют расписания. " +
+                    "Сначала создайте или загрузите их из БД.");
             }
             Excel = new Application();
             Excel.DisplayAlerts = false;
@@ -26,7 +26,6 @@ namespace ScheduleMaker.WPF
             WorkSheet = (Worksheet)WorkBook.ActiveSheet;
             WorkSheet.Name = "Расписание";
             WorkSheet.Cells.Font.Size = 12;
-            CellRange = null;
             SchedulesList = classSchedules;
         }
 
@@ -51,12 +50,12 @@ namespace ScheduleMaker.WPF
                 int indexOfLesson = 0;
                 while (indexOfLesson < 48)
                 {
-                    AddLesson(ref indexOfLesson, i);
+                    AddLessons(ref indexOfLesson, i);
                 }
             }
         }
 
-        private void AddLesson(ref int indexOfLesson, int id)
+        private void AddLessons(ref int indexOfLesson, int id)
         {
             // день
             for (int day = 0; day < 6; day++)

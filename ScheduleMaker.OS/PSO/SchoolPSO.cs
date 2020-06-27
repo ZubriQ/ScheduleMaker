@@ -28,6 +28,7 @@ namespace ScheduleMaker.OS.PSO
         /// PSO.
         /// </summary>
         public PSOController PSOController;
+        public GeneticAlgorithmController GAC;
 
         public Machine[] Teachers => ScheduleData.Teachers;
 
@@ -48,8 +49,12 @@ namespace ScheduleMaker.OS.PSO
         /// <param name="calculator">Фитнесс функция.</param>
         public void SetFunction(ICalculator calculator)
         {
-            Parameter parameters = new Parameter(-150, 150, 40, ScheduleData.LessonsCount);
+            Parameter parameters = new Parameter(-300, 300, 50, ScheduleData.LessonsCount);
             PSOController = new PSOController(parameters, calculator);
+
+            // Genetic algorithm
+            //Param param = new Param(-150, 150, ScheduleData.LessonsCount, 0.75, 5);
+            //GAC = new GeneticAlgorithmController(param, calculator);
         }
 
         /// <summary>
@@ -121,10 +126,18 @@ namespace ScheduleMaker.OS.PSO
         /// <returns>Возвращает наилучшие приоритеты расположения уроков.</returns>
         public double[] FindBestPriorities()
         {
+            // Genetic algorithm
+            /*
+            GAC.InitializePopulation(120);
+            GAC.Evolution(400);
+            EstimationScore = GAC.BestChromosome.Fitness(GAC.Calculator);
+            return GAC.BestChromosome.Genes;
+            */
             PSOController.InitializeParticleSwarm();
-            PSOController.FindGlobalMinimum(0.555, 0.9, 0.9, 350);
+            PSOController.FindGlobalMinimum(0.5, 0.9, 0.6, 500);
             EstimationScore = PSOController.GlobalBestParticle.Fitness;
             return PSOController.GlobalBestParticle.BestKnownPosition;
+            
         }
 
         public double Fitness(double[] values)

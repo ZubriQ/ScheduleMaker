@@ -15,7 +15,6 @@
         }
 
         /// <summary>Приспособленность.</summary>
-        /// <param name="name">Розенброк/Сфера/Растригин.</param>
         /// <returns>Возвращает Приспособленность.</returns>
         public double Fitness(ICalculator calculator)
         {

@@ -165,7 +165,7 @@ namespace ScheduleMaker.OS
                 {
                     if (Schedules[scheduleId].Lessons[job] == null)
                     {
-                        gapsCount++;
+                        gapsCount += 2;
                     }
                 }
             }

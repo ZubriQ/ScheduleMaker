@@ -33,7 +33,8 @@ namespace ScheduleMaker.WPF
         {
             InitializeComponent();
             InitializeInitialData();
-            Title = "Управление кабинетами - Изменение кабинета";
+            Title = "Управление кабинетами - Добавлене нового кабинета";
+            
             HeaderLabel.Content = "Добавить новый кабинет.";
         }
 
@@ -52,7 +53,7 @@ namespace ScheduleMaker.WPF
                 ClassroomsSubjects.AddRange(classroom.Subjects);
                 RemoveExtraTeachers(classroom);
             }
-            Title = "Управление кабинетами -Добавлене нового кабинета";
+            Title = "Управление кабинетами - Изменение кабинета";
             HeaderLabel.Content = "Изменение кабинета " + classroom.name + '.';
             Border1.BorderBrush = Brushes.Khaki;
         }
