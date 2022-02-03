@@ -25,6 +25,7 @@ namespace ScheduleMaker.WPF
         /// </summary>
         public static SchoolPSO OpenShopPSO = new SchoolPSO();
 
+        // Should've it been an 'Enum'? :thinking:
         public static Dictionary<int, string> DayNames = new Dictionary<int, string>
         {
             {1, "Пн.\t" },

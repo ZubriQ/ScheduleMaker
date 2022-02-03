@@ -9,6 +9,8 @@ using System.Linq;
 
 namespace ScheduleMaker.CMD
 {
+    // For function tests
+    [Obsolete("2020. Uses no more.")]
     class Program
     {
         public static ICalculator calculator;

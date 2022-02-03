@@ -2,6 +2,7 @@
 
 namespace ScheduleMaker.GA
 {
+    // Test function
     public class FunctionRastrigin : ICalculator
     {
         public string FunctionName => "Растригин";

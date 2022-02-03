@@ -2,6 +2,7 @@
 
 namespace ScheduleMaker.GA
 {
+    // Test function
     public class FunctionSphere : ICalculator
     {
         public string FunctionName => "Сфера";

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace ScheduleMaker.WPF
 {
+    /// <summary>
+    /// Exports** -_- a schedule into Excel file.
+    /// </summary>
     public class ScheduleImporter
     {
         Application Excel;

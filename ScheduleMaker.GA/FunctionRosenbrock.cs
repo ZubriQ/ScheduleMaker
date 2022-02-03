@@ -2,6 +2,7 @@
 
 namespace ScheduleMaker.GA
 {
+    // Test function
     public class FunctionRosenbrock : ICalculator
     {
         public string FunctionName => "Розенброк";

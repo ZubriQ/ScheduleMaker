@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleMaker.PSO", "Schedu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{780836FF-4B54-4314-B064-00E8A5A67F1C}"
 	ProjectSection(SolutionItems) = preProject
-		Правила.txt = Правила.txt
+		Rules.txt = Rules.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleMaker.WPF", "ScheduleMaker.WPF\ScheduleMaker.WPF.csproj", "{E14C7B4A-C0A2-4C6E-A95D-103A4226B0FA}"
